@@ -14,24 +14,31 @@
         }
 
         body {
-            font-family: 'Montserrat', sans-serif; /* A more modern font */
-            background-color: #1a1a1a; /* Darker background */
-            color: #f0f0f0; /* Lighter text */
+            font-family: 'Montserrat', sans-serif;
+            /* A more modern font */
+            background-color: #1a1a1a;
+            /* Darker background */
+            color: #f0f0f0;
+            /* Lighter text */
             line-height: 1.6;
             overflow-x: hidden;
-            -webkit-font-smoothing: antialiased; /* Improve font rendering */
+            -webkit-font-smoothing: antialiased;
+            /* Improve font rendering */
         }
 
         .slide {
             position: relative;
             width: 100vw;
-            min-height: 100vh; /* Use min-height for content that might expand */
+            min-height: 100vh;
+            /* Use min-height for content that might expand */
             display: flex;
-            flex-direction: column; /* Stack content vertically for mobile */
+            flex-direction: column;
+            /* Stack content vertically for mobile */
             justify-content: center;
             align-items: center;
             text-align: center;
-            padding: 20px; /* Add padding for mobile */
+            padding: 20px;
+            /* Add padding for mobile */
         }
 
         .slide::before {
@@ -43,7 +50,8 @@
             height: 100%;
             background-size: cover;
             background-position: center;
-            opacity: 0.6; /* Slightly less opaque */
+            opacity: 0.6;
+            /* Slightly less opaque */
             z-index: -1;
         }
 
@@ -62,29 +70,36 @@
 
         /* Improved Typography */
         .slide h1 {
-            font-size: 2.5rem; /* Responsive font size */
-            font-weight: 700; /* Bold font weight */
-            letter-spacing: 0.05em; /* Slight letter spacing */
+            font-size: 2.5rem;
+            /* Responsive font size */
+            font-weight: 700;
+            /* Bold font weight */
+            letter-spacing: 0.05em;
+            /* Slight letter spacing */
             text-shadow: 1px 1px 3px #000;
             margin-bottom: 15px;
-            animation: fadeInUp 1s ease-out; /* Animate in */
+            animation: fadeInUp 1s ease-out;
+            /* Animate in */
         }
 
         .slide p {
             font-size: 1.1rem;
-            max-width: 90%; /* Adjust max-width for mobile */
+            max-width: 90%;
+            /* Adjust max-width for mobile */
             text-shadow: 0.5px 0.5px 1px #000;
             animation: fadeInUp 1.2s ease-out;
         }
 
         /* Call to Action Button */
         .cta-button {
-            background-color: #ff4d4d; /* A vibrant red */
+            background-color: #ff4d4d;
+            /* A vibrant red */
             color: #fff;
             padding: 12px 24px;
             font-size: 1rem;
             border: none;
-            border-radius: 5px; /* Rounded corners */
+            border-radius: 5px;
+            /* Rounded corners */
             cursor: pointer;
             margin-top: 20px;
             transition: background-color 0.2s ease-in-out;
@@ -116,8 +131,10 @@
         .gameplay-image {
             max-width: 90%;
             height: auto;
-            border-radius: 8px; /* Rounded corners for image */
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.5); /* Subtle shadow */
+            border-radius: 8px;
+            /* Rounded corners for image */
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.5);
+            /* Subtle shadow */
             margin-top: 20px;
             animation: fadeIn 1.6s ease-out;
         }
@@ -178,7 +195,7 @@
     <div id="slide-1" class="slide">
         <h1>CAVEBREAKERS</h1>
         <p>A co-op survival horror nightmare where teamwork is survival, and betrayal is a tool.</p>
-        <button class="cta-button">Descend Deeper...</button>
+        <button class="cta-button" onclick="nextSlide()">Descend Deeper...</button>
     </div>
 
     <div id="slide-2" class="slide">
@@ -194,7 +211,7 @@
     <div id="slide-3" class="slide">
         <h1>Team Up or Turn On Each Other</h1>
         <p>Will you work together to survive, or will you sacrifice your allies to ensure your own escape?</p>
-        <button class="cta-button">Wishlist on Steam</button>
+        <button class="cta-button" onclick="nextSlide()">Wishlist on Steam</button>
     </div>
 
     <div id="slide-4" class="slide">
@@ -222,13 +239,17 @@
     </div>
 
     <script>
-        // Basic slide navigation (you can enhance this)
         const slides = document.querySelectorAll('.slide');
         let currentSlide = 0;
 
         function showSlide(n) {
             slides.forEach(slide => slide.style.display = 'none');
             slides[n].style.display = 'flex';
+        }
+
+        function nextSlide() {
+            currentSlide = (currentSlide + 1) % slides.length;
+            showSlide(currentSlide);
         }
 
         showSlide(currentSlide);
@@ -240,10 +261,10 @@
                 currentSlide = (currentSlide - 1 + slides.length) % slides.length;
             }
             showSlide(currentSlide);
-            e.preventDefault(); // Prevent default scrolling
+            e.preventDefault();
         }, {
             passive: false
-        }); // Need passive: false to prevent default
+        });
     </script>
 
 </body>
