@@ -1,319 +1,488 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Cavebreakers Pitch Deck</title>
+    <title>Cavebreakers - Pitch Deck (Animated & Interactive)</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Lato:wght@400;700&family=Montserrat:wght@600;700;800&display=swap" rel="stylesheet">
     <style>
-        /* Reset and Box Sizing */
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
+        /* ... (Previous CSS remains the same) ... */
 
-        body {
-            font-family: 'Montserrat', sans-serif;
-            background-color: #1a1a1a;
-            color: #f0f0f0;
-            line-height: 1.6;
-            overflow-x: hidden;
-            -webkit-font-smoothing: antialiased;
-        }
-
-        .slide {
-            position: relative;
-            width: 100vw;
-            min-height: 100vh;
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-            align-items: center;
-            text-align: center;
-            padding: 20px;
-            overflow: hidden;
-            /* Needed for background image animations */
-        }
-
-        .slide::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background-size: cover;
-            background-position: center;
-            opacity: 0.6;
-            z-index: -1;
-            /* Background image animations */
-            animation: backgroundPulse 10s infinite alternate;
-        }
-
-        @keyframes backgroundPulse {
-            0% { opacity: 0.6; transform: scale(1); }
-            100% { opacity: 0.4; transform: scale(1.05); }
-        }
-
-        /* Slide Specific Backgrounds */
-        #slide-1::before {
-            background-image: url("your-cave-entrance-image.jpg");
-        }
-
-        #slide-2::before {
-            background-image: url("your-wendigo-image.jpg");
-        }
-
-        #slide-3::before {
-            background-image: url("your-bonfire-image.jpg");
-        }
-
-        #slide-4::before {
-            background-image: url("your-gameplay-image.jpg");
-        }
-
-        #slide-5::before {
-            background-image: url("your-gameplay-image.jpg");
-        }
-
-        #slide-6::before {
-            background-image: url("your-cave-entrance-image.jpg");
-        }
-
-        #slide-7::before {
-            background-image: url("your-wendigo-image.jpg");
-        }
-
-        /* Typography */
-        .slide h1 {
-            font-size: 2.5rem;
+        /* Button Styling */
+        .slide-button {
+            background-color: var(--accent-fire);
+            color: var(--bg-dark);
+            font-family: var(--font-heading);
             font-weight: 700;
-            letter-spacing: 0.05em;
-            text-shadow: 1px 1px 3px #000;
-            margin-bottom: 15px;
-            animation: fadeInUp 1s ease-out;
-            /* Modern font */
-            font-family: 'Oswald', sans-serif;
-            text-transform: uppercase;
-        }
-
-        .slide p {
-            font-size: 1.1rem;
-            max-width: 90%;
-            text-shadow: 0.5px 0.5px 1px #000;
-            animation: fadeInUp 1.2s ease-out;
-            /* Modern font */
-            font-family: 'Lato', sans-serif;
-        }
-
-        /* Call to Action Button */
-        .cta-button {
-            background: linear-gradient(to bottom, #ff4d4d, #cc0000);
-            color: #fff;
-            padding: 12px 24px;
-            font-size: 1rem;
             border: none;
-            border-radius: 5px;
+            border-radius: var(--border-radius);
+            padding: 12px 25px;
             cursor: pointer;
-            margin-top: 20px;
-            transition: transform 0.2s ease-in-out;
-            animation: pulse 1.5s infinite alternate;
+            font-size: 1em;
+            transition: background-color 0.3s ease;
+            margin: 5px;
         }
 
-        .cta-button:hover {
-            transform: scale(1.05);
+        .slide-button:hover {
+            background-color: var(--accent-danger);
         }
 
-        /* Feature List */
-        .feature-list {
-            list-style: none;
-            padding: 0;
-            display: flex;
-            flex-wrap: wrap;
-            justify-content: center;
-            margin-top: 20px;
-            animation: fadeInUp 1.4s ease-out;
-        }
-
-        .feature-list li {
-            margin: 8px 15px;
-            font-size: 1rem;
-            text-shadow: 0.5px 0.5px 1px #000;
-            font-family: 'Lato', sans-serif;
-        }
-
-        /* Gameplay Image */
-        .gameplay-image {
-            max-width: 90%;
-            height: auto;
-            border-radius: 8px;
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.5);
-            margin-top: 20px;
-            animation: fadeIn 1.6s ease-out;
-        }
-
-        /* Animations */
-        @keyframes pulse {
-            0% {
-                transform: scale(1);
-            }
-
-            100% {
-                transform: scale(1.05);
-            }
-        }
-
-        @keyframes fadeInUp {
-            0% {
-                opacity: 0;
-                transform: translateY(20px);
-            }
-
-            100% {
-                opacity: 1;
-                transform: translateY(0);
-            }
-        }
-
-        @keyframes fadeIn {
-            0% {
-                opacity: 0;
-            }
-
-            100% {
-                opacity: 1;
-            }
-        }
-
-        /* Navigation Buttons */
-        .nav-buttons {
+        .navigation-buttons {
             position: absolute;
             bottom: 20px;
             left: 50%;
             transform: translateX(-50%);
             display: flex;
-            gap: 20px;
         }
 
-        .nav-button {
-            background: linear-gradient(to bottom, #333, #555);
-            color: #fff;
+        .sabotage-choice-container {
+            margin-top: 20px;
+            text-align: center;
+        }
+
+        .sabotage-button {
+            background-color: var(--accent-danger);
+            color: var(--text-light);
+            font-family: var(--font-heading);
+            font-weight: 700;
             border: none;
-            padding: 10px 20px;
+            border-radius: var(--border-radius);
+            padding: 15px 30px;
             cursor: pointer;
-            font-size: 1rem;
-            border-radius: 5px;
-            transition: background-color 0.2s ease-in-out;
+            font-size: 1.1em;
+            transition: background-color 0.3s ease;
+            margin: 10px;
         }
 
-        .nav-button:hover {
-            background-color: #777;
+        .sabotage-button:hover {
+            background-color: #C62828; /* Darker red */
         }
 
-        /* Media Queries for Mobile */
-        @media (max-width: 768px) {
-            .slide h1 {
-                font-size: 2rem;
-            }
+        .save-team-button {
+            background-color: var(--accent-mystery);
+        }
 
-            .slide p {
-                font-size: 1rem;
-            }
+        .save-team-button:hover {
+            background-color: #26A69A; /* Darker teal */
+        }
 
-            .feature-list li {
-                font-size: 0.9rem;
-            }
+        .choice-feedback {
+            margin-top: 15px;
+            font-style: italic;
+            color: var(--text-medium);
         }
     </style>
-    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700&display=swap" rel="stylesheet">
-    <link href="https://fonts.googleapis.com/css2?family=Oswald:wght@400;700&display=swap" rel="stylesheet">
-    <link href="https://fonts.googleapis.com/css2?family=Lato:wght@400;700&display=swap" rel="stylesheet">
 </head>
-
 <body>
 
-    <div id="slide-1" class="slide">
-        <h1>CAVEBREAKERS</h1>
-        <p>A co-op survival horror game where Stone Age scavengers must outwit terrifying mythical creatures and each other to escape a cursed wilderness, balancing desperate teamwork with treacherous sabotage.</p>
-        <button class="cta-button" onclick="nextSlide()">Descend Deeper...</button>
-    </div>
+<div class="deck">
 
-    <div id="slide-2" class="slide">
-        <h1>Face Your Fears (and Friends?)</h1>
-        <p>Battle nightmarish creatures with unique AI... or sacrifice your buddy to the Wendigo. Hey, survival's tough! [cite: 2, 3, 4, 5, 6]</p>
-        <ul class="feature-list">
-            <li>Wendigo: Mimicking voices, fears fire.</li>
-            <li>Werebear: Brute strength, attracted to scents.</li>
-            <li>Werewolf: Pack hunters, fast and agile.</li>
+    <section class="slide active" id="slide-title">
+        <img src="https://via.placeholder.com/250x120/FFA726/2C2C2C?Text=Cavebreakers%20Logo" alt="Cavebreakers Logo" class="logo-image">
+        <h1>Cavebreakers</h1>
+        <h2>Survive Together. Or Don't.</h2>
+        <p><strong>Applicant:</strong> Lance McLachlan</p>
+        <p style="font-size: 0.9em; color: var(--text-medium);"><em>CODE Funding Application Pitch</em></p>
+        <div class="navigation-buttons">
+            <button class="slide-button" onclick="nextSlide()">Next</button>
+        </div>
+    </section>
+
+    <section class="slide" id="slide-hook">
+        <h2>The Hook - What is Cavebreakers?</h2>
+        <img src="https://images.unsplash.com/photo-1548690312-e3b89110e793?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D" alt="Dark cave entrance with torchlight" class="slide-image">
+        <p><strong>Elevator Pitch:</strong> A co-op survival horror game where 1-4 Stone Age scavengers must outwit terrifying mythical creatures <strong>and each other</strong> to escape a cursed wilderness.</p>
+        <p><strong>Core Concept:</strong> Balance desperate teamwork with treacherous sabotage in a tense, atmospheric prehistoric world.</p>
+        <p><strong>Genre:</strong> Multiplayer Co-op Survival Horror with Social Deduction Elements.</p>
+        <p style="color: var(--accent-stone);"><strong>Quick Comps:</strong> Think <em>Dead by Daylight</em> meets <em>The Forest</em> with the co-op tension of <em>Left 4 Dead</em> and the potential betrayal of <em>Among Us</em>.</p>
+        <div class="navigation-buttons">
+            <button class="slide-button" onclick="previousSlide()">Previous</button>
+            <button class="slide-button" onclick="nextSlide()">Next</button>
+        </div>
+    </section>
+
+    <section class="slide" id="slide-loop">
+        <h2>The Core Gameplay Loop</h2>
+        <img src="https://www.freepng.com/png-vector/flowchart-vector-illustration-design-104894.png" alt="Stylized flowchart graphic" class="slide-image" style="max-width: 60%;">
+        <ul>
+            <li style="--index: 1;"><strong>SEARCH:</strong> Spawn into a procedurally generated wilderness fraught with danger.</li>
+            <li style="--index: 2;"><strong>SCAVENGE:</strong> Gather essential resources (flint, wood, herbs, bones).</li>
+            <li style="--index: 3;"><strong>CRAFT:</strong> Create crude tools, torches, weapons, and cunning traps.</li>
+            <li style="--index: 4;"><strong>SECURE:</strong> Light vital Bonfires for temporary safety, perks, and minor healing.</li>
+            <li style="--index: 5;"><strong>SURVIVE:</strong> Evade or confront deadly mythical creatures using stealth, environment, and wits.</li>
+            <li style="--index: 6;"><strong>ESCAPE:</strong> Complete primal objectives before the darkness consumes you.</li>
+            <li style="--index: 7;"><strong>UPGRADE:</strong> Spend salvaged Artifacts on permanent perks for subsequent hunts.</li>
         </ul>
-    </div>
+        <p><strong>Key Pillars:</strong> Exploration, Resource Management, Strategic Evasion/Combat, Dynamic Teamwork vs. Sabotage, Meta-Progression.</p>
+        <div class="navigation-buttons">
+            <button class="slide-button" onclick="previousSlide()">Previous</button>
+            <button class="slide-button" onclick="nextSlide()">Next</button>
+        </div>
+    </section>
 
-    <div id="slide-3" class="slide">
-        <h1>Team Up or... Screw Up?</h1>
-        <p>Will you be the hero or the hilarious villain? Sabotage is not just possible; it's sometimes *necessary*. (We're not responsible for broken friendships.) [cite: 16, 17, 18, 19, 20, 21]</p>
-        <button class="cta-button" onclick="nextSlide()">Wishlist on Steam (if you dare)</button>
-    </div>
-
-    <div id="slide-4" class="slide">
-        <h1>Gameplay: It's a Scream</h1>
-        <p>Scavenge, craft, survive, escape... and maybe backstab a little? We won't judge. Much.</p>
-        <img src="your-gameplay-image.jpg" alt="Gameplay Screenshot" class="gameplay-image">
-        <ul class="feature-list">
-            <li>Deep Perk System: Become the ultimate survivor... or saboteur. [cite: 39, 40, 41, 42]</li>
-            <li>Procedural Maps: Because dying in the same spot is boring. [cite: 37, 38]</li>
-            <li>Intense Atmosphere: Our sound design will make you check your closet. Seriously. [cite: 78, 79, 80]</li>
+    <section class="slide" id="slide-creatures">
+        <h2>Meet the Horrors</h2>
+        <div style="display: flex; flex-wrap: wrap; justify-content: center; gap: 15px; margin-top: 20px;">
+            <img src="https://cdna.artstation.com/p/assets/images/images/014/198/378/large/joshua-carlson-wendigo-concept-01.jpg?1542766891" alt="Wendigo Concept" class="slide-image" style="max-width: 30%;">
+            <img src="https://i.pinimg.com/originals/9a/b7/4c/9ab74c7521941599691499a78a08a657.jpg" alt="Werebear Concept" class="slide-image" style="max-width: 30%;">
+            <img src="https://i.pinimg.com/originals/6a/d7/4c/6ad74c2188c156268a14e139ade1407a.jpg" alt="Werewolf Concept" class="slide-image" style="max-width: 30%;">
+        </div>
+        <h3>Headline: Outwit, Don't Just Out-Damage.</h3>
+        <ul>
+            <li style="--index: 1;"><strong>Wendigo:</strong> Ethereal mimic, fears <strong>fire</strong>, nightmarishly fast & stealthy. Exploit its fear & gaze aversion. (Weak Spot: Head)</li>
+            <li style="--index: 2;"><strong>Werebear:</strong> Hulking brute, charges, tracks by <strong>scent</strong>, demolishes weak structures. Lure into large traps. (Vulnerable post-rage)</li>
+            <li style="--index: 3;"><strong>Werewolf:</strong> Agile pack hunter, targets the <strong>isolated</strong>, reacts to loud noises & multiple lights. Use coordination & distraction.</li>
         </ul>
-    </div>
+        <p><strong>Emphasis:</strong> Each beast demands unique strategies. Learn their behaviors, exploit weaknesses, and use the environment to survive.</p>
+        <div class="navigation-buttons">
+            <button class="slide-button" onclick="previousSlide()">Previous</button>
+            <button class="slide-button" onclick="nextSlide()">Next</button>
+        </div>
+    </section>
 
-    <div id="slide-5" class="slide">
-        <h1>The Loop: Die, Repeat, Get Revenge</h1>
-        <p>Search, scavenge, craft, survive, escape, upgrade. The usual. Oh, and try not to get eaten. Again.</p>
-        <img src="your-gameplay-image.jpg" alt="Gameplay Screenshot" class="gameplay-image">
-    </div>
+    <section class="slide" id="slide-sabotage">
+        <h2>The Twist: Sabotage & Social Tension</h2>
+        <img src="https://i.ytimg.com/vi/9i8e7zG7WwQ/maxresdefault.jpg" alt="Player sabotaging another" class="slide-image">
+        <h3>Headline: Trust is a Resource. Spend it Wisely.</h3>
+        <p><strong>Why Sabotage?</strong> Survival instinct. Desperation when resources dwindle. Greed for artifacts. Sometimes, escaping alone is the only way.</p>
+        <p style="color: var(--accent-danger);"><strong>Choose Your Treachery:</strong></p>
+        <div class="sabotage-choice-container">
+            <button class="sabotage-button" onclick="triggerSabotage('hoard')">Hoard Vital Resources</button>
+            <button class="sabotage-button" onclick="triggerSabotage('mislead')">Mislead with False Sounds</button>
+            <button class="sabotage-button" onclick="triggerSabotage('trap')">"Accidentally" Trigger a Trap</button>
+            <button class="sabotage-button" onclick="triggerSabotage('bait')">Subtly Bait a Creature</button>
+        </div>
+        <div class="sabotage-choice-container">
+            <h3>The Ultimate Choice:</h3>
+            <button class="sabotage-button save-team-button" onclick="makeChoice('save')">Fight to Save Your Team</button>
+            <button class="sabotage-button" onclick="makeChoice('sabotage')">Embrace the Darkness: Sabotage Them All</button>
+            <p class="choice-feedback" id="choiceFeedback"></p>
+        </div>
+        <p><strong>Risk vs. Reward:</strong> Sabotage incurs 'Bad Karma', affecting future luck. BUT, surviving (especially alone or in Sabotage mode) yields unique gains. Full team escapes offer hefty 'Survivor Bonuses'. High-stakes choices fuel emergent stories!</p>
+        <div class="navigation-buttons">
+            <button class="slide-button" onclick="previousSlide()">Previous</button>
+            <button class="slide-button" onclick="nextSlide()">Next</button>
+        </div>
+    </section>
 
-    <div id="slide-6" class="slide">
-        <h1>Meet the Maniacs</h1>
-        <p>Our team is small, passionate, and slightly unhinged (in a good way!). We're here to make your nightmares come true.</p>
-        <p>Lance McLachlan: Lead Developer. Coding wizard. Probably sleeps in binary. [cite: 195]</p>
-        <p>Kirstin McLachlan: UI Design & Branding. Makes things look pretty while we make them terrifying. [cite: 196]</p>
-    </div>
+    <section class="slide" id="slide-art">
+        <h2>Art Style & Immersion</h2>
+        <div style="display: flex; flex-wrap: wrap; justify-content: center; gap: 15px; margin-top: 20px;">
+            <img src="https://i.redd.it/ay9w1czk40m31.jpg" alt="First-person view hiding" class="slide-image" style="max-width: 45%;">
+            <img src="https://i.pinimg.com/originals/f7/a7/b3/f7a7b3495c7a719b83392591041110f8.jpg" alt="Bonfire lighting a clearing" class="slide-image" style="max-width: 45%;">
+            <img src="https://i.pinimg.com/originals/e5/f5/08/e5f50889919d39389822593108412834.jpg" alt="Creepy cave interior" class="slide-image" style="max-width: 45%;">
+            <img src="https://i.pinimg.com/originals/3a/6f/f3/3a6ff3a419f89719112058a1a2470904.png" alt="Minimalist UI mockup" class="slide-image" style="max-width: 45%;">
+        </div>
+        <ul>
+            <li style="--index: 1;"><strong>Style:</strong> Grounded, Gritty Stone Age Horror with Realistic Textures.</li>
+            <li style="--index: 2;"><strong>Perspective:</strong> Immersive First-Person to maximize tension.</li>
+            <li style="--index: 3;"><strong>Goal:</strong> Striking visuals via atmosphere, lighting (dynamic torchlight, eerie fog), and detailed creature design without over-scoped assets.</li>
+            <li style="--index: 4;"><strong>Influences:</strong> *The Forest* (Atmosphere), *Far Cry Primal* (Aesthetic), *Hunt: Showdown* (Tension & Grit).</li>
+            <li style="--index: 5;"><strong>UI:</strong> Minimalist & diegetic where possible (e.g., heartbeat sounds for health), avoiding screen clutter.</li>
+        </ul>
+        <div class="navigation-buttons">
+            <button class="slide-button" onclick="previousSlide()">Previous</button>
+            <button class="slide-button" onclick="nextSlide()">Next</button>
+        </div>
+    </section>
 
-    <div id="slide-7" class="slide">
-        <h1>Let's Get Bloody</h1>
-        <p>Want to join the chaos? Hit us up. But be warned: We like our games like we like our coffee... dark and full of screams.</p>
-        <p>Email: example@example.com</p>
-        <p>Website: example.com</p>
-    </div>
+    <section class="slide" id="slide-sound">
+        <h2>Sound Design: The Unseen Threat</h2>
+        <img src="https://i.pinimg.com/originals/41/9d/3c/419d3c4589f49835ef12390441c33133.jpg" alt="Sound waves emanating from darkness" class="slide-image" style="max-width: 60%;">
+        <h3>Headline: Hear Them Before You See Them.</h3>
+        <ul>
+            <li style="--index: 1;"><strong>Dynamic Music:</strong> Primal drums, ethereal whispers, tension tracks that react to gameplay.</li>
+            <li style="--index: 2;"><strong>Directional & Occluded Audio:</strong> Pinpoint creature locations through footsteps, growls, *chilling mimicry*.</li>
+            <li style="--index: 3;"><strong>Atmospheric Ambience:</strong> Crackling fires, wind through trees, dripping caves, unsettling distant calls.</li>
+            <li style="--index: 4;"><strong>Player Feedback:</strong> Heavy breathing, pained grunts, footsteps varying by surface – all conveying state and presence.</li>
+        </ul>
+        <p><strong>Impact:</strong> Sound is paramount for immersion, warning, jump scares, and locating threats (and maybe allies...).</p>
+        <div class="navigation-buttons">
+            <button class="slide-button" onclick="previousSlide()">Previous</button>
+            <button class="slide-button" onclick="nextSlide()">Next</button>
+        </div>
+    </section>
 
-    <div class="nav-buttons">
-        <button class="nav-button" onclick="prevSlide()">←</button>
-        <button class="nav-button" onclick="nextSlide()">→</button>
-    </div>
+    <section class="slide" id="slide-audience">
+        <h2>Target Audience & Market</h2>
+        <div style="display: flex; justify-content: center; gap: 20px; margin-top: 20px;">
+            <img src="https://icon-library.com/images/player-icon-png/player-icon-png-17.jpg" alt="Co-op Crew Icon" class="inline-icon">
+            <img src="https://icon-library.com/images/devil-icon-png/devil-icon-png-11.jpg" alt="Agent of Chaos Icon" class="inline-icon">
+            <img src="https://icon-library.com/images/survival-icon/survival-icon-14.jpg" alt="Survival Enthusiast Icon" class="inline-icon">
+            <img src="https://icon-library.com/images/wolf-icon-png/wolf-icon-png-14.jpg" alt="Lone Wolf Icon" class="inline-icon">
+            <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/8/83/Steam_icon_logo.svg/512px-Steam_icon_logo.svg.png" alt="Steam Logo" class="inline-icon">
+            <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/9/91/Discord_logo.svg/2048px-Discord_logo.svg.png" alt="Discord Logo" class="inline-icon">
+            <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/e/e7/TikTok_logo.svg/2048px-TikTok_logo.svg.png" alt="TikTok Logo" class="inline-icon">
+        </div>
+        <p><strong>Primary Audience:</strong> Mid-core gamers (18-35) who crave Co-op Survival Horror with strategic depth & social twists.</p>
+        <p><strong>Key Player Profiles:</p>
+        <ul>
+            <li style="--index: 1;">🔥 <strong>The Co-op Crew:</strong> (*Phasmo, L4D*) Loves coordination & shared scares.</li>
+            <li style="--index: 2;">😈 <strong>The Agent of Chaos:</strong> (*DbD, Among Us*) Revels in unpredictable fun & betrayal.</li>
+            <li style="--index: 3;">🌲 <strong>The Survival Enthusiast:</strong> (*The Forest*) Seeks immersion & environmental challenge.</li>
+            <li style="--index: 4;">🐺 <strong>The Lone Wolf:</strong> (*Alien: Iso*) Relishes solo tension & outsmarting AI.</li>
+        </ul>
+        <p><strong>Market Fit:</strong> High revenue potential for Online Co-op tags on Steam. Leverages growing co-op horror trend while offering unique Sabotage mechanic.</p>
+        <p><strong>Community Spaces:</strong> Reddit (r/HorrorGaming, r/SurvivalGames), Discord, TikTok (#coopgame #horrorgame), Twitch.</p>
+        <div class="navigation-buttons">
+            <button class="slide-button" onclick="previousSlide()">Previous</button>
+            <button class="slide-button" onclick="nextSlide()">Next</button>
+        </div>
+    </section>
 
-    <script>
-        const slides = document.querySelectorAll('.slide');
-        let currentSlide = 0;
+    <section class="slide" id="slide-usp">
+        <h2>Competitive Edge & USP</h2>
+        <img src="https://i.imgur.com/b189c5D.png" alt="Cavebreakers USP Graphic" class="slide-image" style="max-width: 70%;">
+        <h3>What Makes Cavebreakers Stand Out?</h3>
+        <ul>
+            <li style="--index: 1;"><strong>Unique Setting:</strong> Fresh Stone Age backdrop offers novel gameplay & aesthetic.</li>
+            <li style="--index: 2;"><strong>Innovative Sabotage:</strong> Deeper social dynamics, replayability & streamer moments.</li>
+            <li style="--index: 3;"><strong>Complex Creature AI:</strong> Focus on distinct, exploitable behaviors beyond simple chase AI.</li>
+            <li style="--index: 4;"><strong>Atmospheric Focus:</strong> Emphasis on grounded visuals, lighting, and sound for deep immersion.</li>
+            <li style="--index: 5;"><strong>Genre Blend:</strong> Proven appeal of co-op horror + unique social deduction twist.</li>
+        </ul>
+        <div class="navigation-buttons">
+            <button class="slide-button" onclick="previousSlide()">Previous</button>
+            <button class="slide-button" onclick="nextSlide()">Next</button>
+        </div>
+    </section>
 
-        function showSlide(n) {
-            slides.forEach(slide => slide.style.display = 'none');
-            slides[n].style.display = 'flex';
-            window.scrollTo(0, 0);
+    <section class="slide" id="slide-modes">
+        <h2>Game Modes & Replayability</h2>
+        <div style="display: flex; justify-content: center; gap: 20px; margin-top: 20px;">
+            <img src="https://icon-library.com/images/cave-painting-icon/cave-painting-icon-17.jpg" alt="Scavenge Mode Icon" class="inline-icon">
+            <img src="https://icon-library.com/images/cave-painting-icon/cave-painting-icon-17.jpg" alt="Sabotage Mode Icon" class="inline-icon">
+            <img src="https://icon-library.com/images/cave-painting-icon/cave-painting-icon-17.jpg" alt="Solo Mode Icon" class="inline-icon">
+            <img src="https://icon-library.com/images/cave-painting-icon/cave-painting-icon-17.jpg" alt="Friendly Mode Icon" class="inline-icon">
+        </div>
+        <div class="two-column">
+            <div class="column">
+                <h3 style="color:var(--accent-fire)">Core Modes</h3>
+                <ul>
+                    <li style="--index: 1;"><strong>Scavenge (1-4p):</strong> Standard co-op, escape together... or don't. Sabotage possible.</li>
+                    <li style="--index: 2;"><strong>Sabotage (2-4p):</strong> Last survivor standing takes the glory (and unique loot!). High betrayal focus.</li>
+                    <li style="--index: 3;"><strong>Solo (1p):</strong> You against the wilderness. Heightened tension, tweaked balance.</li>
+                    <li style="--index: 4;"><strong>Friendly (1-4p):</strong> Pure co-op fun. No sabotage, no friendly fire.</li>
+                </ul>
+            </div>
+            <div class="column">
+                <h3 style="color:var(--accent-mystery)">Replayability</h3>
+                <ul>
+                    <li style="--index: 1;">Procedural Map Generation</li>
+                    <li style="--index: 2;">Deep Perk System & Builds</li>
+                    <li style="--index: 3;">Emergent Player Stories</li>
+                    <li style="--index: 4;">Multiple Creatures & Modes</li>
+                    <li style="--index: 5;">Future Content Updates</li>
+                </ul>
+            </div>
+        </div>
+        <div class="navigation-buttons">
+            <button class="slide-button" onclick="previousSlide()">Previous</button>
+            <button class="slide-button" onclick="nextSlide()">Next</button>
+        </div>
+    </section>
+
+    <section class="slide" id="slide-roadmap">
+        <h2>Production Roadmap (12 Months)</h2>
+        <img src="https://i.pinimg.com/originals/7e/f8/e3/7ef8e329918b7483b85474928081652d.png" alt="Stylized visual timeline" class="slide-image" style="max-width: 80%;">
+        <ul>
+            <li style="--index: 1;"><strong>M 1-3 (Foundation):</strong> Core Mechanics, Networking (Unity Relay/Lobby), Basic Wendigo AI, Playable Prototype. Steam Page Live.</li>
+            <li style="--index: 2;"><strong>M 4-6 (Alpha Build):</strong> Procedural Maps, Werebear AI, Crafting/Perk Backend, Sabotage MVP, <strong>Internal Vertical Slice</strong>.</li>
+            <li style="--index: 3;"><strong>M 7-9 (Beta Content):</strong> Werewolf AI, Art/Sound Pass, UI Complete, Full Perks, <strong>Feature-Complete Beta Build & Closed Testing</strong>.</li>
+            <li style="--index: 4;"><strong>M 10-12 (Polish & Launch Prep):</strong> <strong>Steam Next Fest Demo</strong>, Final QA, Marketing Push, Launch Candidate (EA/Full).</li>
+        </ul>
+        <p style="color: var(--accent-stone);"><strong>Key Milestones:</strong> Vertical Slice (M6), Steam Next Fest Demo (M10).</p>
+        <p><strong>Risk Mitigation:</strong> Unity Netcode Solutions (Relay/Distributed Authority for host dropping), Defined Scope, Early Vertical Slice, Flexible Player Count (1-4).</p>
+        <div class="navigation-buttons">
+            <button class="slide-button" onclick="previousSlide()">Previous</button>
+            <button class="slide-button" onclick="nextSlide()">Next</button>
+        </div>
+    </section>
+
+    <section class="slide" id="slide-market">
+        <h2>Go-To-Market & Publishing</h2>
+        <div style="display: flex; justify-content: center; gap: 20px; margin-top: 20px;">
+            <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/8/83/Steam_icon_logo.svg/512px-Steam_icon_logo.svg.png" alt="Steam Logo" class="inline-icon">
+            <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/9/91/Discord_logo.svg/2048px-Discord_logo.svg.png" alt="Discord Logo" class="inline-icon">
+            <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/e/e7/TikTok_logo.svg/2048px-TikTok_logo.svg.png" alt="TikTok Logo" class="inline-icon">
+            <img src="https://www.indiegamebusiness.com/images/sized/images/uploads/logos/raw_fury_logo_black-1200x630-70.png" alt="Raw Fury Logo (Example)" class="inline-icon" style="background-color: white;">
+            <img src="https://www.team17.com/wp-content/uploads/2020/03/Team17_logo_black.png" alt="Team 17 Logo (Example)" class="inline-icon" style="background-color: white;">
+        </div>
+        <div class="two-column">
+            <div class="column">
+                <h3 style="color:var(--accent-fire)">Community & Marketing</h3>
+                <ul>
+                    <li style="--index: 1;">🔥 High-Impact Clips (TikTok/Reels): Sabotage moments, jump scares, teamwork fails/wins.</li>
+                    <li style="--index: 2;">✍️ Dev Blogs & Updates (Steam/Discord).</li>
+                    <li style="--index: 3;">🤝 Influencer Outreach (Mid-tier horror/co-op focus) for Alpha/Beta.</li>
+                    <li style="--index: 4;">💬 Active Discord community building.</li>
+                    <li style="--index: 5;">🎉 Major Push for Steam Next Fest.</li>
+                </ul>
+            </div>
+            <div class="column">
+                <h3 style="color:var(--accent-mystery)">Publishing & Funding</h3>
+                <ul>
+                    <li style="--index: 1;">🎯 Target Mid-Tier Indie Publishers (List provided) post-Vertical Slice.</li>
+                    <li style="--index: 2;">🤝 Seeking: Marketing Amp, QA, Porting, Supplementary Funding.</li>
+                    <li style="--index: 3;">💰 Future Funding: Kickstarter (post-demo success), NZ Code Grants, Reinvested EA Revenue.</li>
+                </ul>
+            </div>
+        </div>
+        <div class="navigation-buttons">
+            <button class="slide-button" onclick="previousSlide()">Previous</button>
+            <button class="slide-button" onclick="nextSlide()">Next</button>
+        </div>
+    </section>
+
+    <section class="slide" id="slide-team">
+        <h2>The Team</h2>
+        <div class="two-column">
+            <div class="column">
+                <img src="https://via.placeholder.com/150x150/78909C/E8E8E8?Text=Lance%20McLachlan" alt="Lance McLachlan" class="slide-image" style="max-width: 60%; border-radius: 50%;">
+                <h3 style="color:var(--text-light)">Lance McLachlan</h3>
+                <h4 style="color: var(--accent-stone)">Lead Developer</h4>
+                <p>12+ yrs Software Dev (C#), 6+ yrs Lead, Unity Expert, Shipped Indie Titles. Descendant Ngati Apa.</p>
+            </div>
+            <div class="column">
+                <img src="https://via.placeholder.com/150x150/78909C/E8E8E8?Text=Kirstin%20McLachlan" alt="Kirstin McLachlan" class="slide-image" style="max-width: 60%; border-radius: 50%;">
+                <h3 style="color:var(--text-light)">Kirstin McLachlan</h3>
+                <h4 style="color: var(--accent-stone)">UI Design & Branding</h4>
+                <p>8+ yrs Marketing/Branding, Freelance Creative (Founder Kind Design). Descendant Ngati Apa.</p>
+            </div>
+        </div>
+        <p style="margin-top: 30px;"><strong>Core Strengths:</strong> Proven Tech Lead + Branding/Marketing Expertise. Strong Vision. Lean & Agile. Passion for Multiplayer Experiences.</p>
+        <p style="color: var(--accent-stone);"><strong>Studio Vision:</strong> Create unforgettable emergent multiplayer stories through immersive gameplay and striking visuals. Champion NZ Game Dev.</p>
+        <p><em>(Note: CVs available)</em></p>
+        <div class="navigation-buttons">
+            <button class="slide-button" onclick="previousSlide()">Previous</button>
+            <button class="slide-button" onclick="nextSlide()">Next</button>
+        </div>
+    </section>
+
+    <section class="slide" id="slide-ask">
+        <h2>The Ask & Current Status</h2>
+        <img src="https://via.placeholder.com/600x300/4DB6AC/E8E8E8?Text=Gameplay%20Prototype%20GIF/Video" alt="Gameplay Prototype" class="slide-image" style="max-width: 75%;">
+        <h3 style="color: var(--accent-fire);">Funding Goal (CODE KickStart): [Specify NZD Amount or state "Seeking CODE KickStart funding"]</h3>
+        <p><strong>Allocation Focus:</strong></p>
+        <ul>
+            <li style="--index: 1;">💻 ~30% Development (Core Systems, AI)</li>
+            <li style="--index: 2;">🎨 ~40% Art/Animation (Freelance - Characters, Environment Assets)</li>
+            <li style="--index: 3;">🎵 ~30% Sound/Music (Composer, SFX Libraries/Creation)</li>
+        </ul>
+        <p><strong>Purpose:</strong> Secure funding to advance from Prototype to a polished <strong>Vertical Slice</strong> and impactful <strong>Steam Next Fest Demo</strong>, attracting players and publishers.</p>
+        <p><strong>Current Stage: Active Prototyping.</strong> Foundational systems (movement, interaction, inventory, networking, basic AI) functional.</p>
+        <p style="color: var(--accent-stone);"><em>(Build available for review)</em></p>
+        <div class="navigation-buttons">
+            <button class="slide-button" onclick="previousSlide()">Previous</button>
+            <button class="slide-button" onclick="nextSlide()">Next</button>
+        </div>
+    </section>
+
+    <section class="slide" id="slide-contact">
+        <img src="https://via.placeholder.com/250x120/FFA726/2C2C2C?Text=Final%20Game%20Logo" alt="Final Game Logo" class="logo-image">
+        <h2>Let's Build Something Terrifyingly Fun.</h2>
+        <h3>Questions?</h3>
+        <p><strong>Contact:</strong> Lance McLachlan</p>
+        <p><a href="mailto:[Your Email Address]">Your Email Address</a></p>
+        <p><a href="[Link to Website/Steam Page/Discord if available]" target="_blank">Website/Steam Page/Discord Link</a></p>
+        <div class="navigation-buttons">
+            <button class="slide-button" onclick="previousSlide()">Previous</button>
+        </div>
+    </section>
+
+</div><script>
+    const slides = document.querySelectorAll('.slide');
+    let currentSlide = 0;
+    let touchStartX = null;
+    let touchEndX = null;
+
+    function showSlide(n) {
+        slides.forEach(slide => {
+            slide.classList.remove('active', 'inactive-left', 'inactive-right');
+        });
+
+        if (n < 0) {
+            currentSlide = slides.length - 1;
+        } else if (n >= slides.length) {
+            currentSlide = 0;
         }
 
-        function nextSlide() {
-            currentSlide = (currentSlide + 1) % slides.length;
-            showSlide(currentSlide);
+        slides[currentSlide].classList.add('active');
+        for (let i = 0; i < slides.length; i++) {
+            if (i < currentSlide) {
+                slides[i].classList.add('inactive-left');
+            } else if (i > currentSlide) {
+                slides[i].classList.add('inactive-right');
+            }
         }
+    }
 
-        function prevSlide() {
-            currentSlide = (currentSlide - 1 + slides.length) % slides.length;
-            showSlide(currentSlide);
+    function nextSlide() {
+        showSlide(currentSlide + 1);
+    }
+
+    function previousSlide() {
+        showSlide(currentSlide - 1);
+    }
+
+    document.addEventListener('keydown', function(event) {
+        if (event.key === 'ArrowRight') {
+            nextSlide();
+        } else if (event.key === 'ArrowLeft') {
+            previousSlide();
         }
+    });
 
-        showSlide(currentSlide);
-    </script>
+    // Swipe functionality for mobile
+    const deckContainer = document.querySelector('.deck');
+
+    deckContainer.addEventListener('touchstart', function(event) {
+        touchStartX = event.changedTouches[0].screenX;
+    }, false);
+
+    deckContainer.addEventListener('touchend', function(event) {
+        if (!touchStartX) return;
+
+        touchEndX = event.changedTouches[0].screenX;
+        let deltaX = touchEndX - touchStartX;
+
+        if (deltaX > 50) { // Swipe right
+            previousSlide();
+        } else if (deltaX < -50) { // Swipe left
+            nextSlide();
+        }
+        touchStartX = null;
+    }, false);
+
+    // Initial display
+    showSlide(currentSlide);
+
+    // Interactive Elements
+    function triggerSabotage(action) {
+        console.log(`User chose to sabotage by: ${action}`);
+        // Here you could add visual feedback on the button or elsewhere
+        const feedbackElement = document.getElementById('choiceFeedback');
+        if (feedbackElement) {
+            feedbackElement.textContent = `You considered ${action}... the darkness whispers.`;
+        }
+    }
+
+    function makeChoice(choice) {
+        console.log(`User's ultimate choice: ${choice}`);
+        const feedbackElement = document.getElementById('choiceFeedback');
+        if (feedbackElement) {
+            if (choice === 'save') {
+                feedbackElement.textContent = "Against the odds, you choose to trust. Will it be your salvation or your doom?";
+            } else if (choice === 'sabotage') {
+                feedbackElement.textContent = "The primal urge for survival overwhelms you. Every scavenger for themselves.";
+            }
+        }
+        // You could potentially add more impactful visual changes here
+        // e.g., briefly change the slide's background color or add an overlay.
+    }
+</script>
 
 </body>
-
 </html>
