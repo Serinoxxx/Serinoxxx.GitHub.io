@@ -1,27 +1,37 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Cavebreakers Pitch Deck</title>
     <style>
-        body {
-            font-family: 'Courier New', monospace;
-            background-color: #111;
-            color: #eee;
+        /* Reset and Box Sizing */
+        * {
             margin: 0;
-            overflow-x: hidden; /* Prevent horizontal scroll */
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Montserrat', sans-serif; /* A more modern font */
+            background-color: #1a1a1a; /* Darker background */
+            color: #f0f0f0; /* Lighter text */
+            line-height: 1.6;
+            overflow-x: hidden;
+            -webkit-font-smoothing: antialiased; /* Improve font rendering */
         }
 
         .slide {
             position: relative;
             width: 100vw;
-            height: 100vh;
+            min-height: 100vh; /* Use min-height for content that might expand */
             display: flex;
+            flex-direction: column; /* Stack content vertically for mobile */
             justify-content: center;
             align-items: center;
             text-align: center;
-            overflow: hidden;
+            padding: 20px; /* Add padding for mobile */
         }
 
         .slide::before {
@@ -33,72 +43,136 @@
             height: 100%;
             background-size: cover;
             background-position: center;
-            opacity: 0.7;
+            opacity: 0.6; /* Slightly less opaque */
             z-index: -1;
         }
 
+        /* Specific Slide Backgrounds */
         #slide-1::before {
-            background-image: url("your-cave-entrance-image.jpg"); /* Replace with a wild cave image */
+            background-image: url("your-cave-entrance-image.jpg");
         }
 
         #slide-2::before {
-            background-image: url("your-wendigo-image.jpg"); /* Replace with a creepy Wendigo image */
+            background-image: url("your-wendigo-image.jpg");
         }
 
         #slide-3::before {
-            background-image: url("your-bonfire-image.jpg"); /* Replace with a primal bonfire image */
+            background-image: url("your-bonfire-image.jpg");
         }
 
+        /* Improved Typography */
         .slide h1 {
-            font-size: 3em;
-            text-shadow: 2px 2px 4px #000;
-            animation: pulse 2s infinite alternate;
+            font-size: 2.5rem; /* Responsive font size */
+            font-weight: 700; /* Bold font weight */
+            letter-spacing: 0.05em; /* Slight letter spacing */
+            text-shadow: 1px 1px 3px #000;
+            margin-bottom: 15px;
+            animation: fadeInUp 1s ease-out; /* Animate in */
         }
 
         .slide p {
-            font-size: 1.5em;
-            text-shadow: 1px 1px 2px #000;
-            max-width: 800px;
+            font-size: 1.1rem;
+            max-width: 90%; /* Adjust max-width for mobile */
+            text-shadow: 0.5px 0.5px 1px #000;
+            animation: fadeInUp 1.2s ease-out;
         }
 
+        /* Call to Action Button */
         .cta-button {
-            background-color: #ff6600; /* A fiery orange */
+            background-color: #ff4d4d; /* A vibrant red */
             color: #fff;
-            padding: 10px 20px;
-            font-size: 1.2em;
+            padding: 12px 24px;
+            font-size: 1rem;
             border: none;
+            border-radius: 5px; /* Rounded corners */
             cursor: pointer;
             margin-top: 20px;
-            transition: background-color 0.3s ease;
+            transition: background-color 0.2s ease-in-out;
+            animation: pulse 1.5s infinite alternate;
         }
 
         .cta-button:hover {
-            background-color: #cc5200;
+            background-color: #cc0000;
         }
 
+        /* Feature List */
         .feature-list {
-            list-style-type: none;
+            list-style: none;
             padding: 0;
             display: flex;
             flex-wrap: wrap;
             justify-content: center;
+            margin-top: 20px;
+            animation: fadeInUp 1.4s ease-out;
         }
 
         .feature-list li {
-            margin: 10px 20px;
-            font-size: 1.1em;
-            text-shadow: 1px 1px 2px #000;
+            margin: 8px 15px;
+            font-size: 1rem;
+            text-shadow: 0.5px 0.5px 1px #000;
         }
 
+        /* Gameplay Image */
+        .gameplay-image {
+            max-width: 90%;
+            height: auto;
+            border-radius: 8px; /* Rounded corners for image */
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.5); /* Subtle shadow */
+            margin-top: 20px;
+            animation: fadeIn 1.6s ease-out;
+        }
+
+        /* Animations */
         @keyframes pulse {
-            0% { transform: scale(1); }
-            100% { transform: scale(1.05); }
+            0% {
+                transform: scale(1);
+            }
+
+            100% {
+                transform: scale(1.05);
+            }
         }
 
-        /* Add more animations as needed */
+        @keyframes fadeInUp {
+            0% {
+                opacity: 0;
+                transform: translateY(20px);
+            }
 
+            100% {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @keyframes fadeIn {
+            0% {
+                opacity: 0;
+            }
+
+            100% {
+                opacity: 1;
+            }
+        }
+
+        /* Media Queries for Mobile Responsiveness */
+        @media (max-width: 768px) {
+            .slide h1 {
+                font-size: 2rem;
+            }
+
+            .slide p {
+                font-size: 1rem;
+            }
+
+            .feature-list li {
+                font-size: 0.9rem;
+            }
+        }
     </style>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700&display=swap" rel="stylesheet">
 </head>
+
 <body>
 
     <div id="slide-1" class="slide">
@@ -124,9 +198,9 @@
     </div>
 
     <div id="slide-4" class="slide">
-    <h1>Gameplay</h1>
+        <h1>Gameplay</h1>
         <p>Scavenge, craft, survive, and escape.</p>
-        <img src="your-gameplay-image.jpg" alt="Gameplay Screenshot" style="max-width: 80%; height: auto;">
+        <img src="your-gameplay-image.jpg" alt="Gameplay Screenshot" class="gameplay-image">
         <ul class="feature-list">
             <li>Deep Perk System</li>
             <li>Procedural Maps</li>
@@ -148,7 +222,7 @@
     </div>
 
     <script>
-        //  Basic slide navigation (you can enhance this)
+        // Basic slide navigation (you can enhance this)
         const slides = document.querySelectorAll('.slide');
         let currentSlide = 0;
 
@@ -167,8 +241,11 @@
             }
             showSlide(currentSlide);
             e.preventDefault(); // Prevent default scrolling
-        }, { passive: false }); // Need passive: false to prevent default
+        }, {
+            passive: false
+        }); // Need passive: false to prevent default
     </script>
 
 </body>
+
 </html>
