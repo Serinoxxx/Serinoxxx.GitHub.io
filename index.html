@@ -32,7 +32,8 @@
             align-items: center;
             text-align: center;
             padding: 20px;
-            overflow: hidden; /* Needed for background image animations */
+            overflow: hidden;
+            /* Needed for background image animations */
         }
 
         .slide::before {
@@ -47,12 +48,12 @@
             opacity: 0.6;
             z-index: -1;
             /* Background image animations */
-            animation: backgroundFade 10s infinite alternate;
+            animation: backgroundPulse 10s infinite alternate;
         }
 
-        @keyframes backgroundFade {
-            0% { opacity: 0.6; }
-            100% { opacity: 0.4; }
+        @keyframes backgroundPulse {
+            0% { opacity: 0.6; transform: scale(1); }
+            100% { opacity: 0.4; transform: scale(1.05); }
         }
 
         /* Slide Specific Backgrounds */
@@ -61,34 +62,40 @@
         }
 
         #slide-2::before {
-             background-image: url("your-wendigo-image.jpg");
+            background-image: url("your-wendigo-image.jpg");
         }
 
         #slide-3::before {
             background-image: url("your-bonfire-image.jpg");
         }
-         #slide-4::before {
+
+        #slide-4::before {
             background-image: url("your-gameplay-image.jpg");
         }
-         #slide-5::before {
-            background-image: url("your-cave-entrance-image.jpg");
-        }
-          #slide-6::before {
-            background-image: url("your-wendigo-image.jpg");
-        }
-          #slide-7::before {
-            background-image: url("your-bonfire-image.jpg");
+
+        #slide-5::before {
+            background-image: url("your-gameplay-image.jpg");
         }
 
-        /* Improved Typography */
+        #slide-6::before {
+            background-image: url("your-cave-entrance-image.jpg");
+        }
+
+        #slide-7::before {
+            background-image: url("your-wendigo-image.jpg");
+        }
+
+        /* Typography */
         .slide h1 {
             font-size: 2.5rem;
             font-weight: 700;
             letter-spacing: 0.05em;
             text-shadow: 1px 1px 3px #000;
             margin-bottom: 15px;
-            animation: fadeInUp 1s ease-out, neonGlow 2s infinite alternate; /* Added neon glow */
-            color: #fff; /* Ensuring white color for neon effect */
+            animation: fadeInUp 1s ease-out;
+            /* Modern font */
+            font-family: 'Oswald', sans-serif;
+            text-transform: uppercase;
         }
 
         .slide p {
@@ -96,17 +103,13 @@
             max-width: 90%;
             text-shadow: 0.5px 0.5px 1px #000;
             animation: fadeInUp 1.2s ease-out;
-        }
-
-        /* Neon Glow Animation */
-        @keyframes neonGlow {
-            0% { text-shadow: 0 0 5px #fff, 0 0 10px #fff, 0 0 15px #fff, 0 0 20px #ff4d4d, 0 0 30px #ff4d4d, 0 0 40px #ff4d4d; }
-            100% { text-shadow: 0 0 3px #fff, 0 0 7px #fff, 0 0 12px #fff, 0 0 17px #ff4d4d, 0 0 25px #ff4d4d, 0 0 35px #ff4d4d; }
+            /* Modern font */
+            font-family: 'Lato', sans-serif;
         }
 
         /* Call to Action Button */
         .cta-button {
-            background: linear-gradient(to bottom, #ff4d4d, #cc0000); /* Gradient background */
+            background: linear-gradient(to bottom, #ff4d4d, #cc0000);
             color: #fff;
             padding: 12px 24px;
             font-size: 1rem;
@@ -114,7 +117,7 @@
             border-radius: 5px;
             cursor: pointer;
             margin-top: 20px;
-            transition: transform 0.2s ease-in-out; /* Scale effect */
+            transition: transform 0.2s ease-in-out;
             animation: pulse 1.5s infinite alternate;
         }
 
@@ -137,6 +140,7 @@
             margin: 8px 15px;
             font-size: 1rem;
             text-shadow: 0.5px 0.5px 1px #000;
+            font-family: 'Lato', sans-serif;
         }
 
         /* Gameplay Image */
@@ -193,7 +197,7 @@
         }
 
         .nav-button {
-            background: linear-gradient(to bottom, #333, #555); /* Gradient nav buttons */
+            background: linear-gradient(to bottom, #333, #555);
             color: #fff;
             border: none;
             padding: 10px 20px;
@@ -223,6 +227,8 @@
         }
     </style>
     <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Oswald:wght@400;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Lato:wght@400;700&display=swap" rel="stylesheet">
 </head>
 
 <body>
@@ -234,47 +240,48 @@
     </div>
 
     <div id="slide-2" class="slide">
-        <h1>Face Your Fears</h1>
-        <p>Battle terrifying mythical creatures with unique AI and deadly intent. Utilize stealth, traps, elemental interactions, and sabotage to survive.</p>
+        <h1>Face Your Fears (and Friends?)</h1>
+        <p>Battle nightmarish creatures with unique AI... or sacrifice your buddy to the Wendigo. Hey, survival's tough! [cite: 2, 3, 4, 5, 6]</p>
         <ul class="feature-list">
-            <li>Wendigo: Mimicking voices, fears fire. [cite: 29]</li>
-            <li>Werebear: Brute strength, attracted to scents. [cite: 31]</li>
-            <li>Werewolf: Pack hunters, fast and agile. [cite: 33]</li>
+            <li>Wendigo: Mimicking voices, fears fire.</li>
+            <li>Werebear: Brute strength, attracted to scents.</li>
+            <li>Werewolf: Pack hunters, fast and agile.</li>
         </ul>
     </div>
 
     <div id="slide-3" class="slide">
-        <h1>Team Up or Turn On Each Other</h1>
-        <p>Will you work together to survive, or will you sacrifice your allies to ensure your own escape? Tension escalates through sabotage mechanics. [cite: 4]</p>
-        <button class="cta-button" onclick="nextSlide()">Wishlist on Steam</button>
+        <h1>Team Up or... Screw Up?</h1>
+        <p>Will you be the hero or the hilarious villain? Sabotage is not just possible; it's sometimes *necessary*. (We're not responsible for broken friendships.) [cite: 16, 17, 18, 19, 20, 21]</p>
+        <button class="cta-button" onclick="nextSlide()">Wishlist on Steam (if you dare)</button>
     </div>
 
     <div id="slide-4" class="slide">
-        <h1>Gameplay</h1>
-        <p>Scavenge, craft, survive, and escape.</p>
+        <h1>Gameplay: It's a Scream</h1>
+        <p>Scavenge, craft, survive, escape... and maybe backstab a little? We won't judge. Much.</p>
         <img src="your-gameplay-image.jpg" alt="Gameplay Screenshot" class="gameplay-image">
         <ul class="feature-list">
-            <li>Deep Perk System: Tiered perk tree for varied playstyles. [cite: 39, 40, 41, 42]</li>
-            <li>Procedural Maps: Randomized resource nodes and map generation. [cite: 10]</li>
-            <li>Intense Atmosphere: Ethereal vocals and tribal drum rhythms heighten tension. [cite: 78]</li>
+            <li>Deep Perk System: Become the ultimate survivor... or saboteur. [cite: 39, 40, 41, 42]</li>
+            <li>Procedural Maps: Because dying in the same spot is boring. [cite: 37, 38]</li>
+            <li>Intense Atmosphere: Our sound design will make you check your closet. Seriously. [cite: 78, 79, 80]</li>
         </ul>
     </div>
-     <div id="slide-5" class="slide">
-        <h1>Core Loop</h1>
-        <p>The core gameplay loop consists of searching, scavenging, crafting, surviving, escaping, and upgrading [cite: 25, 26, 27]</p>
+
+    <div id="slide-5" class="slide">
+        <h1>The Loop: Die, Repeat, Get Revenge</h1>
+        <p>Search, scavenge, craft, survive, escape, upgrade. The usual. Oh, and try not to get eaten. Again.</p>
         <img src="your-gameplay-image.jpg" alt="Gameplay Screenshot" class="gameplay-image">
     </div>
 
     <div id="slide-6" class="slide">
-        <h1>Our Team</h1>
-        <p>Experienced developers with a passion for horror.</p>
-        <p>Lance McLachlan: Lead Developer, 12+ years in software development. [cite: 195]</p>
-        <p>Kirstin McLachlan: UI Design and Branding, 8+ years in marketing/branding. [cite: 196]</p>
+        <h1>Meet the Maniacs</h1>
+        <p>Our team is small, passionate, and slightly unhinged (in a good way!). We're here to make your nightmares come true.</p>
+        <p>Lance McLachlan: Lead Developer. Coding wizard. Probably sleeps in binary. [cite: 195]</p>
+        <p>Kirstin McLachlan: UI Design & Branding. Makes things look pretty while we make them terrifying. [cite: 196]</p>
     </div>
 
     <div id="slide-7" class="slide">
-        <h1>Contact Us</h1>
-        <p>Let's make some magic!</p>
+        <h1>Let's Get Bloody</h1>
+        <p>Want to join the chaos? Hit us up. But be warned: We like our games like we like our coffee... dark and full of screams.</p>
         <p>Email: example@example.com</p>
         <p>Website: example.com</p>
     </div>
