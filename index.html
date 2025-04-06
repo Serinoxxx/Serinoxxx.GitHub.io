@@ -47,6 +47,7 @@
             padding: 30px 15px;
             position: relative; /* For absolute positioning of slides */
             height: 80vh; /* Set a viewport height for the deck */
+            touch-action: pan-y pinch-zoom; /* Enable touch events for swipe */
         }
 
         /* Slide Styling */
@@ -524,6 +525,8 @@
 </div><script>
     const slides = document.querySelectorAll('.slide');
     let currentSlide = 0;
+    let touchStartX = null;
+    let touchEndX = null;
 
     function showSlide(n) {
         slides.forEach(slide => {
@@ -561,6 +564,27 @@
             previousSlide();
         }
     });
+
+    // Swipe functionality for mobile
+    const deckContainer = document.querySelector('.deck');
+
+    deckContainer.addEventListener('touchstart', function(event) {
+        touchStartX = event.changedTouches[0].screenX;
+    }, false);
+
+    deckContainer.addEventListener('touchend', function(event) {
+        if (!touchStartX) return;
+
+        touchEndX = event.changedTouches[0].screenX;
+        let deltaX = touchEndX - touchStartX;
+
+        if (deltaX > 50) { // Swipe right
+            previousSlide();
+        } else if (deltaX < -50) { // Swipe left
+            nextSlide();
+        }
+        touchStartX = null;
+    }, false);
 
     // Initial display
     showSlide(currentSlide);
