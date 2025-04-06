@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Cavebreakers - Pitch Deck (Styled)</title>
+    <title>Cavebreakers - Pitch Deck (Animated & Interactive)</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Lato:wght@400;700&family=Montserrat:wght@600;700;800&display=swap" rel="stylesheet">
@@ -35,16 +35,18 @@
             font-family: var(--font-body);
             line-height: 1.7;
             background-color: var(--bg-dark);
-            /* Subtle noise texture for atmosphere */
             background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='4' height='4' viewBox='0 0 4 4'%3E%3Cpath fill='%234a4a4a' fill-opacity='0.1' d='M1 3h1v1H1V3zm2-2h1v1H3V1z'%3E%3C/path%3E%3C/svg%3E");
             color: var(--text-light);
+            overflow: hidden; /* Hide scrollbars for slide navigation */
         }
 
         /* Deck Container */
         .deck {
             max-width: 1100px;
-            margin: 0 auto;
-            padding: 30px 15px; /* Add padding for smaller screens */
+            margin: 40px auto; /* Increased top margin for better visual */
+            padding: 30px 15px;
+            position: relative; /* For absolute positioning of slides */
+            height: 80vh; /* Set a viewport height for the deck */
         }
 
         /* Slide Styling */
@@ -53,16 +55,40 @@
             border: 1px solid #505050; /* Slightly visible border */
             border-radius: var(--border-radius);
             box-shadow: var(--slide-shadow);
-            margin-bottom: 50px;
             padding: 50px 60px;
-            min-height: 75vh;
+            min-height: 100%; /* Take full height of the deck */
             display: flex;
             flex-direction: column;
             justify-content: center;
             align-items: center;
             text-align: center;
-            overflow: hidden; /* Prevent content overflow issues */
-            position: relative; /* For potential absolute positioning inside */
+            overflow: auto; /* Allow scrolling within slides if content overflows */
+            position: absolute; /* Position slides on top of each other */
+            top: 0;
+            left: 0;
+            width: 100%;
+            opacity: 0;
+            visibility: hidden;
+            transition: opacity 0.5s ease-in-out, visibility 0.5s ease-in-out, transform 0.5s ease-in-out;
+            transform: translateX(20px); /* Subtle entrance animation */
+        }
+
+        .slide.active {
+            opacity: 1;
+            visibility: visible;
+            transform: translateX(0);
+        }
+
+        .slide.inactive-right {
+            transform: translateX(100%);
+            opacity: 0;
+            visibility: hidden;
+        }
+
+        .slide.inactive-left {
+            transform: translateX(-100%);
+            opacity: 0;
+            visibility: hidden;
         }
 
         /* Typography */
@@ -72,6 +98,9 @@
             line-height: 1.3;
             font-weight: 700;
             color: var(--text-light); /* Light text for headings */
+            animation: fadeInUp 0.7s ease-out forwards;
+            opacity: 0;
+            transform: translateY(20px);
         }
 
         h1 { font-size: 3em; font-weight: 800; color: var(--accent-fire); text-shadow: 1px 1px 3px rgba(0,0,0,0.5);} /* Make Title stand out */
@@ -79,7 +108,7 @@
         h3 { font-size: 1.7em; color: var(--accent-mystery); }
         h4 { font-size: 1.3em; color: var(--accent-stone); }
 
-        p { font-size: 1.1em; margin-bottom: 1em; max-width: 850px; color: var(--text-medium); } /* Slightly lighter body text */
+        p { font-size: 1.1em; margin-bottom: 1em; max-width: 850px; color: var(--text-medium); animation-delay: 0.2s; } /* Slightly lighter body text */
         .slide p:last-of-type { margin-bottom: 0; } /* Remove margin from last paragraph */
 
         ul { list-style: none; padding-left: 0; margin-bottom: 1em; max-width: 750px; text-align: left; margin-left: auto; margin-right: auto; }
@@ -89,7 +118,11 @@
             padding-left: 2em;
             position: relative;
             color: var(--text-light);
-         }
+            animation: fadeInUp 0.7s ease-out forwards;
+            opacity: 0;
+            transform: translateY(20px);
+            animation-delay: calc(0.1s * var(--index)); /* Staggered appearance */
+        }
         li::before { /* Custom bullet - Fire symbol or similar */
             content: '🔥'; /* Flame emoji as bullet */
             /* Or use a primitive symbol: content: '•'; color: var(--accent-fire); */
@@ -101,8 +134,8 @@
         }
 
         strong {
-             font-weight: 700;
-             color: var(--accent-danger); /* Use danger color for emphasis */
+            font-weight: 700;
+            color: var(--accent-danger); /* Use danger color for emphasis */
         }
 
         a {
@@ -117,43 +150,39 @@
             border-bottom: 1px solid var(--accent-fire);
         }
 
-        /* Placeholders */
-        .placeholder {
+        /* Image Styling (Replaces Placeholders) */
+        .slide-image {
             display: block;
-            background-color: rgba(0, 0, 0, 0.2); /* Darker placeholder background */
-            color: var(--text-medium);
-            border: 2px dashed var(--accent-stone);
-            border-radius: calc(var(--border-radius) / 2); /* Slightly less rounded */
-            padding: 25px;
-            margin: 25px auto;
-            font-style: italic;
-            font-family: var(--font-body);
-            min-height: 180px;
-            max-width: 85%;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            font-size: 1em;
-            text-shadow: 1px 1px 2px rgba(0,0,0,0.3);
+            max-width: 80%;
+            height: auto;
+            margin: 20px auto;
+            border-radius: var(--border-radius);
+            box-shadow: 0 3px 10px rgba(0, 0, 0, 0.3);
+            animation: fadeInUp 0.7s ease-out forwards;
+            opacity: 0;
+            transform: translateY(20px);
+            animation-delay: 0.1s;
         }
 
-        .placeholder.logo {
-             width: 250px;
-             height: 120px;
-             min-height: 120px;
-             border-style: solid; /* Make logo placeholder stand out */
-             border-color: var(--accent-fire);
+        .logo-image {
+            width: 250px;
+            height: auto;
+            border: 2px solid var(--accent-fire);
+            border-radius: var(--border-radius);
+            margin-bottom: 1em;
+            animation: fadeInUp 0.7s ease-out forwards;
+            opacity: 0;
+            transform: translateY(20px);
         }
 
-        .placeholder.inline-icon {
+        .inline-icon {
             display: inline-block;
             width: 35px;
             height: 35px;
-            min-height: 35px;
-            padding: 5px;
+            border-radius: 50%;
             margin: 0 8px;
             vertical-align: middle;
-            border-radius: 50%; /* Circular icons */
+            background-color: rgba(0, 0, 0, 0.4); /* Example background */
         }
 
         /* Layout Helpers */
@@ -171,8 +200,8 @@
             min-width: 320px;
             text-align: left;
         }
-         .column ul { margin-left: 0; text-align: left;}
-         .column h3 { margin-bottom: 0.5em; } /* Adjust heading margin in columns */
+        .column ul { margin-left: 0; text-align: left;}
+        .column h3 { margin-bottom: 0.5em; } /* Adjust heading margin in columns */
 
         /* Specific Slide Styles */
         #slide-title {
@@ -184,24 +213,36 @@
         #slide-title h1 { color: var(--accent-fire); font-size: 3.5em; }
         #slide-title h2 { color: var(--text-medium); border-bottom: none; font-size: 1.5em; }
 
-         #slide-hook { background: linear-gradient(145deg, #4a433a, var(--bg-slide)); } /* Slightly warmer tone */
-         #slide-sabotage { background: linear-gradient(145deg, #4d3c3b, var(--bg-slide)); } /* Hint of danger red */
-         #slide-team { background: linear-gradient(145deg, #3b4b49, var(--bg-slide)); } /* Hint of mystery teal */
-         #slide-ask { background: linear-gradient(145deg, #5c503a, var(--bg-slide)); } /* Hint of artifact gold/orange */
+        #slide-hook { background: linear-gradient(145deg, #4a433a, var(--bg-slide)); } /* Slightly warmer tone */
+        #slide-sabotage { background: linear-gradient(145deg, #4d3c3b, var(--bg-slide)); } /* Hint of danger red */
+        #slide-team { background: linear-gradient(145deg, #3b4b49, var(--bg-slide)); } /* Hint of mystery teal */
+        #slide-ask { background: linear-gradient(145deg, #5c503a, var(--bg-slide)); } /* Hint of artifact gold/orange */
 
         #slide-contact {
             background: linear-gradient(145deg, var(--bg-dark), #1f1f1f); /* Darkest slide */
         }
-         #slide-contact h2 { color: var(--accent-fire); border-bottom-color: var(--accent-fire); }
-         #slide-contact p, #slide-contact a { color: var(--text-light); }
-         #slide-contact a { border-bottom-color: var(--text-light); }
-         #slide-contact a:hover { color: var(--accent-fire); border-bottom-color: var(--accent-fire); }
+        #slide-contact h2 { color: var(--accent-fire); border-bottom-color: var(--accent-fire); }
+        #slide-contact p, #slide-contact a { color: var(--text-light); }
+        #slide-contact a { border-bottom-color: var(--text-light); }
+        #slide-contact a:hover { color: var(--accent-fire); border-bottom-color: var(--accent-fire); }
+
+        /* Animations */
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
 
         /* Responsive Adjustments */
         @media (max-width: 768px) {
             .slide {
                 padding: 35px 20px; /* Adjust padding for smaller screens */
-                min-height: unset; /* Allow slides to shrink */
+                min-height: auto; /* Allow slides to shrink */
             }
             h1 { font-size: 2.5em; }
             #slide-title h1 { font-size: 2.8em; }
@@ -211,13 +252,13 @@
             li { font-size: 0.95em; }
             .two-column { flex-direction: column; gap: 20px; }
             .column { min-width: 100%; }
-            .placeholder { max-width: 95%; min-height: 120px; padding: 15px; }
-            .placeholder.logo { width: 180px; height: 90px; min-height: 90px;}
+            .slide-image { max-width: 95%; }
+            .logo-image { width: 180px; }
             ul { max-width: 95%; } /* Ensure lists don't overflow */
         }
 
         @media (max-width: 480px) {
-             h1 { font-size: 2.1em; }
+            h1 { font-size: 2.1em; }
             #slide-title h1 { font-size: 2.4em; }
             h2 { font-size: 1.6em; }
             h3 { font-size: 1.3em; }
@@ -230,245 +271,315 @@
 
 <div class="deck">
 
-    <!-- Slide 1: Title -->
-    <section class="slide" id="slide-title">
-        <div class="placeholder logo">[Placeholder: Cavebreakers Logo - maybe with glowing embers effect?]</div>
+    <section class="slide active" id="slide-title">
+        <img src="https://via.placeholder.com/250x120/FFA726/2C2C2C?Text=Cavebreakers%20Logo" alt="Cavebreakers Logo" class="logo-image">
         <h1>Cavebreakers</h1>
         <h2>Survive Together. Or Don't.</h2>
         <p><strong>Applicant:</strong> Lance McLachlan</p>
         <p style="font-size: 0.9em; color: var(--text-medium);"><em>CODE Funding Application Pitch</em></p>
     </section>
 
-    <!-- Slide 2: Hook -->
     <section class="slide" id="slide-hook">
         <h2>The Hook - What is Cavebreakers?</h2>
-        <div class="placeholder">[Placeholder: Striking concept art - dark cave entrance lit by torchlight, silhouettes visible]</div>
+        <img src="https://images.unsplash.com/photo-1548690312-e3b89110e793?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D" alt="Dark cave entrance with torchlight" class="slide-image">
         <p><strong>Elevator Pitch:</strong> A co-op survival horror game where 1-4 Stone Age scavengers must outwit terrifying mythical creatures <strong>and each other</strong> to escape a cursed wilderness.</p>
         <p><strong>Core Concept:</strong> Balance desperate teamwork with treacherous sabotage in a tense, atmospheric prehistoric world.</p>
         <p><strong>Genre:</strong> Multiplayer Co-op Survival Horror with Social Deduction Elements.</p>
         <p style="color: var(--accent-stone);"><strong>Quick Comps:</strong> Think <em>Dead by Daylight</em> meets <em>The Forest</em> with the co-op tension of <em>Left 4 Dead</em> and the potential betrayal of <em>Among Us</em>.</p>
     </section>
 
-    <!-- Slide 3: Core Gameplay Loop -->
     <section class="slide" id="slide-loop">
         <h2>The Core Gameplay Loop</h2>
-        <div class="placeholder">[Placeholder: Stylized flowchart graphic with cave painting / stone texture icons]</div>
+        <img src="https://www.freepng.com/png-vector/flowchart-vector-illustration-design-104894.png" alt="Stylized flowchart graphic" class="slide-image" style="max-width: 60%;">
         <ul>
-            <li><strong>SEARCH:</strong> Spawn into a procedurally generated wilderness fraught with danger.</li>
-            <li><strong>SCAVENGE:</strong> Gather essential resources (flint, wood, herbs, bones).</li>
-            <li><strong>CRAFT:</strong> Create crude tools, torches, weapons, and cunning traps.</li>
-            <li><strong>SECURE:</strong> Light vital Bonfires for temporary safety, perks, and minor healing.</li>
-            <li><strong>SURVIVE:</strong> Evade or confront deadly mythical creatures using stealth, environment, and wits.</li>
-            <li><strong>ESCAPE:</strong> Complete primal objectives before the darkness consumes you.</li>
-            <li><strong>UPGRADE:</strong> Spend salvaged Artifacts on permanent perks for subsequent hunts.</li>
+            <li style="--index: 1;"><strong>SEARCH:</strong> Spawn into a procedurally generated wilderness fraught with danger.</li>
+            <li style="--index: 2;"><strong>SCAVENGE:</strong> Gather essential resources (flint, wood, herbs, bones).</li>
+            <li style="--index: 3;"><strong>CRAFT:</strong> Create crude tools, torches, weapons, and cunning traps.</li>
+            <li style="--index: 4;"><strong>SECURE:</strong> Light vital Bonfires for temporary safety, perks, and minor healing.</li>
+            <li style="--index: 5;"><strong>SURVIVE:</strong> Evade or confront deadly mythical creatures using stealth, environment, and wits.</li>
+            <li style="--index: 6;"><strong>ESCAPE:</strong> Complete primal objectives before the darkness consumes you.</li>
+            <li style="--index: 7;"><strong>UPGRADE:</strong> Spend salvaged Artifacts on permanent perks for subsequent hunts.</li>
         </ul>
         <p><strong>Key Pillars:</strong> Exploration, Resource Management, Strategic Evasion/Combat, Dynamic Teamwork vs. Sabotage, Meta-Progression.</p>
     </section>
 
-    <!-- Slide 4: Creatures -->
     <section class="slide" id="slide-creatures">
         <h2>Meet the Horrors</h2>
-        <div class="placeholder">[Placeholder: Gritty concept art/renders collage - Wendigo, Werebear, Werewolf in atmospheric settings]</div>
+        <div style="display: flex; flex-wrap: wrap; justify-content: center; gap: 15px; margin-top: 20px;">
+            <img src="https://cdna.artstation.com/p/assets/images/images/014/198/378/large/joshua-carlson-wendigo-concept-01.jpg?1542766891" alt="Wendigo Concept" class="slide-image" style="max-width: 30%;">
+            <img src="https://i.pinimg.com/originals/9a/b7/4c/9ab74c7521941599691499a78a08a657.jpg" alt="Werebear Concept" class="slide-image" style="max-width: 30%;">
+            <img src="https://i.pinimg.com/originals/6a/d7/4c/6ad74c2188c156268a14e139ade1407a.jpg" alt="Werewolf Concept" class="slide-image" style="max-width: 30%;">
+        </div>
         <h3>Headline: Outwit, Don't Just Out-Damage.</h3>
         <ul>
-            <li><strong>Wendigo:</strong> Ethereal mimic, fears <strong>fire</strong>, nightmarishly fast & stealthy. Exploit its fear & gaze aversion. (Weak Spot: Head)</li>
-            <li><strong>Werebear:</strong> Hulking brute, charges, tracks by <strong>scent</strong>, demolishes weak structures. Lure into large traps. (Vulnerable post-rage)</li>
-            <li><strong>Werewolf:</strong> Agile pack hunter, targets the <strong>isolated</strong>, reacts to loud noises & multiple lights. Use coordination & distraction.</li>
+            <li style="--index: 1;"><strong>Wendigo:</strong> Ethereal mimic, fears <strong>fire</strong>, nightmarishly fast & stealthy. Exploit its fear & gaze aversion. (Weak Spot: Head)</li>
+            <li style="--index: 2;"><strong>Werebear:</strong> Hulking brute, charges, tracks by <strong>scent</strong>, demolishes weak structures. Lure into large traps. (Vulnerable post-rage)</li>
+            <li style="--index: 3;"><strong>Werewolf:</strong> Agile pack hunter, targets the <strong>isolated</strong>, reacts to loud noises & multiple lights. Use coordination & distraction.</li>
         </ul>
         <p><strong>Emphasis:</strong> Each beast demands unique strategies. Learn their behaviors, exploit weaknesses, and use the environment to survive.</p>
     </section>
 
-    <!-- Slide 5: Sabotage -->
     <section class="slide" id="slide-sabotage">
         <h2>The Twist: Sabotage & Social Tension</h2>
-        <div class="placeholder">[Placeholder: Concept art - one player subtly shoving another towards a lurking shadow, OR hiding resources greedily]</div>
+        <img src="https://i.ytimg.com/vi/9i8e7zG7WwQ/maxresdefault.jpg" alt="Player sabotaging another" class="slide-image">
         <h3>Headline: Trust is a Resource. Spend it Wisely.</h3>
         <p><strong>Why Sabotage?</strong> Survival instinct. Desperation when resources dwindle. Greed for artifacts. Sometimes, escaping alone is the only way.</p>
         <p style="color: var(--accent-danger);"><strong>How?</strong></p>
         <ul>
-            <li>Resource Hoarding (Keep that vital flint hidden!)</li>
-            <li>Noise Misdirection (That strange sound? Near your friend...)</li>
-            <li>Trap "Mishaps" (Oops, didn't see you walking there.)</li>
-            <li>Baiting Creatures (Make your ally... more appealing.)</li>
-            <li>Physical Interference (A timely 'shove' in a chase.)</li>
+            <li style="--index: 1;">Resource Hoarding (Keep that vital flint hidden!)</li>
+            <li style="--index: 2;">Noise Misdirection (That strange sound? Near your friend...)</li>
+            <li style="--index: 3;">Trap "Mishaps" (Oops, didn't see you walking there.)</li>
+            <li style="--index: 4;">Baiting Creatures (Make your ally... more appealing.)</li>
+            <li style="--index: 5;">Physical Interference (A timely 'shove' in a chase.)</li>
         </ul>
         <p><strong>Risk vs. Reward:</strong> Sabotage incurs 'Bad Karma', affecting future luck. BUT, surviving (especially alone or in Sabotage mode) yields unique gains. Full team escapes offer hefty 'Survivor Bonuses'. High-stakes choices fuel emergent stories!</p>
     </section>
 
-    <!-- Slide 6: Art Style -->
     <section class="slide" id="slide-art">
         <h2>Art Style & Immersion</h2>
-        <div class="placeholder">[Placeholder: Atmospheric collage - first-person view hiding in ferns, bonfire lighting a clearing, creepy cave interior, minimalist UI mockup]</div>
+        <div style="display: flex; flex-wrap: wrap; justify-content: center; gap: 15px; margin-top: 20px;">
+            <img src="https://i.redd.it/ay9w1czk40m31.jpg" alt="First-person view hiding" class="slide-image" style="max-width: 45%;">
+            <img src="https://i.pinimg.com/originals/f7/a7/b3/f7a7b3495c7a719b83392591041110f8.jpg" alt="Bonfire lighting a clearing" class="slide-image" style="max-width: 45%;">
+            <img src="https://i.pinimg.com/originals/e5/f5/08/e5f50889919d39389822593108412834.jpg" alt="Creepy cave interior" class="slide-image" style="max-width: 45%;">
+            <img src="https://i.pinimg.com/originals/3a/6f/f3/3a6ff3a419f89719112058a1a2470904.png" alt="Minimalist UI mockup" class="slide-image" style="max-width: 45%;">
+        </div>
         <ul>
-            <li><strong>Style:</strong> Grounded, Gritty Stone Age Horror with Realistic Textures.</li>
-            <li><strong>Perspective:</strong> Immersive First-Person to maximize tension.</li>
-            <li><strong>Goal:</strong> Striking visuals via atmosphere, lighting (dynamic torchlight, eerie fog), and detailed creature design without over-scoped assets.</li>
-            <li><strong>Influences:</strong> *The Forest* (Atmosphere), *Far Cry Primal* (Aesthetic), *Hunt: Showdown* (Tension & Grit).</li>
-            <li><strong>UI:</strong> Minimalist & diegetic where possible (e.g., heartbeat sounds for health), avoiding screen clutter.</li>
+            <li style="--index: 1;"><strong>Style:</strong> Grounded, Gritty Stone Age Horror with Realistic Textures.</li>
+            <li style="--index: 2;"><strong>Perspective:</strong> Immersive First-Person to maximize tension.</li>
+            <li style="--index: 3;"><strong>Goal:</strong> Striking visuals via atmosphere, lighting (dynamic torchlight, eerie fog), and detailed creature design without over-scoped assets.</li>
+            <li style="--index: 4;"><strong>Influences:</strong> *The Forest* (Atmosphere), *Far Cry Primal* (Aesthetic), *Hunt: Showdown* (Tension & Grit).</li>
+            <li style="--index: 5;"><strong>UI:</strong> Minimalist & diegetic where possible (e.g., heartbeat sounds for health), avoiding screen clutter.</li>
         </ul>
     </section>
 
-    <!-- Slide 7: Sound Design -->
     <section class="slide" id="slide-sound">
         <h2>Sound Design: The Unseen Threat</h2>
-        <div class="placeholder">[Placeholder: Abstract visual - sound waves emanating from darkness, or a player reacting to an off-screen noise]</div>
+        <img src="https://i.pinimg.com/originals/41/9d/3c/419d3c4589f49835ef12390441c33133.jpg" alt="Sound waves emanating from darkness" class="slide-image" style="max-width: 60%;">
         <h3>Headline: Hear Them Before You See Them.</h3>
         <ul>
-            <li><strong>Dynamic Music:</strong> Primal drums, ethereal whispers, tension tracks that react to gameplay.</li>
-            <li><strong>Directional & Occluded Audio:</strong> Pinpoint creature locations through footsteps, growls, *chilling mimicry*.</li>
-            <li><strong>Atmospheric Ambience:</strong> Crackling fires, wind through trees, dripping caves, unsettling distant calls.</li>
-            <li><strong>Player Feedback:</strong> Heavy breathing, pained grunts, footsteps varying by surface – all conveying state and presence.</li>
+            <li style="--index: 1;"><strong>Dynamic Music:</strong> Primal drums, ethereal whispers, tension tracks that react to gameplay.</li>
+            <li style="--index: 2;"><strong>Directional & Occluded Audio:</strong> Pinpoint creature locations through footsteps, growls, *chilling mimicry*.</li>
+            <li style="--index: 3;"><strong>Atmospheric Ambience:</strong> Crackling fires, wind through trees, dripping caves, unsettling distant calls.</li>
+            <li style="--index: 4;"><strong>Player Feedback:</strong> Heavy breathing, pained grunts, footsteps varying by surface – all conveying state and presence.</li>
         </ul>
         <p><strong>Impact:</strong> Sound is paramount for immersion, warning, jump scares, and locating threats (and maybe allies...).</p>
     </section>
 
-    <!-- Slide 8: Target Audience -->
     <section class="slide" id="slide-audience">
         <h2>Target Audience & Market</h2>
-        <div class="placeholder">[Placeholder: Stylized icons representing player types (maybe cave painting style?) + modern platform logos (Steam, Discord, TikTok)]</div>
+        <div style="display: flex; justify-content: center; gap: 20px; margin-top: 20px;">
+            <img src="https://icon-library.com/images/player-icon-png/player-icon-png-17.jpg" alt="Co-op Crew Icon" class="inline-icon">
+            <img src="https://icon-library.com/images/devil-icon-png/devil-icon-png-11.jpg" alt="Agent of Chaos Icon" class="inline-icon">
+            <img src="https://icon-library.com/images/survival-icon/survival-icon-14.jpg" alt="Survival Enthusiast Icon" class="inline-icon">
+            <img src="https://icon-library.com/images/wolf-icon-png/wolf-icon-png-14.jpg" alt="Lone Wolf Icon" class="inline-icon">
+            <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/8/83/Steam_icon_logo.svg/512px-Steam_icon_logo.svg.png" alt="Steam Logo" class="inline-icon">
+            <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/9/91/Discord_logo.svg/2048px-Discord_logo.svg.png" alt="Discord Logo" class="inline-icon">
+            <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/e/e7/TikTok_logo.svg/2048px-TikTok_logo.svg.png" alt="TikTok Logo" class="inline-icon">
+        </div>
         <p><strong>Primary Audience:</strong> Mid-core gamers (18-35) who crave Co-op Survival Horror with strategic depth & social twists.</p>
         <p><strong>Key Player Profiles:</p>
         <ul>
-            <li>🔥 <strong>The Co-op Crew:</strong> (*Phasmo, L4D*) Loves coordination & shared scares.</li>
-            <li>😈 <strong>The Agent of Chaos:</strong> (*DbD, Among Us*) Revels in unpredictable fun & betrayal.</li>
-            <li>🌲 <strong>The Survival Enthusiast:</strong> (*The Forest*) Seeks immersion & environmental challenge.</li>
-            <li>🐺 <strong>The Lone Wolf:</strong> (*Alien: Iso*) Relishes solo tension & outsmarting AI.</li>
+            <li style="--index: 1;">🔥 <strong>The Co-op Crew:</strong> (*Phasmo, L4D*) Loves coordination & shared scares.</li>
+            <li style="--index: 2;">😈 <strong>The Agent of Chaos:</strong> (*DbD, Among Us*) Revels in unpredictable fun & betrayal.</li>
+            <li style="--index: 3;">🌲 <strong>The Survival Enthusiast:</strong> (*The Forest*) Seeks immersion & environmental challenge.</li>
+            <li style="--index: 4;">🐺 <strong>The Lone Wolf:</strong> (*Alien: Iso*) Relishes solo tension & outsmarting AI.</li>
         </ul>
-         <p><strong>Market Fit:</strong> High revenue potential for Online Co-op tags on Steam. Leverages growing co-op horror trend while offering unique Sabotage mechanic.</p>
+        <p><strong>Market Fit:</strong> High revenue potential for Online Co-op tags on Steam. Leverages growing co-op horror trend while offering unique Sabotage mechanic.</p>
         <p><strong>Community Spaces:</strong> Reddit (r/HorrorGaming, r/SurvivalGames), Discord, TikTok (#coopgame #horrorgame), Twitch.</p>
     </section>
 
-    <!-- Slide 9: Competitive Edge -->
     <section class="slide" id="slide-usp">
         <h2>Competitive Edge & USP</h2>
-        <div class="placeholder">[Placeholder: Graphic: Cavebreakers logo radiating 'unique selling points' towards dimmer competitor logos (Devour, Bigfoot etc.)]</div>
+        <img src="https://i.imgur.com/b189c5D.png" alt="Cavebreakers USP Graphic" class="slide-image" style="max-width: 70%;">
         <h3>What Makes Cavebreakers Stand Out?</h3>
         <ul>
-            <li><strong>Unique Setting:</strong> Fresh Stone Age backdrop offers novel gameplay & aesthetic.</li>
-            <li><strong>Innovative Sabotage:</strong> Deeper social dynamics, replayability & streamer moments.</li>
-            <li><strong>Complex Creature AI:</strong> Focus on distinct, exploitable behaviors beyond simple chase AI.</li>
-            <li><strong>Atmospheric Focus:</strong> Emphasis on grounded visuals, lighting, and sound for deep immersion.</li>
-            <li><strong>Genre Blend:</strong> Proven appeal of co-op horror + unique social deduction twist.</li>
+            <li style="--index: 1;"><strong>Unique Setting:</strong> Fresh Stone Age backdrop offers novel gameplay & aesthetic.</li>
+            <li style="--index: 2;"><strong>Innovative Sabotage:</strong> Deeper social dynamics, replayability & streamer moments.</li>
+            <li style="--index: 3;"><strong>Complex Creature AI:</strong> Focus on distinct, exploitable behaviors beyond simple chase AI.</li>
+            <li style="--index: 4;"><strong>Atmospheric Focus:</strong> Emphasis on grounded visuals, lighting, and sound for deep immersion.</li>
+            <li style="--index: 5;"><strong>Genre Blend:</strong> Proven appeal of co-op horror + unique social deduction twist.</li>
         </ul>
     </section>
 
-     <!-- Slide 10: Game Modes -->
     <section class="slide" id="slide-modes">
         <h2>Game Modes & Replayability</h2>
-        <div class="placeholder">[Placeholder: Simple cave painting style icons for each mode]</div>
+        <div style="display: flex; justify-content: center; gap: 20px; margin-top: 20px;">
+            <img src="https://icon-library.com/images/cave-painting-icon/cave-painting-icon-17.jpg" alt="Scavenge Mode Icon" class="inline-icon">
+            <img src="https://icon-library.com/images/cave-painting-icon/cave-painting-icon-17.jpg" alt="Sabotage Mode Icon" class="inline-icon">
+            <img src="https://icon-library.com/images/cave-painting-icon/cave-painting-icon-17.jpg" alt="Solo Mode Icon" class="inline-icon">
+            <img src="https://icon-library.com/images/cave-painting-icon/cave-painting-icon-17.jpg" alt="Friendly Mode Icon" class="inline-icon">
+        </div>
         <div class="two-column">
             <div class="column">
-                 <h3 style="color:var(--accent-fire)">Core Modes</h3>
-                 <ul>
-                    <li><strong>Scavenge (1-4p):</strong> Standard co-op, escape together... or don't. Sabotage possible.</li>
-                    <li><strong>Sabotage (2-4p):</strong> Last survivor standing takes the glory (and unique loot!). High betrayal focus.</li>
-                    <li><strong>Solo (1p):</strong> You against the wilderness. Heightened tension, tweaked balance.</li>
-                    <li><strong>Friendly (1-4p):</strong> Pure co-op fun. No sabotage, no friendly fire.</li>
-                 </ul>
-            </div>
-             <div class="column">
-                 <h3 style="color:var(--accent-mystery)">Replayability</h3>
+                <h3 style="color:var(--accent-fire)">Core Modes</h3>
                 <ul>
-                    <li>Procedural Map Generation</li>
-                    <li>Deep Perk System & Builds</li>
-                    <li>Emergent Player Stories</li>
-                    <li>Multiple Creatures & Modes</li>
-                    <li>Future Content Updates</li>
-                 </ul>
+                    <li style="--index: 1;"><strong>Scavenge (1-4p):</strong> Standard co-op, escape together... or don't. Sabotage possible.</li>
+                    <li style="--index: 2;"><strong>Sabotage (2-4p):</strong> Last survivor standing takes the glory (and unique loot!). High betrayal focus.</li>
+                    <li style="--index: 3;"><strong>Solo (1p):</strong> You against the wilderness. Heightened tension, tweaked balance.</li>
+                    <li style="--index: 4;"><strong>Friendly (1-4p):</strong> Pure co-op fun. No sabotage, no friendly fire.</li>
+                </ul>
+            </div>
+            <div class="column">
+                <h3 style="color:var(--accent-mystery)">Replayability</h3>
+                <ul>
+                    <li style="--index: 1;">Procedural Map Generation</li>
+                    <li style="--index: 2;">Deep Perk System & Builds</li>
+                    <li style="--index: 3;">Emergent Player Stories</li>
+                    <li style="--index: 4;">Multiple Creatures & Modes</li>
+                    <li style="--index: 5;">Future Content Updates</li>
+                </ul>
             </div>
         </div>
     </section>
 
-
-    <!-- Slide 11: Roadmap -->
     <section class="slide" id="slide-roadmap">
         <h2>Production Roadmap (12 Months)</h2>
-        <div class="placeholder">[Placeholder: Stylized visual timeline - perhaps like markings on a cave wall or notches on a bone]</div>
+        <img src="https://i.pinimg.com/originals/7e/f8/e3/7ef8e329918b7483b85474928081652d.png" alt="Stylized visual timeline" class="slide-image" style="max-width: 80%;">
         <ul>
-            <li><strong>M 1-3 (Foundation):</strong> Core Mechanics, Networking (Unity Relay/Lobby), Basic Wendigo AI, Playable Prototype. Steam Page Live.</li>
-            <li><strong>M 4-6 (Alpha Build):</strong> Procedural Maps, Werebear AI, Crafting/Perk Backend, Sabotage MVP, **Internal Vertical Slice**.</li>
-            <li><strong>M 7-9 (Beta Content):</strong> Werewolf AI, Art/Sound Pass, UI Complete, Full Perks, **Feature-Complete Beta Build & Closed Testing**.</li>
-            <li><strong>M 10-12 (Polish & Launch Prep):</strong> **Steam Next Fest Demo**, Final QA, Marketing Push, Launch Candidate (EA/Full).</li>
+            <li style="--index: 1;"><strong>M 1-3 (Foundation):</strong> Core Mechanics, Networking (Unity Relay/Lobby), Basic Wendigo AI, Playable Prototype. Steam Page Live.</li>
+            <li style="--index: 2;"><strong>M 4-6 (Alpha Build):</strong> Procedural Maps, Werebear AI, Crafting/Perk Backend, Sabotage MVP, <strong>Internal Vertical Slice</strong>.</li>
+            <li style="--index: 3;"><strong>M 7-9 (Beta Content):</strong> Werewolf AI, Art/Sound Pass, UI Complete, Full Perks, <strong>Feature-Complete Beta Build & Closed Testing</strong>.</li>
+            <li style="--index: 4;"><strong>M 10-12 (Polish & Launch Prep):</strong> <strong>Steam Next Fest Demo</strong>, Final QA, Marketing Push, Launch Candidate (EA/Full).</li>
         </ul>
         <p style="color: var(--accent-stone);"><strong>Key Milestones:</strong> Vertical Slice (M6), Steam Next Fest Demo (M10).</p>
         <p><strong>Risk Mitigation:</strong> Unity Netcode Solutions (Relay/Distributed Authority for host dropping), Defined Scope, Early Vertical Slice, Flexible Player Count (1-4).</p>
     </section>
 
-    <!-- Slide 12: Go-To-Market -->
     <section class="slide" id="slide-market">
         <h2>Go-To-Market & Publishing</h2>
-         <div class="placeholder">[Placeholder: Collage - Target publisher logos (stylized/stone texture?), social media icons, Steam logo]</div>
-         <div class="two-column">
-             <div class="column">
+        <div style="display: flex; justify-content: center; gap: 20px; margin-top: 20px;">
+            <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/8/83/Steam_icon_logo.svg/512px-Steam_icon_logo.svg.png" alt="Steam Logo" class="inline-icon">
+            <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/9/91/Discord_logo.svg/2048px-Discord_logo.svg.png" alt="Discord Logo" class="inline-icon">
+            <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/e/e7/TikTok_logo.svg/2048px-TikTok_logo.svg.png" alt="TikTok Logo" class="inline-icon">
+            <img src="https://www.indiegamebusiness.com/images/sized/images/uploads/logos/raw_fury_logo_black-1200x630-70.png" alt="Raw Fury Logo (Example)" class="inline-icon" style="background-color: white;">
+            <img src="https://www.team17.com/wp-content/uploads/2020/03/Team17_logo_black.png" alt="Team 17 Logo (Example)" class="inline-icon" style="background-color: white;">
+        </div>
+        <div class="two-column">
+            <div class="column">
                 <h3 style="color:var(--accent-fire)">Community & Marketing</h3>
                 <ul>
-                    <li>🔥 High-Impact Clips (TikTok/Reels): Sabotage moments, jump scares, teamwork fails/wins.</li>
-                    <li>✍️ Dev Blogs & Updates (Steam/Discord).</li>
-                    <li>🤝 Influencer Outreach (Mid-tier horror/co-op focus) for Alpha/Beta.</li>
-                    <li>💬 Active Discord community building.</li>
-                    <li>🎉 Major Push for Steam Next Fest.</li>
+                    <li style="--index: 1;">🔥 High-Impact Clips (TikTok/Reels): Sabotage moments, jump scares, teamwork fails/wins.</li>
+                    <li style="--index: 2;">✍️ Dev Blogs & Updates (Steam/Discord).</li>
+                    <li style="--index: 3;">🤝 Influencer Outreach (Mid-tier horror/co-op focus) for Alpha/Beta.</li>
+                    <li style="--index: 4;">💬 Active Discord community building.</li>
+                    <li style="--index: 5;">🎉 Major Push for Steam Next Fest.</li>
                 </ul>
-             </div>
-             <div class="column">
+            </div>
+            <div class="column">
                 <h3 style="color:var(--accent-mystery)">Publishing & Funding</h3>
-                 <ul>
-                    <li>🎯 Target Mid-Tier Indie Publishers (List provided) post-Vertical Slice.</li>
-                     <li>🤝 Seeking: Marketing Amp, QA, Porting, Supplementary Funding.</li>
-                    <li>💰 Future Funding: Kickstarter (post-demo success), NZ Code Grants, Reinvested EA Revenue.</li>
-                 </ul>
+                <ul>
+                    <li style="--index: 1;">🎯 Target Mid-Tier Indie Publishers (List provided) post-Vertical Slice.</li>
+                    <li style="--index: 2;">🤝 Seeking: Marketing Amp, QA, Porting, Supplementary Funding.</li>
+                    <li style="--index: 3;">💰 Future Funding: Kickstarter (post-demo success), NZ Code Grants, Reinvested EA Revenue.</li>
+                </ul>
             </div>
         </div>
     </section>
 
-    <!-- Slide 13: Team -->
     <section class="slide" id="slide-team">
         <h2>The Team</h2>
-         <div class="two-column">
+        <div class="two-column">
             <div class="column">
-                <div class="placeholder">[Placeholder: Modern photo - Lance McLachlan]</div>
+                <img src="https://via.placeholder.com/150x150/78909C/E8E8E8?Text=Lance%20McLachlan" alt="Lance McLachlan" class="slide-image" style="max-width: 60%; border-radius: 50%;">
                 <h3 style="color:var(--text-light)">Lance McLachlan</h3>
                 <h4 style="color: var(--accent-stone)">Lead Developer</h4>
                 <p>12+ yrs Software Dev (C#), 6+ yrs Lead, Unity Expert, Shipped Indie Titles. Descendant Ngati Apa.</p>
-             </div>
-            <div class="column">
-                <div class="placeholder">[Placeholder: Modern photo - Kirstin McLachlan]</div>
-                 <h3 style="color:var(--text-light)">Kirstin McLachlan</h3>
-                <h4 style="color: var(--accent-stone)">UI Design & Branding</h4>
-                 <p>8+ yrs Marketing/Branding, Freelance Creative (Founder Kind Design). Descendant Ngati Apa.</p>
             </div>
-         </div>
-         <p style="margin-top: 30px;"><strong>Core Strengths:</strong> Proven Tech Lead + Branding/Marketing Expertise. Strong Vision. Lean & Agile. Passion for Multiplayer Experiences.</p>
-         <p style="color: var(--accent-stone);"><strong>Studio Vision:</strong> Create unforgettable emergent multiplayer stories through immersive gameplay and striking visuals. Champion NZ Game Dev.</p>
-         <p><em>(Note: CVs available)</em></p>
+            <div class="column">
+                <img src="https://via.placeholder.com/150x150/78909C/E8E8E8?Text=Kirstin%20McLachlan" alt="Kirstin McLachlan" class="slide-image" style="max-width: 60%; border-radius: 50%;">
+                <h3 style="color:var(--text-light)">Kirstin McLachlan</h3>
+                <h4 style="color: var(--accent-stone)">UI Design & Branding</h4>
+                <p>8+ yrs Marketing/Branding, Freelance Creative (Founder Kind Design). Descendant Ngati Apa.</p>
+            </div>
+        </div>
+        <p style="margin-top: 30px;"><strong>Core Strengths:</strong> Proven Tech Lead + Branding/Marketing Expertise. Strong Vision. Lean & Agile. Passion for Multiplayer Experiences.</p>
+        <p style="color: var(--accent-stone);"><strong>Studio Vision:</strong> Create unforgettable emergent multiplayer stories through immersive gameplay and striking visuals. Champion NZ Game Dev.</p>
+        <p><em>(Note: CVs available)</em></p>
     </section>
 
-    <!-- Slide 14: The Ask -->
     <section class="slide" id="slide-ask">
         <h2>The Ask & Current Status</h2>
-        <div class="placeholder">[Placeholder: A compelling GIF/short video snippet of current prototype gameplay, even if basic]</div>
+        <img src="https://via.placeholder.com/600x300/4DB6AC/E8E8E8?Text=Gameplay%20Prototype%20GIF/Video" alt="Gameplay Prototype" class="slide-image" style="max-width: 75%;">
         <h3 style="color: var(--accent-fire);">Funding Goal (CODE KickStart): [Specify NZD Amount or state "Seeking CODE KickStart funding"]</h3>
         <p><strong>Allocation Focus:</strong></p>
         <ul>
-            <li>💻 ~30% Development (Core Systems, AI)</li>
-            <li>🎨 ~40% Art/Animation (Freelance - Characters, Environment Assets)</li>
-            <li>🎵 ~30% Sound/Music (Composer, SFX Libraries/Creation)</li>
+            <li style="--index: 1;">💻 ~30% Development (Core Systems, AI)</li>
+            <li style="--index: 2;">🎨 ~40% Art/Animation (Freelance - Characters, Environment Assets)</li>
+            <li style="--index: 3;">🎵 ~30% Sound/Music (Composer, SFX Libraries/Creation)</li>
         </ul>
-        <p><strong>Purpose:</strong> Secure funding to advance from Prototype to a polished **Vertical Slice** and impactful **Steam Next Fest Demo**, attracting players and publishers.</p>
+        <p><strong>Purpose:</strong> Secure funding to advance from Prototype to a polished <strong>Vertical Slice</strong> and impactful <strong>Steam Next Fest Demo</strong>, attracting players and publishers.</p>
         <p><strong>Current Stage: Active Prototyping.</strong> Foundational systems (movement, interaction, inventory, networking, basic AI) functional.</p>
         <p style="color: var(--accent-stone);"><em>(Build available for review)</em></p>
     </section>
 
-    <!-- Slide 15: Contact -->
     <section class="slide" id="slide-contact">
-        <div class="placeholder logo">[Placeholder: Final Game Logo / Key Art Snippet]</div>
+        <img src="https://via.placeholder.com/250x120/FFA726/2C2C2C?Text=Final%20Game%20Logo" alt="Final Game Logo" class="logo-image">
         <h2>Let's Build Something Terrifyingly Fun.</h2>
         <h3>Questions?</h3>
         <p><strong>Contact:</strong> Lance McLachlan</p>
-        <p><a href="mailto:[Your Email Address]">[Your Email Address]</a></p>
-        <p><a href="[Link to Website/Steam Page/Discord if available]" target="_blank">[Website/Steam Page/Discord Link]</a></p>
+        <p><a href="mailto:[Your Email Address]">Your Email Address</a></p>
+        <p><a href="[Link to Website/Steam Page/Discord if available]" target="_blank">Website/Steam Page/Discord Link</a></p>
     </section>
 
-</div><!-- end .deck -->
+</div><script>
+    const slides = document.querySelectorAll('.slide');
+    let currentSlide = 0;
+
+    function showSlide(n) {
+        slides.forEach(slide => {
+            slide.classList.remove('active', 'inactive-left', 'inactive-right');
+        });
+
+        if (n < 0) {
+            currentSlide = slides.length - 1;
+        } else if (n >= slides.length) {
+            currentSlide = 0;
+        }
+
+        slides[currentSlide].classList.add('active');
+        for (let i = 0; i < slides.length; i++) {
+            if (i < currentSlide) {
+                slides[i].classList.add('inactive-left');
+            } else if (i > currentSlide) {
+                slides[i].classList.add('inactive-right');
+            }
+        }
+    }
+
+    function nextSlide() {
+        showSlide(currentSlide + 1);
+    }
+
+    function previousSlide() {
+        showSlide(currentSlide - 1);
+    }
+
+    document.addEventListener('keydown', function(event) {
+        if (event.key === 'ArrowRight') {
+            nextSlide();
+        } else if (event.key === 'ArrowLeft') {
+            previousSlide();
+        }
+    });
+
+    // Initial display
+    showSlide(currentSlide);
+
+    // Animate elements on active slide (optional - can be done purely with CSS)
+    function animateActiveSlide() {
+        const activeSlide = document.querySelector('.slide.active');
+        if (activeSlide) {
+            const animatedElements = activeSlide.querySelectorAll('h1, h2, h3, h4, p, ul li, .slide-image, .logo-image');
+            animatedElements.forEach((element, index) => {
+                element.style.animationPlayState = 'running';
+                element.style.animationDelay = element.dataset.animationDelay || (index * 0.1) + 's';
+            });
+        }
+    }
+
+    // You might want to trigger animations when the slide becomes active
+    // For simplicity, the CSS animation is set to run on page load.
+</script>
 
 </body>
 </html>
