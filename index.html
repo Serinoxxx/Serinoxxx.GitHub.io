@@ -15,30 +15,23 @@
 
         body {
             font-family: 'Montserrat', sans-serif;
-            /* A more modern font */
             background-color: #1a1a1a;
-            /* Darker background */
             color: #f0f0f0;
-            /* Lighter text */
             line-height: 1.6;
             overflow-x: hidden;
             -webkit-font-smoothing: antialiased;
-            /* Improve font rendering */
         }
 
         .slide {
             position: relative;
             width: 100vw;
             min-height: 100vh;
-            /* Use min-height for content that might expand */
             display: flex;
             flex-direction: column;
-            /* Stack content vertically for mobile */
             justify-content: center;
             align-items: center;
             text-align: center;
             padding: 20px;
-            /* Add padding for mobile */
         }
 
         .slide::before {
@@ -51,11 +44,10 @@
             background-size: cover;
             background-position: center;
             opacity: 0.6;
-            /* Slightly less opaque */
             z-index: -1;
         }
 
-        /* Specific Slide Backgrounds */
+        /* Slide Background Images */
         #slide-1::before {
             background-image: url("your-cave-entrance-image.jpg");
         }
@@ -68,24 +60,19 @@
             background-image: url("your-bonfire-image.jpg");
         }
 
-        /* Improved Typography */
+        /* Typography */
         .slide h1 {
             font-size: 2.5rem;
-            /* Responsive font size */
             font-weight: 700;
-            /* Bold font weight */
             letter-spacing: 0.05em;
-            /* Slight letter spacing */
             text-shadow: 1px 1px 3px #000;
             margin-bottom: 15px;
             animation: fadeInUp 1s ease-out;
-            /* Animate in */
         }
 
         .slide p {
             font-size: 1.1rem;
             max-width: 90%;
-            /* Adjust max-width for mobile */
             text-shadow: 0.5px 0.5px 1px #000;
             animation: fadeInUp 1.2s ease-out;
         }
@@ -93,13 +80,11 @@
         /* Call to Action Button */
         .cta-button {
             background-color: #ff4d4d;
-            /* A vibrant red */
             color: #fff;
             padding: 12px 24px;
             font-size: 1rem;
             border: none;
             border-radius: 5px;
-            /* Rounded corners */
             cursor: pointer;
             margin-top: 20px;
             transition: background-color 0.2s ease-in-out;
@@ -132,9 +117,7 @@
             max-width: 90%;
             height: auto;
             border-radius: 8px;
-            /* Rounded corners for image */
             box-shadow: 0 4px 8px rgba(0, 0, 0, 0.5);
-            /* Subtle shadow */
             margin-top: 20px;
             animation: fadeIn 1.6s ease-out;
         }
@@ -172,7 +155,32 @@
             }
         }
 
-        /* Media Queries for Mobile Responsiveness */
+        /* Navigation Buttons */
+        .nav-buttons {
+            position: absolute;
+            bottom: 20px;
+            left: 50%;
+            transform: translateX(-50%);
+            display: flex;
+            gap: 20px;
+        }
+
+        .nav-button {
+            background-color: #333;
+            color: #fff;
+            border: none;
+            padding: 10px 20px;
+            cursor: pointer;
+            font-size: 1rem;
+            border-radius: 5px;
+            transition: background-color 0.2s ease-in-out;
+        }
+
+        .nav-button:hover {
+            background-color: #555;
+        }
+
+        /* Media Queries for Mobile */
         @media (max-width: 768px) {
             .slide h1 {
                 font-size: 2rem;
@@ -231,11 +239,17 @@
         <p>Lance McLachlan: Lead Developer</p>
         <p>Kirstin McLachlan: UI Design and Branding</p>
     </div>
+
     <div id="slide-6" class="slide">
         <h1>Contact Us</h1>
         <p>Let's make some magic!</p>
         <p>Email: example@example.com</p>
         <p>Website: example.com</p>
+    </div>
+
+    <div class="nav-buttons">
+        <button class="nav-button" onclick="prevSlide()">←</button>
+        <button class="nav-button" onclick="nextSlide()">→</button>
     </div>
 
     <script>
@@ -245,6 +259,7 @@
         function showSlide(n) {
             slides.forEach(slide => slide.style.display = 'none');
             slides[n].style.display = 'flex';
+            window.scrollTo(0, 0); // Reset scroll position
         }
 
         function nextSlide() {
@@ -252,19 +267,12 @@
             showSlide(currentSlide);
         }
 
-        showSlide(currentSlide);
-
-        document.addEventListener('wheel', (e) => {
-            if (e.deltaY > 0) {
-                currentSlide = (currentSlide + 1) % slides.length;
-            } else {
-                currentSlide = (currentSlide - 1 + slides.length) % slides.length;
-            }
+        function prevSlide() {
+            currentSlide = (currentSlide - 1 + slides.length) % slides.length;
             showSlide(currentSlide);
-            e.preventDefault();
-        }, {
-            passive: false
-        });
+        }
+
+        showSlide(currentSlide);
     </script>
 
 </body>
