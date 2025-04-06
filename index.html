@@ -32,6 +32,7 @@
             align-items: center;
             text-align: center;
             padding: 20px;
+            overflow: hidden; /* Needed for background image animations */
         }
 
         .slide::before {
@@ -45,29 +46,49 @@
             background-position: center;
             opacity: 0.6;
             z-index: -1;
+            /* Background image animations */
+            animation: backgroundFade 10s infinite alternate;
         }
 
-        /* Slide Background Images */
+        @keyframes backgroundFade {
+            0% { opacity: 0.6; }
+            100% { opacity: 0.4; }
+        }
+
+        /* Slide Specific Backgrounds */
         #slide-1::before {
             background-image: url("your-cave-entrance-image.jpg");
         }
 
         #slide-2::before {
-            background-image: url("your-wendigo-image.jpg");
+             background-image: url("your-wendigo-image.jpg");
         }
 
         #slide-3::before {
             background-image: url("your-bonfire-image.jpg");
         }
+         #slide-4::before {
+            background-image: url("your-gameplay-image.jpg");
+        }
+         #slide-5::before {
+            background-image: url("your-cave-entrance-image.jpg");
+        }
+          #slide-6::before {
+            background-image: url("your-wendigo-image.jpg");
+        }
+          #slide-7::before {
+            background-image: url("your-bonfire-image.jpg");
+        }
 
-        /* Typography */
+        /* Improved Typography */
         .slide h1 {
             font-size: 2.5rem;
             font-weight: 700;
             letter-spacing: 0.05em;
             text-shadow: 1px 1px 3px #000;
             margin-bottom: 15px;
-            animation: fadeInUp 1s ease-out;
+            animation: fadeInUp 1s ease-out, neonGlow 2s infinite alternate; /* Added neon glow */
+            color: #fff; /* Ensuring white color for neon effect */
         }
 
         .slide p {
@@ -77,9 +98,15 @@
             animation: fadeInUp 1.2s ease-out;
         }
 
+        /* Neon Glow Animation */
+        @keyframes neonGlow {
+            0% { text-shadow: 0 0 5px #fff, 0 0 10px #fff, 0 0 15px #fff, 0 0 20px #ff4d4d, 0 0 30px #ff4d4d, 0 0 40px #ff4d4d; }
+            100% { text-shadow: 0 0 3px #fff, 0 0 7px #fff, 0 0 12px #fff, 0 0 17px #ff4d4d, 0 0 25px #ff4d4d, 0 0 35px #ff4d4d; }
+        }
+
         /* Call to Action Button */
         .cta-button {
-            background-color: #ff4d4d;
+            background: linear-gradient(to bottom, #ff4d4d, #cc0000); /* Gradient background */
             color: #fff;
             padding: 12px 24px;
             font-size: 1rem;
@@ -87,12 +114,12 @@
             border-radius: 5px;
             cursor: pointer;
             margin-top: 20px;
-            transition: background-color 0.2s ease-in-out;
+            transition: transform 0.2s ease-in-out; /* Scale effect */
             animation: pulse 1.5s infinite alternate;
         }
 
         .cta-button:hover {
-            background-color: #cc0000;
+            transform: scale(1.05);
         }
 
         /* Feature List */
@@ -166,7 +193,7 @@
         }
 
         .nav-button {
-            background-color: #333;
+            background: linear-gradient(to bottom, #333, #555); /* Gradient nav buttons */
             color: #fff;
             border: none;
             padding: 10px 20px;
@@ -177,7 +204,7 @@
         }
 
         .nav-button:hover {
-            background-color: #555;
+            background-color: #777;
         }
 
         /* Media Queries for Mobile */
@@ -202,23 +229,23 @@
 
     <div id="slide-1" class="slide">
         <h1>CAVEBREAKERS</h1>
-        <p>A co-op survival horror nightmare where teamwork is survival, and betrayal is a tool.</p>
+        <p>A co-op survival horror game where Stone Age scavengers must outwit terrifying mythical creatures and each other to escape a cursed wilderness, balancing desperate teamwork with treacherous sabotage.</p>
         <button class="cta-button" onclick="nextSlide()">Descend Deeper...</button>
     </div>
 
     <div id="slide-2" class="slide">
         <h1>Face Your Fears</h1>
-        <p>Battle terrifying mythical creatures with unique AI and deadly intent.</p>
+        <p>Battle terrifying mythical creatures with unique AI and deadly intent. Utilize stealth, traps, elemental interactions, and sabotage to survive.</p>
         <ul class="feature-list">
-            <li>Wendigo: Mimicking voices, fears fire.</li>
-            <li>Werebear: Brute strength, attracted to scents.</li>
-            <li>Werewolf: Pack hunters, fast and agile.</li>
+            <li>Wendigo: Mimicking voices, fears fire. [cite: 29]</li>
+            <li>Werebear: Brute strength, attracted to scents. [cite: 31]</li>
+            <li>Werewolf: Pack hunters, fast and agile. [cite: 33]</li>
         </ul>
     </div>
 
     <div id="slide-3" class="slide">
         <h1>Team Up or Turn On Each Other</h1>
-        <p>Will you work together to survive, or will you sacrifice your allies to ensure your own escape?</p>
+        <p>Will you work together to survive, or will you sacrifice your allies to ensure your own escape? Tension escalates through sabotage mechanics. [cite: 4]</p>
         <button class="cta-button" onclick="nextSlide()">Wishlist on Steam</button>
     </div>
 
@@ -227,20 +254,25 @@
         <p>Scavenge, craft, survive, and escape.</p>
         <img src="your-gameplay-image.jpg" alt="Gameplay Screenshot" class="gameplay-image">
         <ul class="feature-list">
-            <li>Deep Perk System</li>
-            <li>Procedural Maps</li>
-            <li>Intense Atmosphere</li>
+            <li>Deep Perk System: Tiered perk tree for varied playstyles. [cite: 39, 40, 41, 42]</li>
+            <li>Procedural Maps: Randomized resource nodes and map generation. [cite: 10]</li>
+            <li>Intense Atmosphere: Ethereal vocals and tribal drum rhythms heighten tension. [cite: 78]</li>
         </ul>
     </div>
-
-    <div id="slide-5" class="slide">
-        <h1>Our Team</h1>
-        <p>Experienced developers with a passion for horror.</p>
-        <p>Lance McLachlan: Lead Developer</p>
-        <p>Kirstin McLachlan: UI Design and Branding</p>
+     <div id="slide-5" class="slide">
+        <h1>Core Loop</h1>
+        <p>The core gameplay loop consists of searching, scavenging, crafting, surviving, escaping, and upgrading [cite: 25, 26, 27]</p>
+        <img src="your-gameplay-image.jpg" alt="Gameplay Screenshot" class="gameplay-image">
     </div>
 
     <div id="slide-6" class="slide">
+        <h1>Our Team</h1>
+        <p>Experienced developers with a passion for horror.</p>
+        <p>Lance McLachlan: Lead Developer, 12+ years in software development. [cite: 195]</p>
+        <p>Kirstin McLachlan: UI Design and Branding, 8+ years in marketing/branding. [cite: 196]</p>
+    </div>
+
+    <div id="slide-7" class="slide">
         <h1>Contact Us</h1>
         <p>Let's make some magic!</p>
         <p>Email: example@example.com</p>
@@ -259,7 +291,7 @@
         function showSlide(n) {
             slides.forEach(slide => slide.style.display = 'none');
             slides[n].style.display = 'flex';
-            window.scrollTo(0, 0); // Reset scroll position
+            window.scrollTo(0, 0);
         }
 
         function nextSlide() {
