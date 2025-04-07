@@ -8,7 +8,7 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Lato:wght@400;700&family=Montserrat:wght@600;700;800&display=swap" rel="stylesheet">
     <style>
-        /* CSS Variables for Theme (Same as before) */
+        /* --- CSS Variables --- */
         :root {
             --bg-dark: #2C2C2C;
             --bg-slide: #3A3A3A;
@@ -16,568 +16,652 @@
             --text-medium: #B0B0B0;
             --accent-fire: #FFA726;
             --accent-danger: #E57373;
-            --accent-mystery: #4DB6AC; /* Using for 'Save' */
+            --accent-mystery: #4DB6AC;
             --accent-stone: #78909C;
+            --accent-selected: #ffcc80; /* Lighter orange for selection */
             --font-heading: 'Montserrat', sans-serif;
             --font-body: 'Lato', sans-serif;
             --border-radius: 8px;
             --slide-shadow: 0 5px 15px rgba(0, 0, 0, 0.4);
         }
 
-        /* Basic Reset & Defaults (Same as before) */
+        /* --- Basic Reset & Body --- */
         * { box-sizing: border-box; margin: 0; padding: 0; }
+        html, body { height: 100%; overflow: hidden; /* Prevent body scroll */ }
         body {
             font-family: var(--font-body);
             line-height: 1.7;
             background-color: var(--bg-dark);
             background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='4' height='4' viewBox='0 0 4 4'%3E%3Cpath fill='%234a4a4a' fill-opacity='0.1' d='M1 3h1v1H1V3zm2-2h1v1H3V1z'%3E%3C/path%3E%3C/svg%3E");
             color: var(--text-light);
+            display: flex;
+            flex-direction: column;
+            height: 100vh; /* Full viewport height */
         }
-        .deck { max-width: 1100px; margin: 0 auto; padding: 30px 15px; }
 
-        /* Slide Styling (Same as before) */
+        /* --- Deck Container --- */
+        .deck {
+            flex-grow: 1; /* Takes up available space */
+            position: relative;
+            width: 100%;
+            max-width: 1200px; /* Slightly wider */
+            margin: 0 auto;
+            overflow: hidden; /* Hide non-active slides */
+            display: flex; /* Needed for alignment if using padding */
+            align-items: center; /* Vertically center the active slide */
+            padding: 20px; /* Add some padding around the slide area */
+        }
+
+        /* --- Slide Styling --- */
         .slide {
             background: linear-gradient(145deg, var(--bg-slide), #424242);
             border: 1px solid #505050;
             border-radius: var(--border-radius);
             box-shadow: var(--slide-shadow);
-            margin-bottom: 50px;
-            padding: 50px 60px;
-            min-height: 75vh;
-            display: flex;
+            padding: 40px 50px;
+            min-height: 70vh; /* Ensure slides have decent height */
+            max-height: 85vh; /* Prevent overly tall slides */
+            width: 100%; /* Take full width of deck container */
+            display: none; /* Hidden by default */
             flex-direction: column;
             justify-content: center;
             align-items: center;
             text-align: center;
-            overflow: hidden;
-            position: relative;
+            overflow-y: auto; /* Allow scrolling within a slide if content overflows */
+            animation: slideFadeIn 0.6s ease-out;
+        }
+        .slide.active-slide {
+            display: flex; /* Show active slide */
         }
 
-        /* Typography (Same as before, minor adjustments possible) */
-        h1, h2, h3, h4 { font-family: var(--font-heading); margin-bottom: 0.8em; line-height: 1.3; font-weight: 700; color: var(--text-light); }
-        h1 { font-size: 3em; font-weight: 800; color: var(--accent-fire); text-shadow: 1px 1px 3px rgba(0,0,0,0.5);}
-        h2 { font-size: 2.4em; border-bottom: 2px solid var(--accent-fire); display: inline-block; padding-bottom: 5px; margin-bottom: 1em; }
-        h3 { font-size: 1.7em; color: var(--accent-mystery); }
-        h4 { font-size: 1.3em; color: var(--accent-stone); }
-        p { font-size: 1.1em; margin-bottom: 1em; max-width: 850px; color: var(--text-medium); }
-        ul { list-style: none; padding-left: 0; margin-bottom: 1em; max-width: 750px; text-align: left; margin-left: auto; margin-right: auto; }
-        li { font-size: 1.05em; margin-bottom: 0.8em; padding-left: 2em; position: relative; color: var(--text-light); }
+        @keyframes slideFadeIn {
+            from { opacity: 0; transform: translateY(15px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        /* --- Typography --- */
+        h1, h2, h3, h4 { font-family: var(--font-heading); margin-bottom: 0.7em; line-height: 1.3; font-weight: 700; color: var(--text-light); }
+        h1 { font-size: 2.8em; font-weight: 800; color: var(--accent-fire); text-shadow: 1px 1px 3px rgba(0,0,0,0.5);}
+        h2 { font-size: 2.2em; border-bottom: 2px solid var(--accent-fire); display: inline-block; padding-bottom: 4px; margin-bottom: 1em; }
+        h3 { font-size: 1.6em; color: var(--accent-mystery); }
+        h4 { font-size: 1.2em; color: var(--accent-stone); }
+        p { font-size: 1.05em; margin-bottom: 0.9em; max-width: 800px; color: var(--text-medium); }
+        ul { list-style: none; padding-left: 0; margin-bottom: 1em; max-width: 700px; text-align: left; margin-left: auto; margin-right: auto; }
+        li { font-size: 1em; margin-bottom: 0.7em; padding-left: 2em; position: relative; color: var(--text-light); }
         li::before { content: '🔥'; font-size: 1em; position: absolute; left: 0; top: 2px; }
         strong { font-weight: 700; color: var(--accent-danger); }
         a { color: var(--accent-mystery); text-decoration: none; font-weight: 700; border-bottom: 1px dotted var(--accent-mystery); transition: color 0.3s ease, border-bottom-color 0.3s ease; }
         a:hover { color: var(--accent-fire); border-bottom: 1px solid var(--accent-fire); }
 
-        /* Placeholders (Same as before) */
-        .placeholder { display: block; background-color: rgba(0, 0, 0, 0.2); color: var(--text-medium); border: 2px dashed var(--accent-stone); border-radius: calc(var(--border-radius) / 2); padding: 25px; margin: 25px auto; font-style: italic; font-family: var(--font-body); min-height: 180px; max-width: 85%; display: flex; justify-content: center; align-items: center; font-size: 1em; text-shadow: 1px 1px 2px rgba(0,0,0,0.3); }
-        .placeholder.logo { width: 250px; height: 120px; min-height: 120px; border-style: solid; border-color: var(--accent-fire); }
-        .placeholder.small-icon { /* For character placeholder */
-            width: 100px; height: 100px; min-height: 100px; margin-bottom: 15px; border-radius: 50%;
-        }
+        /* --- Placeholders --- */
+        .placeholder { display: block; background-color: rgba(0, 0, 0, 0.2); color: var(--text-medium); border: 2px dashed var(--accent-stone); border-radius: calc(var(--border-radius) / 2); padding: 20px; margin: 20px auto; font-style: italic; font-family: var(--font-body); min-height: 150px; max-width: 85%; display: flex; justify-content: center; align-items: center; font-size: 0.9em; text-shadow: 1px 1px 2px rgba(0,0,0,0.3); }
+        .placeholder.logo { width: 200px; height: 100px; min-height: 100px; border-style: solid; border-color: var(--accent-fire); }
+        .placeholder.small-icon { width: 80px; height: 80px; min-height: 80px; margin-bottom: 10px; border-radius: 50%; }
 
-        /* Layout Helpers (Same as before) */
-        .two-column { display: flex; flex-wrap: wrap; gap: 40px; justify-content: center; align-items: flex-start; width: 100%; margin-top: 20px; }
-        .column { flex: 1; min-width: 320px; text-align: left; }
+        /* --- Layout Helpers --- */
+        .two-column { display: flex; flex-wrap: wrap; gap: 30px; justify-content: center; align-items: flex-start; width: 100%; margin-top: 15px; }
+        .column { flex: 1; min-width: 300px; text-align: left; }
         .column ul { margin-left: 0; text-align: left;}
-        .column h3 { margin-bottom: 0.5em; }
+        .column h3 { margin-bottom: 0.5em; font-size: 1.3em; }
 
-        /* --- INTERACTIVE STYLES --- */
-
-        /* Character Selection */
-        .character-selection {
-            display: flex;
-            flex-wrap: wrap;
-            gap: 20px; /* Reduced gap */
-            justify-content: center;
-            margin-top: 20px;
-            width: 100%;
-            max-width: 1000px; /* Limit overall width */
-        }
-        .character-card {
-            background-color: rgba(0,0,0,0.15);
-            border: 1px solid var(--accent-stone);
-            border-radius: var(--border-radius);
-            padding: 20px 15px; /* Adjusted padding */
-            width: 180px; /* Fixed width */
-            min-height: 280px; /* Ensure space for details */
-            text-align: center;
-            cursor: default; /* Hover reveals info, no click needed */
-            transition: transform 0.3s ease, box-shadow 0.3s ease;
-            position: relative;
-            overflow: hidden; /* Needed for max-height transition */
-        }
-        .character-card:hover {
-            transform: translateY(-5px) scale(1.02);
-            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.5);
-            border-color: var(--accent-fire);
-        }
-        .character-card h3 {
-            font-size: 1.3em;
-            color: var(--accent-fire);
-            margin-bottom: 10px;
-        }
-        .character-details {
-            text-align: left;
-            font-size: 0.85em; /* Smaller text for details */
-            color: var(--text-medium);
-            margin-top: 15px;
-            opacity: 0; /* Hidden by default */
-            max-height: 0; /* Hidden by default */
-            transition: opacity 0.4s ease-out, max-height 0.4s ease-out;
-            overflow: hidden; /* Important for transition */
-        }
-         .character-card:hover .character-details {
-            opacity: 1;
-            max-height: 150px; /* Adjust as needed */
-        }
-        .character-details strong {
-             display: block;
-             color: var(--text-light);
-             margin-top: 5px;
-             font-weight: 700;
-        }
-        .character-details span { /* For weakness/ability labels */
-            font-weight: 700;
-            color: var(--text-light);
-        }
-        .character-details .weakness { color: var(--accent-danger); }
-        .character-details .ability { color: var(--accent-mystery); }
-
-
-        /* Sabotage Interaction */
-        .scenario {
-            background-color: rgba(0,0,0,0.2);
+        /* --- Navigation --- */
+        .navigation {
             padding: 15px 20px;
-            border-radius: var(--border-radius);
-            border-left: 4px solid var(--accent-stone);
-            margin-bottom: 25px;
-            font-style: italic;
-            color: var(--text-light);
+            text-align: center;
+            background-color: rgba(0, 0, 0, 0.2); /* Subtle background */
+            flex-shrink: 0; /* Prevent shrinking */
         }
-        .choice-buttons {
-            margin-bottom: 25px;
-        }
-        .choice-btn {
+        .nav-btn {
             background-color: var(--accent-stone);
             color: var(--text-light);
             border: none;
-            padding: 12px 25px;
+            padding: 10px 20px;
             margin: 0 10px;
             border-radius: var(--border-radius);
             font-family: var(--font-heading);
-            font-size: 1em;
+            font-size: 0.9em;
             font-weight: 700;
             cursor: pointer;
-            transition: background-color 0.3s ease, transform 0.2s ease;
+            transition: background-color 0.3s ease, opacity 0.3s ease;
             text-transform: uppercase;
             letter-spacing: 1px;
         }
-        .choice-btn:hover {
-            transform: translateY(-2px);
+        .nav-btn:hover:not(:disabled) {
+            background-color: #90a4ae; /* Slightly lighter stone */
         }
-        .choice-btn.betray { background-color: var(--accent-danger); }
-        .choice-btn.betray:hover { background-color: #c06161; } /* Darker red */
-        .choice-btn.save { background-color: var(--accent-mystery); }
-        .choice-btn.save:hover { background-color: #3c9086; } /* Darker teal */
+        .nav-btn:disabled {
+            opacity: 0.4;
+            cursor: not-allowed;
+        }
+        .slide-indicator {
+            display: inline-block;
+            margin: 0 20px;
+            font-size: 0.9em;
+            color: var(--text-medium);
+        }
 
-        .outcome {
-            display: none; /* Hidden by default */
-            margin-top: 20px;
-            padding: 20px;
+        /* --- Interactive Elements --- */
+        /* Character Selection */
+        .character-selection { display: flex; flex-wrap: wrap; gap: 15px; justify-content: center; margin-top: 15px; width: 100%; max-width: 900px; }
+        .character-card {
+            background-color: rgba(0,0,0,0.15);
+            border: 2px solid var(--accent-stone); /* Thicker border */
             border-radius: var(--border-radius);
-            max-width: 700px;
-            border: 1px solid;
-            animation: fadeIn 0.5s ease-in-out;
+            padding: 15px 10px;
+            width: 160px; /* Slightly smaller base */
+            min-height: 250px;
+            text-align: center;
+            cursor: pointer; /* Make it clearly clickable */
+            transition: transform 0.3s ease, box-shadow 0.3s ease, border-color 0.3s ease;
+            position: relative;
+            overflow: hidden;
         }
-        .outcome p { color: var(--text-light); margin-bottom: 0.5em; }
-        .outcome strong { font-size: 1.1em; display: block; margin-bottom: 5px;}
-
-        .betray-outcome {
-            background-color: rgba(229, 115, 115, 0.1); /* Faint red bg */
-            border-color: var(--accent-danger);
+        .character-card:hover {
+            transform: translateY(-4px) scale(1.03);
+            box-shadow: 0 6px 15px rgba(0, 0, 0, 0.4);
+            border-color: var(--accent-fire);
         }
-        .betray-outcome strong { color: var(--accent-danger); }
-
-        .save-outcome {
-            background-color: rgba(77, 182, 172, 0.1); /* Faint teal bg */
-            border-color: var(--accent-mystery);
+        .character-card.selected {
+             border-color: var(--accent-selected); /* Highlight selected */
+             box-shadow: 0 0 15px var(--accent-selected);
+             transform: scale(1.05); /* Make selected stand out more */
         }
-        .save-outcome strong { color: var(--accent-mystery); }
+        .character-card h3 { font-size: 1.2em; color: var(--accent-fire); margin-bottom: 8px; }
+        .character-details { text-align: left; font-size: 0.8em; color: var(--text-medium); margin-top: 10px; padding: 0 5px; }
+        .character-details strong { display: block; color: var(--text-light); margin-top: 4px; font-weight: 700; }
+        .character-details span { font-weight: 700; color: var(--text-light); }
+        .character-details .weakness { color: var(--accent-danger); }
+        .character-details .ability { color: var(--accent-mystery); }
 
-        @keyframes fadeIn {
-            from { opacity: 0; transform: translateY(10px); }
-            to { opacity: 1; transform: translateY(0); }
-        }
+        /* Scenario/Choice Styling */
+        .scenario { background-color: rgba(0,0,0,0.2); padding: 15px 20px; border-radius: var(--border-radius); border-left: 4px solid var(--accent-stone); margin-bottom: 20px; font-style: italic; color: var(--text-light); font-size: 1em; }
+        .choice-buttons { margin-bottom: 20px; display: flex; flex-wrap: wrap; justify-content: center; gap: 15px; }
+        .choice-btn { background-color: var(--accent-stone); color: var(--text-light); border: none; padding: 10px 20px; border-radius: var(--border-radius); font-family: var(--font-heading); font-size: 0.9em; font-weight: 700; cursor: pointer; transition: background-color 0.3s ease, transform 0.2s ease; text-transform: uppercase; letter-spacing: 1px; }
+        .choice-btn:hover { transform: translateY(-2px); }
+        .choice-btn.betray { background-color: var(--accent-danger); }
+        .choice-btn.betray:hover { background-color: #c06161; }
+        .choice-btn.save, .choice-btn.positive { background-color: var(--accent-mystery); } /* Positive action */
+        .choice-btn.save:hover, .choice-btn.positive:hover { background-color: #3c9086; }
+        .choice-btn.neutral { background-color: var(--accent-stone); } /* Neutral/Flee action */
+        .choice-btn.neutral:hover { background-color: #90a4ae; }
 
+        .outcome { display: none; margin-top: 15px; padding: 15px; border-radius: var(--border-radius); max-width: 650px; border: 1px solid; animation: fadeIn 0.5s ease-in-out; }
+        .outcome p { color: var(--text-light); margin-bottom: 0.5em; font-size: 0.95em; }
+        .outcome strong { font-size: 1.05em; display: block; margin-bottom: 5px; }
 
-        /* Responsive Adjustments (Same as before, check interactions) */
-        @media (max-width: 992px) { /* Adjust breakpoint for characters */
-             .character-card { width: 160px; min-height: 260px; }
-        }
+        .betray-outcome, .negative-outcome { background-color: rgba(229, 115, 115, 0.1); border-color: var(--accent-danger); }
+        .betray-outcome strong, .negative-outcome strong { color: var(--accent-danger); }
+        .save-outcome, .positive-outcome { background-color: rgba(77, 182, 172, 0.1); border-color: var(--accent-mystery); }
+        .save-outcome strong, .positive-outcome strong { color: var(--accent-mystery); }
+        .neutral-outcome { background-color: rgba(120, 144, 156, 0.1); border-color: var(--accent-stone); }
+        .neutral-outcome strong { color: var(--accent-stone); }
 
+        /* --- Responsive --- */
         @media (max-width: 768px) {
-            .slide { padding: 35px 20px; min-height: unset; }
-            h1 { font-size: 2.5em; }
-            h2 { font-size: 1.9em; }
-            h3 { font-size: 1.5em; }
+            .slide { padding: 30px 25px; min-height: 65vh; max-height: 80vh; }
+            h1 { font-size: 2.3em; }
+            h2 { font-size: 1.8em; }
+            h3 { font-size: 1.4em; }
             p { font-size: 1em; }
             li { font-size: 0.95em; }
-            .two-column { flex-direction: column; gap: 20px; }
+            .two-column { flex-direction: column; gap: 15px; }
             .column { min-width: 100%; }
             .placeholder { max-width: 95%; min-height: 120px; padding: 15px; }
             .placeholder.logo { width: 180px; height: 90px; min-height: 90px;}
             ul { max-width: 95%; }
 
-            .character-selection { gap: 15px; }
-            .character-card { width: 140px; min-height: 240px; padding: 15px 10px;}
-             .character-card h3 { font-size: 1.1em; }
-             .character-details { font-size: 0.8em; }
-             .character-card:hover .character-details { max-height: 120px; } /* Adjust hover height */
+            .character-selection { gap: 10px; }
+            .character-card { width: 130px; min-height: 230px; padding: 12px 8px;}
+            .character-card h3 { font-size: 1em; }
+            .character-details { font-size: 0.75em; }
 
-             .choice-btn { padding: 10px 18px; font-size: 0.9em; }
+            .choice-btn { padding: 9px 16px; font-size: 0.85em; }
+            .navigation { padding: 10px 15px; }
+            .nav-btn { padding: 8px 15px; font-size: 0.8em; }
+            .slide-indicator { font-size: 0.8em; margin: 0 10px; }
         }
-
         @media (max-width: 480px) {
-             h1 { font-size: 2.1em; }
-            h2 { font-size: 1.6em; }
-            h3 { font-size: 1.3em; }
-            .slide { padding: 25px 15px; }
+            h1 { font-size: 2em; }
+            h2 { font-size: 1.5em; }
+            h3 { font-size: 1.2em; }
+            .slide { padding: 20px 15px; }
             .character-selection { justify-content: space-around; }
-             .character-card { width: calc(50% - 10px); } /* Two cards per row */
-             .choice-buttons { display: flex; flex-direction: column; gap: 10px; }
-             .choice-btn { width: 100%; margin: 0; }
+            .character-card { width: calc(50% - 10px); min-height: 210px; }
+            .choice-buttons { flex-direction: column; gap: 8px; }
+            .choice-btn { width: 100%; margin: 0; }
         }
 
     </style>
 </head>
 <body>
 
-<div class="deck">
+    <div class="deck">
+        <!-- Slide 1: Title -->
+        <section class="slide active-slide" id="slide-0">
+            <div class="placeholder logo">[Placeholder: Cavebreakers Logo - glowing embers?]</div>
+            <h1>Cavebreakers</h1>
+            <h2>Survive Together. Or Don't.</h2>
+            <p><strong>Applicant:</strong> Lance McLachlan</p>
+            <p style="font-size: 0.9em; color: var(--text-medium);"><em>CODE Funding Application - Interactive Pitch</em></p>
+            <p style="margin-top: 20px; font-size: 0.9em;">Use navigation buttons below to proceed.</p>
+        </section>
 
-    <!-- Slide 1: Title (Same) -->
-    <section class="slide" id="slide-title">
-        <div class="placeholder logo">[Placeholder: Cavebreakers Logo - maybe with glowing embers effect?]</div>
-        <h1>Cavebreakers</h1>
-        <h2>Survive Together. Or Don't.</h2>
-        <p><strong>Applicant:</strong> Lance McLachlan</p>
-        <p style="font-size: 0.9em; color: var(--text-medium);"><em>CODE Funding Application Pitch</em></p>
-    </section>
+        <!-- Slide 2: Hook -->
+        <section class="slide" id="slide-1">
+            <h2>The Hook - What is Cavebreakers?</h2>
+            <div class="placeholder">[Placeholder: Striking concept art - dark cave entrance lit by torchlight]</div>
+            <p><strong>Elevator Pitch:</strong> A co-op survival horror game where 1-4 Stone Age scavengers must outwit terrifying mythical creatures <strong>and each other</strong> to escape a cursed wilderness.</p>
+            <p><strong>Core Concept:</strong> Balance desperate teamwork with treacherous sabotage in a tense, atmospheric prehistoric world.</p>
+            <p><strong>Genre:</strong> Multiplayer Co-op Survival Horror with Social Deduction Elements.</p>
+            <p style="color: var(--accent-stone);"><strong>Quick Comps:</strong> <em>Dead by Daylight</em> meets <em>The Forest</em> with the tension of <em>Left 4 Dead</em> & betrayal of <em>Among Us</em>.</p>
+        </section>
 
-    <!-- Slide 2: Hook (Same) -->
-    <section class="slide" id="slide-hook">
-        <h2>The Hook - What is Cavebreakers?</h2>
-        <div class="placeholder">[Placeholder: Striking concept art - dark cave entrance lit by torchlight, silhouettes visible]</div>
-        <p><strong>Elevator Pitch:</strong> A co-op survival horror game where 1-4 Stone Age scavengers must outwit terrifying mythical creatures <strong>and each other</strong> to escape a cursed wilderness.</p>
-        <p><strong>Core Concept:</strong> Balance desperate teamwork with treacherous sabotage in a tense, atmospheric prehistoric world.</p>
-        <p><strong>Genre:</strong> Multiplayer Co-op Survival Horror with Social Deduction Elements.</p>
-        <p style="color: var(--accent-stone);"><strong>Quick Comps:</strong> Think <em>Dead by Daylight</em> meets <em>The Forest</em> with the co-op tension of <em>Left 4 Dead</em> and the potential betrayal of <em>Among Us</em>.</p>
-    </section>
+        <!-- Slide 3: Core Gameplay Loop -->
+        <section class="slide" id="slide-2">
+            <h2>The Core Gameplay Loop</h2>
+            <div class="placeholder">[Placeholder: Stylized flowchart graphic - cave painting style]</div>
+            <ul>
+                <li><strong>SEARCH:</strong> Spawn into a procedurally generated wilderness.</li>
+                <li><strong>SCAVENGE:</strong> Gather essential resources (flint, wood, herbs, bones).</li>
+                <li><strong>CRAFT:</strong> Create crude tools, torches, weapons, and cunning traps.</li>
+                <li><strong>SECURE:</strong> Light vital Bonfires for safety, perks, and healing.</li>
+                <li><strong>SURVIVE:</strong> Evade or confront deadly myths using stealth, wits & environment.</li>
+                <li><strong>ESCAPE:</strong> Complete objectives before the darkness consumes all.</li>
+                <li><strong>UPGRADE:</strong> Spend Artifacts on permanent perks for future hunts.</li>
+            </ul>
+            <p><strong>Key Pillars:</strong> Exploration, Resource Management, Strategic Evasion/Combat, Teamwork vs. Sabotage, Meta-Progression.</p>
+        </section>
 
-    <!-- Slide 3: Core Gameplay Loop (Same) -->
-     <section class="slide" id="slide-loop">
-        <h2>The Core Gameplay Loop</h2>
-        <div class="placeholder">[Placeholder: Stylized flowchart graphic with cave painting / stone texture icons]</div>
-        <ul>
-            <li><strong>SEARCH:</strong> Spawn into a procedurally generated wilderness fraught with danger.</li>
-            <li><strong>SCAVENGE:</strong> Gather essential resources (flint, wood, herbs, bones).</li>
-            <li><strong>CRAFT:</strong> Create crude tools, torches, weapons, and cunning traps.</li>
-            <li><strong>SECURE:</strong> Light vital Bonfires for temporary safety, perks, and minor healing.</li>
-            <li><strong>SURVIVE:</strong> Evade or confront deadly mythical creatures using stealth, environment, and wits.</li>
-            <li><strong>ESCAPE:</strong> Complete primal objectives before the darkness consumes you.</li>
-            <li><strong>UPGRADE:</strong> Spend salvaged Artifacts on permanent perks for subsequent hunts.</li>
-        </ul>
-        <p><strong>Key Pillars:</strong> Exploration, Resource Management, Strategic Evasion/Combat, Dynamic Teamwork vs. Sabotage, Meta-Progression.</p>
-    </section>
-
-    <!-- Slide 4: Creatures (Same) -->
-    <section class="slide" id="slide-creatures">
-        <h2>Meet the Horrors</h2>
-        <div class="placeholder">[Placeholder: Gritty concept art/renders collage - Wendigo, Werebear, Werewolf in atmospheric settings]</div>
-        <h3>Headline: Outwit, Don't Just Out-Damage.</h3>
-        <ul>
-            <li><strong>Wendigo:</strong> Ethereal mimic, fears <strong>fire</strong>, nightmarishly fast & stealthy. Exploit its fear & gaze aversion. (Weak Spot: Head)</li>
-            <li><strong>Werebear:</strong> Hulking brute, charges, tracks by <strong>scent</strong>, demolishes weak structures. Lure into large traps. (Vulnerable post-rage)</li>
-            <li><strong>Werewolf:</strong> Agile pack hunter, targets the <strong>isolated</strong>, reacts to loud noises & multiple lights. Use coordination & distraction.</li>
-        </ul>
-        <p><strong>Emphasis:</strong> Each beast demands unique strategies. Learn their behaviors, exploit weaknesses, and use the environment to survive.</p>
-    </section>
-
-    <!-- Slide 5: INTERACTIVE Sabotage -->
-    <section class="slide" id="slide-sabotage">
-        <h2>The Twist: Sabotage & Social Tension</h2>
-        <h3>Headline: Trust is a Resource. Spend it Wisely.</h3>
-
-        <p class="scenario">
-            You and a teammate are fleeing a enraged Werebear. You round a corner, finding a hidden spike pit trap you crafted earlier. Your teammate is right behind you... The Werebear is closing in... What do you do?
-        </p>
-
-        <div class="choice-buttons">
-            <button class="choice-btn betray" id="betrayBtn">Betray Teammate</button>
-            <button class="choice-btn save" id="saveBtn">Save Teammate</button>
-        </div>
-
-        <div class="outcome betray-outcome" id="betrayOutcome">
-            <strong>Outcome: Betrayal!</strong>
-            <p>You deftly sidestep the trap. Your teammate, caught unaware, tumbles in just as the Werebear catches up. Their screams are drowned out by the beast's roar.</p>
-            <p><em>You escape, but the guilt (and maybe 'Bad Karma') follows... You keep the resources you both gathered.</em></p>
-        </div>
-
-        <div class="outcome save-outcome" id="saveOutcome">
-            <strong>Outcome: Desperate Teamwork!</strong>
-            <p>You yell a warning, grabbing your teammate and pulling them aside just as they nearly trigger the trap. The Werebear barrels past, momentarily confused.</p>
-            <p><em>You both scramble away, escaping together. You gain a 'Survivor Bonus' if the whole team makes it out, strengthening future runs.</em></p>
-        </div>
-
-        <p style="margin-top: 30px; font-size: 0.9em; color: var(--text-medium);">(Sabotage includes resource hoarding, noise misdirection, baiting creatures, and more...)</p>
-
-    </section>
-
-    <!-- Slide 6: INTERACTIVE Character Archetypes -->
-    <section class="slide" id="slide-characters">
-        <h2>Choose Your Archetype</h2>
-        <p>Who will you be in the cursed wilderness? Hover over an archetype to learn more.</p>
-        <div class="character-selection">
-            <!-- Hunter -->
-            <div class="character-card">
-                <div class="placeholder small-icon">[Icon: Spear/Bow]</div>
-                <h3>The Hunter</h3>
-                <div class="character-details">
-                    <strong>Strength:</strong> Higher base damage, better tracking.
-                    <strong class="weakness">Weakness:</strong> Noisier movement, larger profile.
-                    <strong class="ability">Ability:</strong> Primal Scream (Short-range creature scare).
+        <!-- Slide 4: Choose Character -->
+        <section class="slide" id="slide-3">
+            <h2>Choose Your Archetype</h2>
+            <p>Click an archetype to select your preferred playstyle (this is just for show!).</p>
+            <div class="character-selection" id="characterSelector">
+                <!-- Hunter -->
+                <div class="character-card character-selectable" data-character="Hunter">
+                    <div class="placeholder small-icon">[Icon: Spear/Bow]</div>
+                    <h3>The Hunter</h3>
+                    <div class="character-details">
+                        <strong>Strength:</strong> Higher base damage, better tracking.
+                        <strong class="weakness">Weakness:</strong> Noisier movement, larger profile.
+                        <strong class="ability">Ability:</strong> Primal Scream (Short-range creature scare).
+                    </div>
+                </div>
+                <!-- Scout -->
+                <div class="character-card character-selectable" data-character="Scout">
+                    <div class="placeholder small-icon">[Icon: Footprint/Eye]</div>
+                    <h3>The Scout</h3>
+                    <div class="character-details">
+                        <strong>Strength:</strong> Faster movement, quieter steps, better stamina.
+                        <strong class="weakness">Weakness:</strong> Lower health, less combat proficient.
+                        <strong class="ability">Ability:</strong> Pathfinder (Briefly highlights nearby resources/threats).
+                    </div>
+                </div>
+                <!-- Scavenger -->
+                <div class="character-card character-selectable" data-character="Scavenger">
+                    <div class="placeholder small-icon">[Icon: Bag/Tools]</div>
+                    <h3>The Scavenger</h3>
+                    <div class="character-details">
+                        <strong>Strength:</strong> Finds more resources, crafts faster, larger inventory.
+                        <strong class="weakness">Weakness:</strong> Slower base speed, average combat.
+                        <strong class="ability">Ability:</strong> Resourceful (Chance to not consume item on use).
+                    </div>
+                </div>
+                <!-- Elder -->
+                <div class="character-card character-selectable" data-character="Elder">
+                    <div class="placeholder small-icon">[Icon: Staff/Bonfire]</div>
+                    <h3>The Elder</h3>
+                    <div class="character-details">
+                        <strong>Strength:</strong> Buffs nearby allies, resists fear effects better.
+                        <strong class="weakness">Weakness:</strong> Frail, slowest movement.
+                        <strong class="ability">Ability:</strong> Soothing Chant (Reduces fear/panic in area).
+                    </div>
+                </div>
+                <!-- Shaman -->
+                <div class="character-card character-selectable" data-character="Shaman">
+                    <div class="placeholder small-icon">[Icon: Skull/Herbs]</div>
+                    <h3>The Shaman</h3>
+                    <div class="character-details">
+                        <strong>Strength:</strong> Better healing/herbalism, faster ritual interaction.
+                        <strong class="weakness">Weakness:</strong> Vulnerable while chanting/healing.
+                        <strong class="ability">Ability:</strong> Ward (Places temporary small repelling ward).
+                    </div>
                 </div>
             </div>
-            <!-- Scout -->
-            <div class="character-card">
-                 <div class="placeholder small-icon">[Icon: Footprint/Eye]</div>
-                <h3>The Scout</h3>
-                 <div class="character-details">
-                    <strong>Strength:</strong> Faster movement, quieter steps, better stamina.
-                    <strong class="weakness">Weakness:</strong> Lower health, less combat proficient.
-                    <strong class="ability">Ability:</strong> Pathfinder (Briefly highlights nearby resources/threats).
-                </div>
-            </div>
-            <!-- Scavenger -->
-            <div class="character-card">
-                 <div class="placeholder small-icon">[Icon: Bag/Tools]</div>
-                <h3>The Scavenger</h3>
-                 <div class="character-details">
-                    <strong>Strength:</strong> Finds more resources, crafts faster, larger inventory.
-                    <strong class="weakness">Weakness:</strong> Slower base speed, average combat.
-                    <strong class="ability">Ability:</strong> Resourceful (Chance to not consume item on use).
-                </div>
-            </div>
-             <!-- Elder -->
-            <div class="character-card">
-                 <div class="placeholder small-icon">[Icon: Staff/Bonfire]</div>
-                <h3>The Elder</h3>
-                 <div class="character-details">
-                    <strong>Strength:</strong> Buffs nearby allies (e.g., faster healing), resists fear effects better.
-                    <strong class="weakness">Weakness:</strong> Frail, slowest movement.
-                    <strong class="ability">Ability:</strong> Soothing Chant (Reduces fear/panic in an area).
+             <p style="margin-top: 20px; font-size: 0.9em; color: var(--text-medium);">Deep perk system allows further specialization beyond these starting points!</p>
+        </section>
+
+        <!-- Slide 5: Creatures -->
+        <section class="slide" id="slide-4">
+            <h2>Meet the Horrors</h2>
+            <p>Each beast demands unique strategies. Learn their behaviors or perish.</p>
+            <div class="two-column">
+                 <div class="column">
+                      <div class="placeholder small-icon" style="border-radius: 10px;">[Image: Wendigo]</div>
+                      <h3 style="color: var(--accent-fire)">Wendigo</h3>
+                      <p>Ethereal mimic, fears <strong>fire</strong>, fast & stealthy. Exploit its fear & gaze aversion.</p>
+                 </div>
+                 <div class="column">
+                      <div class="placeholder small-icon" style="border-radius: 10px;">[Image: Werebear]</div>
+                      <h3 style="color: var(--accent-danger)">Werebear</h3>
+                      <p>Hulking brute, charges, tracks by <strong>scent</strong>. Lure into large traps or exploit its rage cooldown.</p>
+                 </div>
+                <div class="column">
+                      <div class="placeholder small-icon" style="border-radius: 10px;">[Image: Werewolf]</div>
+                      <h3 style="color: var(--accent-stone)">Werewolf</h3>
+                      <p>Agile pack hunter, targets the <strong>isolated</strong>. Use coordination, loud noises & multiple lights.</p>
                  </div>
             </div>
-             <!-- Shaman -->
-            <div class="character-card">
-                 <div class="placeholder small-icon">[Icon: Skull/Herbs]</div>
-                <h3>The Shaman</h3>
-                 <div class="character-details">
-                    <strong>Strength:</strong> Better healing/herbalism, can interact with ritual sites faster.
-                    <strong class="weakness">Weakness:</strong> Vulnerable while chanting/healing.
-                    <strong class="ability">Ability:</strong> Ward (Places temporary small ward repelling minor creatures).
+             <p style="margin-top: 20px; font-size: 0.9em; color: var(--text-medium);">(More creatures planned!)</p>
+        </section>
+
+        <!-- Slide 6: Interactive Creature Scenario -->
+        <section class="slide" id="slide-5">
+            <h2>Encounter: The Werebear</h2>
+            <p class="scenario">
+                While scavenging, you hear heavy footsteps crashing through the underbrush. A massive Werebear bursts into view, sniffing the air aggressively. It hasn't spotted you yet. You see a dense thicket nearby and a cliff edge further away.
+            </p>
+            <div class="choice-buttons">
+                <button class="choice-btn positive" onclick="showOutcome('bearOutcomeHide')">Hide in Thicket</button>
+                <button class="choice-btn neutral" onclick="showOutcome('bearOutcomeFlee')">Flee Towards Cliff</button>
+                <button class="choice-btn negative" onclick="showOutcome('bearOutcomeDistract')">Throw a Rock to Distract</button>
+            </div>
+
+            <div class="outcome positive-outcome" id="bearOutcomeHide">
+                <strong>Outcome: Stealth!</strong>
+                <p>You dive into the thicket, holding your breath. The Werebear snorts, glances around, but its poor eyesight fails it. It eventually lumbers off in another direction.</p>
+                <p><em>Survival favored the cautious... this time.</em></p>
+            </div>
+            <div class="outcome neutral-outcome" id="bearOutcomeFlee">
+                <strong>Outcome: Risky Escape!</strong>
+                <p>You sprint towards the cliff. The Werebear roars and gives chase! You reach the edge, leaping across a narrow chasm just as the beast slams into the rockface behind you.</p>
+                <p><em>A daring escape, but you're now potentially separated from your team.</em></p>
+            </div>
+             <div class="outcome negative-outcome" id="bearOutcomeDistract">
+                <strong>Outcome: Attention Gained!</strong>
+                <p>Your thrown rock clatters nearby. The Werebear instantly snaps its head towards the sound... and then locks eyes with YOU. It lets out a deafening roar and charges!</p>
+                <p><em>Prepare to run... or fight!</em></p>
+            </div>
+        </section>
+
+
+        <!-- Slide 7: Interactive Sabotage -->
+        <section class="slide" id="slide-6">
+            <h2>The Twist: Sabotage Scenario</h2>
+            <h3>Headline: Trust is a Resource. Spend it Wisely.</h3>
+            <p class="scenario">
+                You and a wounded teammate are fleeing a pack of Werewolves. You see a bonfire - safety! - but only have enough flint to light it quickly for one person to reach safety before the wolves arrive...
+            </p>
+            <div class="choice-buttons">
+                <button class="choice-btn betray" onclick="showOutcome('sabotageOutcomeBetray')">Light Fire, Save Yourself</button>
+                <button class="choice-btn save" onclick="showOutcome('sabotageOutcomeSave')">Help Teammate, Risk Both</button>
+            </div>
+
+            <div class="outcome betray-outcome" id="sabotageOutcomeBetray">
+                <strong>Outcome: Self-Preservation!</strong>
+                <p>You quickly strike the flint, the bonfire roars to life, repelling the wolves just as you stumble into its light. You hear your teammate's cry fade behind you.</p>
+                <p><em>You survived. Alone. You keep all the artifacts found, but face 'Bad Karma'.</em></p>
+            </div>
+            <div class="outcome save-outcome" id="sabotageOutcomeSave">
+                <strong>Outcome: Shared Risk!</strong>
+                <p>You try to help your teammate while fumbling with the flint. The fire catches weakly just as the wolves pounce! Maybe you both fight them off? Maybe one distracts? Maybe...</p>
+                <p><em>A gamble. Success means a 'Survivor Bonus' & strengthened bonds. Failure means death for one or both.</em></p>
+            </div>
+            <p style="margin-top: 20px; font-size: 0.9em; color: var(--text-medium);">(Sabotage creates intense, memorable moments!)</p>
+        </section>
+
+        <!-- Slide 8: Art Style -->
+        <section class="slide" id="slide-7">
+            <h2>Art Style & Immersion</h2>
+            <div class="placeholder">[Placeholder: Atmospheric collage - FP view hiding, bonfire, cave, UI mockup]</div>
+            <ul>
+                <li><strong>Style:</strong> Grounded, Gritty Stone Age Horror.</li>
+                <li><strong>Perspective:</strong> Immersive First-Person.</li>
+                <li><strong>Goal:</strong> Striking visuals via atmosphere, dynamic lighting, detailed creatures.</li>
+                <li><strong>Influences:</strong> *The Forest* (Atmosphere), *Far Cry Primal* (Aesthetic), *Hunt: Showdown* (Tension).</li>
+                <li><strong>UI:</strong> Minimalist & diegetic where possible.</li>
+            </ul>
+        </section>
+
+        <!-- Slide 9: Sound Design -->
+        <section class="slide" id="slide-8">
+            <h2>Sound Design: The Unseen Threat</h2>
+            <div class="placeholder">[Placeholder: Abstract visual - sound waves / player reacting]</div>
+            <h3>Headline: Hear Them Before You See Them.</h3>
+            <ul>
+                <li><strong>Dynamic Music:</strong> Primal drums, ethereal whispers, reactive tension tracks.</li>
+                <li><strong>Directional & Occluded Audio:</strong> Pinpoint threats via footsteps, growls, *chilling mimicry*.</li>
+                <li><strong>Atmospheric Ambience:</strong> Crackling fires, wind, dripping caves, unsettling calls.</li>
+                <li><strong>Player Feedback:</strong> Heavy breathing, pain sounds, surface footsteps.</li>
+            </ul>
+            <p><strong>Impact:</strong> Crucial for immersion, warning, jump scares, and locating threats.</p>
+        </section>
+
+        <!-- Slide 10: Competitive Edge -->
+        <section class="slide" id="slide-9">
+            <h2>Competitive Edge & USP</h2>
+            <div class="placeholder">[Placeholder: Graphic: Cavebreakers logo radiating USPs vs competitors]</div>
+            <h3>What Makes Cavebreakers Stand Out?</h3>
+            <ul>
+                <li><strong>Unique Setting:</strong> Fresh Stone Age backdrop.</li>
+                <li><strong>Innovative Sabotage:</strong> Deeper social dynamics & replayability.</li>
+                <li><strong>Complex Creature AI:</strong> Focus on distinct, exploitable behaviors.</li>
+                <li><strong>Atmospheric Focus:</strong> Grounded visuals, lighting, sound.</li>
+                <li><strong>Genre Blend:</strong> Co-op horror + unique social deduction twist.</li>
+            </ul>
+        </section>
+
+        <!-- Slide 11: Game Modes -->
+         <section class="slide" id="slide-10">
+            <h2>Game Modes & Replayability</h2>
+            <div class="placeholder">[Placeholder: Simple cave painting style icons for each mode]</div>
+            <div class="two-column">
+                <div class="column">
+                     <h3 style="color:var(--accent-fire)">Core Modes</h3>
+                     <ul>
+                        <li><strong>Scavenge (1-4p):</strong> Standard co-op escape. Sabotage possible.</li>
+                        <li><strong>Sabotage (2-4p):</strong> Last survivor wins unique loot. High betrayal.</li>
+                        <li><strong>Solo (1p):</strong> You vs. the wilderness.</li>
+                        <li><strong>Friendly (1-4p):</strong> Pure co-op, no backstabbing.</li>
+                     </ul>
+                </div>
+                 <div class="column">
+                     <h3 style="color:var(--accent-mystery)">Replayability</h3>
+                    <ul>
+                        <li>Procedural Map Generation</li>
+                        <li>Deep Perk System & Builds</li>
+                        <li>Emergent Player Stories</li>
+                        <li>Multiple Creatures & Modes</li>
+                        <li>Future Content Planned</li>
+                     </ul>
                 </div>
             </div>
-        </div>
-         <p style="margin-top: 30px; font-size: 0.9em; color: var(--text-medium);">(These represent potential starting points; deep perk system allows further specialization!)</p>
-    </section>
+        </section>
 
-    <!-- Slide 7: Art Style (Same) -->
-     <section class="slide" id="slide-art">
-        <h2>Art Style & Immersion</h2>
-        <div class="placeholder">[Placeholder: Atmospheric collage - first-person view hiding in ferns, bonfire lighting a clearing, creepy cave interior, minimalist UI mockup]</div>
-        <ul>
-            <li><strong>Style:</strong> Grounded, Gritty Stone Age Horror with Realistic Textures.</li>
-            <li><strong>Perspective:</strong> Immersive First-Person to maximize tension.</li>
-            <li><strong>Goal:</strong> Striking visuals via atmosphere, lighting (dynamic torchlight, eerie fog), and detailed creature design without over-scoped assets.</li>
-            <li><strong>Influences:</strong> *The Forest* (Atmosphere), *Far Cry Primal* (Aesthetic), *Hunt: Showdown* (Tension & Grit).</li>
-            <li><strong>UI:</strong> Minimalist & diegetic where possible (e.g., heartbeat sounds for health), avoiding screen clutter.</li>
-        </ul>
-    </section>
+        <!-- Slide 12: Roadmap -->
+         <section class="slide" id="slide-11">
+            <h2>Production Roadmap (12 Months)</h2>
+            <div class="placeholder">[Placeholder: Stylized visual timeline - markings on cave wall?]</div>
+            <ul>
+                <li><strong>M 1-3 (Foundation):</strong> Core Mechanics, Networking, Basic AI, Prototype. Steam Page.</li>
+                <li><strong>M 4-6 (Alpha Build):</strong> Proc Maps, More Creatures, Crafting/Perks, Sabotage MVP, **Vertical Slice**.</li>
+                <li><strong>M 7-9 (Beta Content):</strong> Full Features, Art/Sound Pass, UI Complete, **Closed Beta Test**.</li>
+                <li><strong>M 10-12 (Launch Prep):</strong> **Steam Next Fest Demo**, Final QA, Marketing Push, Launch Candidate.</li>
+            </ul>
+            <p style="color: var(--accent-stone);"><strong>Key Milestones:</strong> Vertical Slice (M6), Steam Next Fest Demo (M10).</p>
+            <p><strong>Risk Mitigation:</strong> Robust Netcode, Defined Scope, Early Slice, Flexible Player Count.</p>
+        </section>
 
-    <!-- Slide 8: Sound Design (Same) -->
-    <section class="slide" id="slide-sound">
-        <h2>Sound Design: The Unseen Threat</h2>
-        <div class="placeholder">[Placeholder: Abstract visual - sound waves emanating from darkness, or a player reacting to an off-screen noise]</div>
-        <h3>Headline: Hear Them Before You See Them.</h3>
-        <ul>
-            <li><strong>Dynamic Music:</strong> Primal drums, ethereal whispers, tension tracks that react to gameplay.</li>
-            <li><strong>Directional & Occluded Audio:</strong> Pinpoint creature locations through footsteps, growls, *chilling mimicry*.</li>
-            <li><strong>Atmospheric Ambience:</strong> Crackling fires, wind through trees, dripping caves, unsettling distant calls.</li>
-            <li><strong>Player Feedback:</strong> Heavy breathing, pained grunts, footsteps varying by surface – all conveying state and presence.</li>
-        </ul>
-        <p><strong>Impact:</strong> Sound is paramount for immersion, warning, jump scares, and locating threats (and maybe allies...).</p>
-    </section>
-
-    <!-- Slide 9: Competitive Edge (Same) -->
-    <section class="slide" id="slide-usp">
-        <h2>Competitive Edge & USP</h2>
-        <div class="placeholder">[Placeholder: Graphic: Cavebreakers logo radiating 'unique selling points' towards dimmer competitor logos (Devour, Bigfoot etc.)]</div>
-        <h3>What Makes Cavebreakers Stand Out?</h3>
-        <ul>
-            <li><strong>Unique Setting:</strong> Fresh Stone Age backdrop offers novel gameplay & aesthetic.</li>
-            <li><strong>Innovative Sabotage:</strong> Deeper social dynamics, replayability & streamer moments.</li>
-            <li><strong>Complex Creature AI:</strong> Focus on distinct, exploitable behaviors beyond simple chase AI.</li>
-            <li><strong>Atmospheric Focus:</strong> Emphasis on grounded visuals, lighting, and sound for deep immersion.</li>
-            <li><strong>Genre Blend:</strong> Proven appeal of co-op horror + unique social deduction twist.</li>
-        </ul>
-    </section>
-
-    <!-- Slide 10: Game Modes (Same) -->
-     <section class="slide" id="slide-modes">
-        <h2>Game Modes & Replayability</h2>
-        <div class="placeholder">[Placeholder: Simple cave painting style icons for each mode]</div>
-        <div class="two-column">
-            <div class="column">
-                 <h3 style="color:var(--accent-fire)">Core Modes</h3>
-                 <ul>
-                    <li><strong>Scavenge (1-4p):</strong> Standard co-op, escape together... or don't. Sabotage possible.</li>
-                    <li><strong>Sabotage (2-4p):</strong> Last survivor standing takes the glory (and unique loot!). High betrayal focus.</li>
-                    <li><strong>Solo (1p):</strong> You against the wilderness. Heightened tension, tweaked balance.</li>
-                    <li><strong>Friendly (1-4p):</strong> Pure co-op fun. No sabotage, no friendly fire.</li>
-                 </ul>
+        <!-- Slide 13: Go-To-Market -->
+        <section class="slide" id="slide-12">
+            <h2>Go-To-Market & Publishing</h2>
+             <div class="placeholder">[Placeholder: Collage - Target publisher logos, social icons, Steam logo]</div>
+             <div class="two-column">
+                 <div class="column">
+                    <h3 style="color:var(--accent-fire)">Community & Marketing</h3>
+                    <ul>
+                        <li>🔥 High-Impact Clips (TikTok/Reels)</li>
+                        <li>✍️ Dev Blogs & Updates</li>
+                        <li>🤝 Influencer Outreach (Alpha/Beta)</li>
+                        <li>💬 Active Discord Building</li>
+                        <li>🎉 Steam Next Fest Focus</li>
+                    </ul>
+                 </div>
+                 <div class="column">
+                    <h3 style="color:var(--accent-mystery)">Publishing & Funding</h3>
+                     <ul>
+                        <li>🎯 Target Mid-Tier Indie Publishers post-Slice.</li>
+                         <li>🤝 Seeking: Marketing Amp, QA, Porting, Funds.</li>
+                        <li>💰 Future Funding: Kickstarter, NZ Code Grants, EA Revenue.</li>
+                     </ul>
+                </div>
             </div>
-             <div class="column">
-                 <h3 style="color:var(--accent-mystery)">Replayability</h3>
-                <ul>
-                    <li>Procedural Map Generation</li>
-                    <li>Deep Perk System & Builds</li>
-                    <li>Emergent Player Stories</li>
-                    <li>Multiple Creatures & Modes</li>
-                    <li>Future Content Updates</li>
-                 </ul>
-            </div>
-        </div>
-    </section>
+        </section>
 
-    <!-- Slide 11: Roadmap (Same) -->
-     <section class="slide" id="slide-roadmap">
-        <h2>Production Roadmap (12 Months)</h2>
-        <div class="placeholder">[Placeholder: Stylized visual timeline - perhaps like markings on a cave wall or notches on a bone]</div>
-        <ul>
-            <li><strong>M 1-3 (Foundation):</strong> Core Mechanics, Networking (Unity Relay/Lobby), Basic Wendigo AI, Playable Prototype. Steam Page Live.</li>
-            <li><strong>M 4-6 (Alpha Build):</strong> Procedural Maps, Werebear AI, Crafting/Perk Backend, Sabotage MVP, **Internal Vertical Slice**.</li>
-            <li><strong>M 7-9 (Beta Content):</strong> Werewolf AI, Art/Sound Pass, UI Complete, Full Perks, **Feature-Complete Beta Build & Closed Testing**.</li>
-            <li><strong>M 10-12 (Polish & Launch Prep):</strong> **Steam Next Fest Demo**, Final QA, Marketing Push, Launch Candidate (EA/Full).</li>
-        </ul>
-        <p style="color: var(--accent-stone);"><strong>Key Milestones:</strong> Vertical Slice (M6), Steam Next Fest Demo (M10).</p>
-        <p><strong>Risk Mitigation:</strong> Unity Netcode Solutions (Relay/Distributed Authority for host dropping), Defined Scope, Early Vertical Slice, Flexible Player Count (1-4).</p>
-    </section>
-
-    <!-- Slide 12: Go-To-Market (Same) -->
-    <section class="slide" id="slide-market">
-        <h2>Go-To-Market & Publishing</h2>
-         <div class="placeholder">[Placeholder: Collage - Target publisher logos (stylized/stone texture?), social media icons, Steam logo]</div>
-         <div class="two-column">
-             <div class="column">
-                <h3 style="color:var(--accent-fire)">Community & Marketing</h3>
-                <ul>
-                    <li>🔥 High-Impact Clips (TikTok/Reels): Sabotage moments, jump scares, teamwork fails/wins.</li>
-                    <li>✍️ Dev Blogs & Updates (Steam/Discord).</li>
-                    <li>🤝 Influencer Outreach (Mid-tier horror/co-op focus) for Alpha/Beta.</li>
-                    <li>💬 Active Discord community building.</li>
-                    <li>🎉 Major Push for Steam Next Fest.</li>
-                </ul>
+        <!-- Slide 14: Team -->
+        <section class="slide" id="slide-13">
+            <h2>The Team</h2>
+             <div class="two-column">
+                <div class="column">
+                    <div class="placeholder">[Placeholder: Modern photo - Lance]</div>
+                    <h3 style="color:var(--text-light)">Lance McLachlan</h3>
+                    <h4 style="color: var(--accent-stone)">Lead Developer</h4>
+                    <p>12+ yrs Software Dev (C#), 6+ yrs Lead, Unity Expert, Shipped Titles. Ngati Apa.</p>
+                 </div>
+                <div class="column">
+                    <div class="placeholder">[Placeholder: Modern photo - Kirstin]</div>
+                     <h3 style="color:var(--text-light)">Kirstin McLachlan</h3>
+                    <h4 style="color: var(--accent-stone)">UI Design & Branding</h4>
+                     <p>8+ yrs Marketing/Branding, Freelance Creative. Ngati Apa.</p>
+                </div>
              </div>
-             <div class="column">
-                <h3 style="color:var(--accent-mystery)">Publishing & Funding</h3>
-                 <ul>
-                    <li>🎯 Target Mid-Tier Indie Publishers (List provided) post-Vertical Slice.</li>
-                     <li>🤝 Seeking: Marketing Amp, QA, Porting, Supplementary Funding.</li>
-                    <li>💰 Future Funding: Kickstarter (post-demo success), NZ Code Grants, Reinvested EA Revenue.</li>
-                 </ul>
-            </div>
-        </div>
-    </section>
+             <p style="margin-top: 20px;"><strong>Core Strengths:</strong> Proven Tech Lead + Branding/Marketing. Strong Vision. Lean & Agile.</p>
+             <p style="color: var(--accent-stone);"><strong>Studio Vision:</strong> Create unforgettable emergent multiplayer stories. Champion NZ Game Dev.</p>
+             <p><em>(CVs available)</em></p>
+        </section>
 
-    <!-- Slide 13: Team (Same) -->
-     <section class="slide" id="slide-team">
-        <h2>The Team</h2>
-         <div class="two-column">
-            <div class="column">
-                <div class="placeholder">[Placeholder: Modern photo - Lance McLachlan]</div>
-                <h3 style="color:var(--text-light)">Lance McLachlan</h3>
-                <h4 style="color: var(--accent-stone)">Lead Developer</h4>
-                <p>12+ yrs Software Dev (C#), 6+ yrs Lead, Unity Expert, Shipped Indie Titles. Descendant Ngati Apa.</p>
-             </div>
-            <div class="column">
-                <div class="placeholder">[Placeholder: Modern photo - Kirstin McLachlan]</div>
-                 <h3 style="color:var(--text-light)">Kirstin McLachlan</h3>
-                <h4 style="color: var(--accent-stone)">UI Design & Branding</h4>
-                 <p>8+ yrs Marketing/Branding, Freelance Creative (Founder Kind Design). Descendant Ngati Apa.</p>
-            </div>
-         </div>
-         <p style="margin-top: 30px;"><strong>Core Strengths:</strong> Proven Tech Lead + Branding/Marketing Expertise. Strong Vision. Lean & Agile. Passion for Multiplayer Experiences.</p>
-         <p style="color: var(--accent-stone);"><strong>Studio Vision:</strong> Create unforgettable emergent multiplayer stories through immersive gameplay and striking visuals. Champion NZ Game Dev.</p>
-         <p><em>(Note: CVs available)</em></p>
-    </section>
+        <!-- Slide 15: The Ask -->
+         <section class="slide" id="slide-14">
+            <h2>The Ask & Current Status</h2>
+            <div class="placeholder">[Placeholder: Compelling GIF/video snippet of prototype]</div>
+            <h3 style="color: var(--accent-fire);">Funding Goal (CODE KickStart): [Specify NZD Amount or state "Seeking CODE KickStart funding"]</h3>
+            <p><strong>Allocation Focus:</strong> ~30% Dev, ~40% Art/Anim, ~30% Sound/Music</p>
+            <p><strong>Purpose:</strong> Advance from Prototype to polished **Vertical Slice** & impactful **Steam Next Fest Demo**.</p>
+            <p><strong>Current Stage: Active Prototyping.</strong> Foundational systems functional.</p>
+            <p style="color: var(--accent-stone);"><em>(Build available for review)</em></p>
+        </section>
 
-    <!-- Slide 14: The Ask (Same) -->
-     <section class="slide" id="slide-ask">
-        <h2>The Ask & Current Status</h2>
-        <div class="placeholder">[Placeholder: A compelling GIF/short video snippet of current prototype gameplay, even if basic]</div>
-        <h3 style="color: var(--accent-fire);">Funding Goal (CODE KickStart): [Specify NZD Amount or state "Seeking CODE KickStart funding"]</h3>
-        <p><strong>Allocation Focus:</strong></p>
-        <ul>
-            <li>💻 ~30% Development (Core Systems, AI)</li>
-            <li>🎨 ~40% Art/Animation (Freelance - Characters, Environment Assets)</li>
-            <li>🎵 ~30% Sound/Music (Composer, SFX Libraries/Creation)</li>
-        </ul>
-        <p><strong>Purpose:</strong> Secure funding to advance from Prototype to a polished **Vertical Slice** and impactful **Steam Next Fest Demo**, attracting players and publishers.</p>
-        <p><strong>Current Stage: Active Prototyping.</strong> Foundational systems (movement, interaction, inventory, networking, basic AI) functional.</p>
-        <p style="color: var(--accent-stone);"><em>(Build available for review)</em></p>
-    </section>
+        <!-- Slide 16: Contact -->
+        <section class="slide" id="slide-15">
+            <div class="placeholder logo">[Placeholder: Final Game Logo / Key Art]</div>
+            <h2>Let's Build Something Terrifyingly Fun.</h2>
+            <h3>Questions?</h3>
+            <p><strong>Contact:</strong> Lance McLachlan</p>
+            <p><a href="mailto:[Your Email Address]">[Your Email Address]</a></p>
+            <p><a href="[Link to Website/Steam Page/Discord]" target="_blank">[Website/Steam Page/Discord Link]</a></p>
+        </section>
 
-    <!-- Slide 15: Contact (Same) -->
-    <section class="slide" id="slide-contact">
-        <div class="placeholder logo">[Placeholder: Final Game Logo / Key Art Snippet]</div>
-        <h2>Let's Build Something Terrifyingly Fun.</h2>
-        <h3>Questions?</h3>
-        <p><strong>Contact:</strong> Lance McLachlan</p>
-        <p><a href="mailto:[Your Email Address]">[Your Email Address]</a></p>
-        <p><a href="[Link to Website/Steam Page/Discord if available]" target="_blank">[Website/Steam Page/Discord Link]</a></p>
-    </section>
+    </div><!-- end .deck -->
 
-</div><!-- end .deck -->
+    <div class="navigation">
+        <button class="nav-btn" id="prevBtn" onclick="changeSlide(-1)">Previous</button>
+        <span class="slide-indicator" id="slideIndicator">1 / 16</span>
+        <button class="nav-btn" id="nextBtn" onclick="changeSlide(1)">Next</button>
+    </div>
 
 <script>
-    // Wait for the DOM to be fully loaded
-    document.addEventListener('DOMContentLoaded', () => {
+    let currentSlideIndex = 0;
+    const slides = document.querySelectorAll('.slide');
+    const totalSlides = slides.length;
+    const prevBtn = document.getElementById('prevBtn');
+    const nextBtn = document.getElementById('nextBtn');
+    const slideIndicator = document.getElementById('slideIndicator');
+    const characterSelector = document.getElementById('characterSelector'); // Parent for delegation
 
-        // Sabotage Interaction Logic
-        const betrayBtn = document.getElementById('betrayBtn');
-        const saveBtn = document.getElementById('saveBtn');
-        const betrayOutcomeDiv = document.getElementById('betrayOutcome');
-        const saveOutcomeDiv = document.getElementById('saveOutcome');
-        const choiceButtonsDiv = document.querySelector('.choice-buttons'); // Optional: hide buttons after choice
+    function showSlide(index) {
+        // Hide all slides
+        slides.forEach(slide => slide.classList.remove('active-slide'));
 
-        if (betrayBtn && saveBtn && betrayOutcomeDiv && saveOutcomeDiv) {
-            betrayBtn.addEventListener('click', () => {
-                saveOutcomeDiv.style.display = 'none'; // Hide other outcome
-                betrayOutcomeDiv.style.display = 'block'; // Show this outcome
-                // Optional: Hide buttons after a choice is made
-                // choiceButtonsDiv.style.display = 'none';
-            });
-
-            saveBtn.addEventListener('click', () => {
-                betrayOutcomeDiv.style.display = 'none'; // Hide other outcome
-                saveOutcomeDiv.style.display = 'block'; // Show this outcome
-                 // Optional: Hide buttons after a choice is made
-                // choiceButtonsDiv.style.display = 'none';
-            });
+        // Show the target slide
+        if (slides[index]) {
+            slides[index].classList.add('active-slide');
+            slideIndicator.textContent = `${index + 1} / ${totalSlides}`;
         }
 
-        // Note: Character hover effect is handled purely by CSS :hover pseudo-class
+        // Update button states
+        prevBtn.disabled = (index === 0);
+        nextBtn.disabled = (index === totalSlides - 1);
 
+        // Reset interaction outcomes when moving to a new slide
+        resetOutcomes(slides[index]);
+    }
+
+    function changeSlide(direction) {
+        const newIndex = currentSlideIndex + direction;
+        if (newIndex >= 0 && newIndex < totalSlides) {
+            currentSlideIndex = newIndex;
+            showSlide(currentSlideIndex);
+        }
+    }
+
+    function resetOutcomes(slide) {
+        // Find all outcome divs within the *current* slide and hide them
+        const outcomes = slide.querySelectorAll('.outcome');
+        outcomes.forEach(outcome => outcome.style.display = 'none');
+
+        // Optional: If you want buttons to reappear when revisiting slide
+        const choiceButtons = slide.querySelectorAll('.choice-buttons');
+         choiceButtons.forEach(buttonSet => buttonSet.style.display = 'flex'); // Or 'block' etc.
+    }
+
+    // ---- Interaction Logic ----
+
+    // Function to handle showing specific outcomes within the current slide
+    function showOutcome(outcomeId) {
+        const currentActiveSlide = document.querySelector('.slide.active-slide');
+        if (!currentActiveSlide) return;
+
+        // Hide all outcomes within this slide first
+        const outcomes = currentActiveSlide.querySelectorAll('.outcome');
+        outcomes.forEach(outcome => outcome.style.display = 'none');
+
+        // Hide the choice buttons on this slide
+        const choiceButtons = currentActiveSlide.querySelectorAll('.choice-buttons');
+        choiceButtons.forEach(buttonSet => buttonSet.style.display = 'none'); // Hide buttons after choice
+
+
+        // Show the specific outcome
+        const targetOutcome = currentActiveSlide.querySelector('#' + outcomeId);
+        if (targetOutcome) {
+            targetOutcome.style.display = 'block';
+        }
+    }
+
+    // Character Selection Logic (using Event Delegation)
+    if (characterSelector) {
+        characterSelector.addEventListener('click', (event) => {
+            const card = event.target.closest('.character-selectable'); // Find the clicked card
+            if (!card) return; // Exit if click wasn't on a card
+
+            // Remove 'selected' from all cards within this selector
+            const allCards = characterSelector.querySelectorAll('.character-selectable');
+            allCards.forEach(c => c.classList.remove('selected'));
+
+            // Add 'selected' to the clicked card
+            card.classList.add('selected');
+
+            // Optional: Store the selection (e.g., for later use)
+            const selectedCharacter = card.dataset.character;
+            console.log("Selected Character:", selectedCharacter); // Log to console for demo
+        });
+    }
+
+
+    // --- Initial Setup ---
+    document.addEventListener('DOMContentLoaded', () => {
+        showSlide(currentSlideIndex); // Show the first slide initially
     });
+
 </script>
 
 </body>
