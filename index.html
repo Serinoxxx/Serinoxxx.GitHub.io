@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Cavebreakers - Interactive Pitch Deck</title>
+    <title>Cavebreakers - Interactive Pitch Deck V3</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Lato:wght@400;700&family=Montserrat:wght@600;700;800&display=swap" rel="stylesheet">
@@ -23,11 +23,13 @@
             --font-body: 'Lato', sans-serif;
             --border-radius: 8px;
             --slide-shadow: 0 5px 15px rgba(0, 0, 0, 0.4);
+            --nav-height: 60px; /* Approximate height of nav bar */
+            --body-bottom-padding: 20px; /* Space below nav bar */
         }
 
         /* --- Basic Reset & Body --- */
         * { box-sizing: border-box; margin: 0; padding: 0; }
-        html, body { height: 100%; overflow: hidden; /* Prevent body scroll */ }
+        html { height: 100%; } /* Ensure html takes full height */
         body {
             font-family: var(--font-body);
             line-height: 1.7;
@@ -36,20 +38,21 @@
             color: var(--text-light);
             display: flex;
             flex-direction: column;
-            height: 100vh; /* Full viewport height */
+            min-height: 100vh; /* Ensure body takes at least full viewport height */
+            padding-bottom: calc(var(--nav-height) + var(--body-bottom-padding)); /* Add space at the bottom */
+            overflow-x: hidden; /* Prevent horizontal scroll */
         }
 
         /* --- Deck Container --- */
         .deck {
             flex-grow: 1; /* Takes up available space */
-            position: relative;
+            position: relative; /* Changed from absolute for simpler flow */
             width: 100%;
-            max-width: 1200px; /* Slightly wider */
+            max-width: 1200px;
             margin: 0 auto;
-            overflow: hidden; /* Hide non-active slides */
-            display: flex; /* Needed for alignment if using padding */
-            align-items: center; /* Vertically center the active slide */
-            padding: 20px; /* Add some padding around the slide area */
+            display: flex;
+            align-items: center;
+            padding: 20px;
         }
 
         /* --- Slide Styling --- */
@@ -59,15 +62,15 @@
             border-radius: var(--border-radius);
             box-shadow: var(--slide-shadow);
             padding: 40px 50px;
-            min-height: 70vh; /* Ensure slides have decent height */
-            max-height: 85vh; /* Prevent overly tall slides */
-            width: 100%; /* Take full width of deck container */
+            min-height: 70vh;
+            max-height: calc(100vh - var(--nav-height) - var(--body-bottom-padding) - 40px); /* Adjust max height based on body padding */
+            width: 100%;
             display: none; /* Hidden by default */
             flex-direction: column;
             justify-content: center;
             align-items: center;
             text-align: center;
-            overflow-y: auto; /* Allow scrolling within a slide if content overflows */
+            overflow-y: auto; /* Allow scrolling within a slide */
             animation: slideFadeIn 0.6s ease-out;
         }
         .slide.active-slide {
@@ -79,7 +82,7 @@
             to { opacity: 1; transform: translateY(0); }
         }
 
-        /* --- Typography --- */
+        /* --- Typography (Mostly Same) --- */
         h1, h2, h3, h4 { font-family: var(--font-heading); margin-bottom: 0.7em; line-height: 1.3; font-weight: 700; color: var(--text-light); }
         h1 { font-size: 2.8em; font-weight: 800; color: var(--accent-fire); text-shadow: 1px 1px 3px rgba(0,0,0,0.5);}
         h2 { font-size: 2.2em; border-bottom: 2px solid var(--accent-fire); display: inline-block; padding-bottom: 4px; margin-bottom: 1em; }
@@ -93,12 +96,12 @@
         a { color: var(--accent-mystery); text-decoration: none; font-weight: 700; border-bottom: 1px dotted var(--accent-mystery); transition: color 0.3s ease, border-bottom-color 0.3s ease; }
         a:hover { color: var(--accent-fire); border-bottom: 1px solid var(--accent-fire); }
 
-        /* --- Placeholders --- */
+        /* --- Placeholders (Same) --- */
         .placeholder { display: block; background-color: rgba(0, 0, 0, 0.2); color: var(--text-medium); border: 2px dashed var(--accent-stone); border-radius: calc(var(--border-radius) / 2); padding: 20px; margin: 20px auto; font-style: italic; font-family: var(--font-body); min-height: 150px; max-width: 85%; display: flex; justify-content: center; align-items: center; font-size: 0.9em; text-shadow: 1px 1px 2px rgba(0,0,0,0.3); }
         .placeholder.logo { width: 200px; height: 100px; min-height: 100px; border-style: solid; border-color: var(--accent-fire); }
         .placeholder.small-icon { width: 80px; height: 80px; min-height: 80px; margin-bottom: 10px; border-radius: 50%; }
 
-        /* --- Layout Helpers --- */
+        /* --- Layout Helpers (Same) --- */
         .two-column { display: flex; flex-wrap: wrap; gap: 30px; justify-content: center; align-items: flex-start; width: 100%; margin-top: 15px; }
         .column { flex: 1; min-width: 300px; text-align: left; }
         .column ul { margin-left: 0; text-align: left;}
@@ -108,81 +111,68 @@
         .navigation {
             padding: 15px 20px;
             text-align: center;
-            background-color: rgba(0, 0, 0, 0.2); /* Subtle background */
-            flex-shrink: 0; /* Prevent shrinking */
+            background-color: rgba(0, 0, 0, 0.2);
+            width: 100%; /* Ensure it spans width */
+            position: fixed; /* Fix to bottom */
+            bottom: 0;
+            left: 0;
+            z-index: 10; /* Keep above content */
+            height: var(--nav-height); /* Define height */
+            display: flex;
+            justify-content: center;
+            align-items: center;
         }
-        .nav-btn {
-            background-color: var(--accent-stone);
-            color: var(--text-light);
-            border: none;
-            padding: 10px 20px;
-            margin: 0 10px;
-            border-radius: var(--border-radius);
-            font-family: var(--font-heading);
-            font-size: 0.9em;
-            font-weight: 700;
-            cursor: pointer;
-            transition: background-color 0.3s ease, opacity 0.3s ease;
-            text-transform: uppercase;
-            letter-spacing: 1px;
-        }
-        .nav-btn:hover:not(:disabled) {
-            background-color: #90a4ae; /* Slightly lighter stone */
-        }
-        .nav-btn:disabled {
-            opacity: 0.4;
-            cursor: not-allowed;
-        }
-        .slide-indicator {
-            display: inline-block;
-            margin: 0 20px;
-            font-size: 0.9em;
-            color: var(--text-medium);
-        }
+        .nav-btn { background-color: var(--accent-stone); color: var(--text-light); border: none; padding: 10px 20px; margin: 0 10px; border-radius: var(--border-radius); font-family: var(--font-heading); font-size: 0.9em; font-weight: 700; cursor: pointer; transition: background-color 0.3s ease, opacity 0.3s ease; text-transform: uppercase; letter-spacing: 1px; }
+        .nav-btn:hover:not(:disabled) { background-color: #90a4ae; }
+        .nav-btn:disabled { opacity: 0.4; cursor: not-allowed; }
+        .slide-indicator { display: inline-block; margin: 0 20px; font-size: 0.9em; color: var(--text-medium); }
 
         /* --- Interactive Elements --- */
         /* Character Selection */
         .character-selection { display: flex; flex-wrap: wrap; gap: 15px; justify-content: center; margin-top: 15px; width: 100%; max-width: 900px; }
-        .character-card {
-            background-color: rgba(0,0,0,0.15);
-            border: 2px solid var(--accent-stone); /* Thicker border */
-            border-radius: var(--border-radius);
-            padding: 15px 10px;
-            width: 160px; /* Slightly smaller base */
-            min-height: 250px;
-            text-align: center;
-            cursor: pointer; /* Make it clearly clickable */
-            transition: transform 0.3s ease, box-shadow 0.3s ease, border-color 0.3s ease;
-            position: relative;
-            overflow: hidden;
-        }
-        .character-card:hover {
-            transform: translateY(-4px) scale(1.03);
-            box-shadow: 0 6px 15px rgba(0, 0, 0, 0.4);
-            border-color: var(--accent-fire);
-        }
-        .character-card.selected {
-             border-color: var(--accent-selected); /* Highlight selected */
-             box-shadow: 0 0 15px var(--accent-selected);
-             transform: scale(1.05); /* Make selected stand out more */
-        }
+        .character-card { background-color: rgba(0,0,0,0.15); border: 2px solid var(--accent-stone); border-radius: var(--border-radius); padding: 15px 10px; width: 160px; text-align: center; cursor: pointer; transition: transform 0.3s ease, box-shadow 0.3s ease, border-color 0.3s ease; position: relative; overflow: visible; /* Allow details to overflow */ min-height: 150px; /* Base height for card itself */ }
+        .character-card:hover { transform: translateY(-4px) scale(1.03); box-shadow: 0 6px 15px rgba(0, 0, 0, 0.4); border-color: var(--accent-fire); }
+        .character-card.selected { border-color: var(--accent-selected); box-shadow: 0 0 15px var(--accent-selected); transform: scale(1.05); }
         .character-card h3 { font-size: 1.2em; color: var(--accent-fire); margin-bottom: 8px; }
-        .character-details { text-align: left; font-size: 0.8em; color: var(--text-medium); margin-top: 10px; padding: 0 5px; }
+        .character-details {
+            text-align: left;
+            font-size: 0.8em;
+            color: var(--text-medium);
+            margin-top: 10px;
+            padding: 0 5px;
+            opacity: 0; /* Hidden by default */
+            max-height: 0; /* Hidden by default */
+            transition: opacity 0.4s ease-out, max-height 0.4s ease-out, margin-top 0.4s ease-out;
+            overflow: hidden; /* Clip content during transition */
+            position: absolute; /* Take out of flow for transition */
+             background: var(--bg-slide); /* Add background to prevent text overlap */
+             border: 1px solid var(--accent-stone);
+             border-radius: 5px;
+             padding: 10px;
+             left: 5px; right: 5px; top: 95%; /* Position below card */
+             z-index: 5; /* Appear above other cards */
+        }
+         .character-card.details-visible .character-details {
+            opacity: 1;
+            max-height: 150px; /* Allow space */
+             margin-top: 15px; /* Push down when visible */
+        }
         .character-details strong { display: block; color: var(--text-light); margin-top: 4px; font-weight: 700; }
         .character-details span { font-weight: 700; color: var(--text-light); }
         .character-details .weakness { color: var(--accent-danger); }
         .character-details .ability { color: var(--accent-mystery); }
+
 
         /* Scenario/Choice Styling */
         .scenario { background-color: rgba(0,0,0,0.2); padding: 15px 20px; border-radius: var(--border-radius); border-left: 4px solid var(--accent-stone); margin-bottom: 20px; font-style: italic; color: var(--text-light); font-size: 1em; }
         .choice-buttons { margin-bottom: 20px; display: flex; flex-wrap: wrap; justify-content: center; gap: 15px; }
         .choice-btn { background-color: var(--accent-stone); color: var(--text-light); border: none; padding: 10px 20px; border-radius: var(--border-radius); font-family: var(--font-heading); font-size: 0.9em; font-weight: 700; cursor: pointer; transition: background-color 0.3s ease, transform 0.2s ease; text-transform: uppercase; letter-spacing: 1px; }
         .choice-btn:hover { transform: translateY(-2px); }
-        .choice-btn.betray { background-color: var(--accent-danger); }
-        .choice-btn.betray:hover { background-color: #c06161; }
-        .choice-btn.save, .choice-btn.positive { background-color: var(--accent-mystery); } /* Positive action */
+        .choice-btn.betray, .choice-btn.negative { background-color: var(--accent-danger); }
+        .choice-btn.betray:hover, .choice-btn.negative:hover { background-color: #c06161; }
+        .choice-btn.save, .choice-btn.positive { background-color: var(--accent-mystery); }
         .choice-btn.save:hover, .choice-btn.positive:hover { background-color: #3c9086; }
-        .choice-btn.neutral { background-color: var(--accent-stone); } /* Neutral/Flee action */
+        .choice-btn.neutral { background-color: var(--accent-stone); }
         .choice-btn.neutral:hover { background-color: #90a4ae; }
 
         .outcome { display: none; margin-top: 15px; padding: 15px; border-radius: var(--border-radius); max-width: 650px; border: 1px solid; animation: fadeIn 0.5s ease-in-out; }
@@ -196,40 +186,35 @@
         .neutral-outcome { background-color: rgba(120, 144, 156, 0.1); border-color: var(--accent-stone); }
         .neutral-outcome strong { color: var(--accent-stone); }
 
-        /* --- Responsive --- */
+        /* --- Responsive (Adjustments likely needed, especially for fixed nav) --- */
         @media (max-width: 768px) {
-            .slide { padding: 30px 25px; min-height: 65vh; max-height: 80vh; }
-            h1 { font-size: 2.3em; }
-            h2 { font-size: 1.8em; }
-            h3 { font-size: 1.4em; }
-            p { font-size: 1em; }
-            li { font-size: 0.95em; }
+            body { padding-bottom: calc(var(--nav-height) + 10px); } /* Reduce bottom padding */
+            .slide { padding: 30px 20px; max-height: calc(100vh - var(--nav-height) - 10px - 30px); } /* Adjust max height */
+            h1 { font-size: 2.3em; } h2 { font-size: 1.8em; } h3 { font-size: 1.4em; } p { font-size: 1em; } li { font-size: 0.95em; }
             .two-column { flex-direction: column; gap: 15px; }
-            .column { min-width: 100%; }
-            .placeholder { max-width: 95%; min-height: 120px; padding: 15px; }
-            .placeholder.logo { width: 180px; height: 90px; min-height: 90px;}
-            ul { max-width: 95%; }
+            .placeholder { max-width: 95%; min-height: 100px; padding: 15px; }
+            .placeholder.logo { width: 150px; height: 75px; min-height: 75px;}
 
             .character-selection { gap: 10px; }
-            .character-card { width: 130px; min-height: 230px; padding: 12px 8px;}
-            .character-card h3 { font-size: 1em; }
-            .character-details { font-size: 0.75em; }
+            .character-card { width: 130px; min-height: 140px; } /* Adjust height */
+             .character-card h3 { font-size: 1em; }
+             .character-details { font-size: 0.75em; }
 
             .choice-btn { padding: 9px 16px; font-size: 0.85em; }
-            .navigation { padding: 10px 15px; }
-            .nav-btn { padding: 8px 15px; font-size: 0.8em; }
-            .slide-indicator { font-size: 0.8em; margin: 0 10px; }
+            .navigation { padding: 5px 10px; height: 50px; --nav-height: 50px; /* Update var for smaller screens */ }
+            .nav-btn { padding: 8px 12px; font-size: 0.8em; }
+            .slide-indicator { font-size: 0.8em; margin: 0 8px; }
         }
-        @media (max-width: 480px) {
-            h1 { font-size: 2em; }
-            h2 { font-size: 1.5em; }
-            h3 { font-size: 1.2em; }
-            .slide { padding: 20px 15px; }
-            .character-selection { justify-content: space-around; }
-            .character-card { width: calc(50% - 10px); min-height: 210px; }
-            .choice-buttons { flex-direction: column; gap: 8px; }
-            .choice-btn { width: 100%; margin: 0; }
-        }
+         @media (max-width: 480px) {
+             h1 { font-size: 2em; } h2 { font-size: 1.5em; } h3 { font-size: 1.2em; }
+             .slide { padding: 20px 15px; }
+             .character-selection { justify-content: space-around; }
+             .character-card { width: calc(50% - 8px); } /* Two cards per row */
+             .choice-buttons { flex-direction: column; gap: 8px; }
+             .choice-btn { width: 100%; margin: 0; }
+             .placeholder.small-icon { width: 60px; height: 60px; min-height: 60px; }
+             .character-card h3 { margin-bottom: 5px; }
+         }
 
     </style>
 </head>
@@ -248,7 +233,7 @@
 
         <!-- Slide 2: Hook -->
         <section class="slide" id="slide-1">
-            <h2>The Hook - What is Cavebreakers?</h2>
+             <h2>The Hook - What is Cavebreakers?</h2>
             <div class="placeholder">[Placeholder: Striking concept art - dark cave entrance lit by torchlight]</div>
             <p><strong>Elevator Pitch:</strong> A co-op survival horror game where 1-4 Stone Age scavengers must outwit terrifying mythical creatures <strong>and each other</strong> to escape a cursed wilderness.</p>
             <p><strong>Core Concept:</strong> Balance desperate teamwork with treacherous sabotage in a tense, atmospheric prehistoric world.</p>
@@ -258,7 +243,7 @@
 
         <!-- Slide 3: Core Gameplay Loop -->
         <section class="slide" id="slide-2">
-            <h2>The Core Gameplay Loop</h2>
+             <h2>The Core Gameplay Loop</h2>
             <div class="placeholder">[Placeholder: Stylized flowchart graphic - cave painting style]</div>
             <ul>
                 <li><strong>SEARCH:</strong> Spawn into a procedurally generated wilderness.</li>
@@ -275,7 +260,7 @@
         <!-- Slide 4: Choose Character -->
         <section class="slide" id="slide-3">
             <h2>Choose Your Archetype</h2>
-            <p>Click an archetype to select your preferred playstyle (this is just for show!).</p>
+            <p>Click an archetype to learn more about their starting style.</p>
             <div class="character-selection" id="characterSelector">
                 <!-- Hunter -->
                 <div class="character-card character-selectable" data-character="Hunter">
@@ -287,7 +272,7 @@
                         <strong class="ability">Ability:</strong> Primal Scream (Short-range creature scare).
                     </div>
                 </div>
-                <!-- Scout -->
+                 <!-- Scout -->
                 <div class="character-card character-selectable" data-character="Scout">
                     <div class="placeholder small-icon">[Icon: Footprint/Eye]</div>
                     <h3>The Scout</h3>
@@ -321,7 +306,7 @@
                 <div class="character-card character-selectable" data-character="Shaman">
                     <div class="placeholder small-icon">[Icon: Skull/Herbs]</div>
                     <h3>The Shaman</h3>
-                    <div class="character-details">
+                     <div class="character-details">
                         <strong>Strength:</strong> Better healing/herbalism, faster ritual interaction.
                         <strong class="weakness">Weakness:</strong> Vulnerable while chanting/healing.
                         <strong class="ability">Ability:</strong> Ward (Places temporary small repelling ward).
@@ -333,7 +318,7 @@
 
         <!-- Slide 5: Creatures -->
         <section class="slide" id="slide-4">
-            <h2>Meet the Horrors</h2>
+             <h2>Meet the Horrors</h2>
             <p>Each beast demands unique strategies. Learn their behaviors or perish.</p>
             <div class="two-column">
                  <div class="column">
@@ -359,60 +344,59 @@
         <section class="slide" id="slide-5">
             <h2>Encounter: The Werebear</h2>
             <p class="scenario">
-                While scavenging, you hear heavy footsteps crashing through the underbrush. A massive Werebear bursts into view, sniffing the air aggressively. It hasn't spotted you yet. You see a dense thicket nearby and a cliff edge further away.
+                While scavenging, you hear heavy footsteps. A massive Werebear bursts into view, sniffing aggressively. It hasn't spotted you yet. You see a dense thicket nearby and a cliff edge further away.
             </p>
             <div class="choice-buttons">
-                <button class="choice-btn positive" onclick="showOutcome('bearOutcomeHide')">Hide in Thicket</button>
-                <button class="choice-btn neutral" onclick="showOutcome('bearOutcomeFlee')">Flee Towards Cliff</button>
-                <button class="choice-btn negative" onclick="showOutcome('bearOutcomeDistract')">Throw a Rock to Distract</button>
+                <button class="choice-btn positive" onclick="showOutcome('bearOutcomeHide', this)">Hide in Thicket</button>
+                <button class="choice-btn neutral" onclick="showOutcome('bearOutcomeFlee', this)">Flee Towards Cliff</button>
+                <button class="choice-btn negative" onclick="showOutcome('bearOutcomeDistract', this)">Throw a Rock to Distract</button>
             </div>
 
             <div class="outcome positive-outcome" id="bearOutcomeHide">
                 <strong>Outcome: Stealth!</strong>
-                <p>You dive into the thicket, holding your breath. The Werebear snorts, glances around, but its poor eyesight fails it. It eventually lumbers off in another direction.</p>
+                <p>You dive into the thicket. The Werebear snorts, glances around, but its poor eyesight fails it. It lumbers off.</p>
                 <p><em>Survival favored the cautious... this time.</em></p>
             </div>
             <div class="outcome neutral-outcome" id="bearOutcomeFlee">
                 <strong>Outcome: Risky Escape!</strong>
-                <p>You sprint towards the cliff. The Werebear roars and gives chase! You reach the edge, leaping across a narrow chasm just as the beast slams into the rockface behind you.</p>
-                <p><em>A daring escape, but you're now potentially separated from your team.</em></p>
+                <p>You sprint towards the cliff. The Werebear roars and gives chase! You leap across a narrow chasm just as the beast slams into the rockface.</p>
+                <p><em>Daring, but you might be separated now.</em></p>
             </div>
              <div class="outcome negative-outcome" id="bearOutcomeDistract">
                 <strong>Outcome: Attention Gained!</strong>
-                <p>Your thrown rock clatters nearby. The Werebear instantly snaps its head towards the sound... and then locks eyes with YOU. It lets out a deafening roar and charges!</p>
+                <p>Your rock clatters nearby. The Werebear snaps its head towards the sound... then locks eyes with YOU. It roars and charges!</p>
                 <p><em>Prepare to run... or fight!</em></p>
             </div>
         </section>
 
-
         <!-- Slide 7: Interactive Sabotage -->
         <section class="slide" id="slide-6">
-            <h2>The Twist: Sabotage Scenario</h2>
+             <h2>The Twist: Sabotage Scenario</h2>
             <h3>Headline: Trust is a Resource. Spend it Wisely.</h3>
             <p class="scenario">
-                You and a wounded teammate are fleeing a pack of Werewolves. You see a bonfire - safety! - but only have enough flint to light it quickly for one person to reach safety before the wolves arrive...
+                You and a wounded teammate flee Werewolves. You reach a bonfire site, but only have flint to light it quickly for one before the pack arrives...
             </p>
             <div class="choice-buttons">
-                <button class="choice-btn betray" onclick="showOutcome('sabotageOutcomeBetray')">Light Fire, Save Yourself</button>
-                <button class="choice-btn save" onclick="showOutcome('sabotageOutcomeSave')">Help Teammate, Risk Both</button>
+                <button class="choice-btn betray" onclick="showOutcome('sabotageOutcomeBetray', this)">Light Fire, Save Yourself</button>
+                <button class="choice-btn save" onclick="showOutcome('sabotageOutcomeSave', this)">Help Teammate, Risk Both</button>
             </div>
 
             <div class="outcome betray-outcome" id="sabotageOutcomeBetray">
                 <strong>Outcome: Self-Preservation!</strong>
-                <p>You quickly strike the flint, the bonfire roars to life, repelling the wolves just as you stumble into its light. You hear your teammate's cry fade behind you.</p>
-                <p><em>You survived. Alone. You keep all the artifacts found, but face 'Bad Karma'.</em></p>
+                <p>You quickly strike the flint, the bonfire roars, repelling the wolves as you stumble into its light. Your teammate's cry fades behind you.</p>
+                <p><em>You survived. Alone. You keep all the artifacts, but face 'Bad Karma'.</em></p>
             </div>
             <div class="outcome save-outcome" id="sabotageOutcomeSave">
                 <strong>Outcome: Shared Risk!</strong>
-                <p>You try to help your teammate while fumbling with the flint. The fire catches weakly just as the wolves pounce! Maybe you both fight them off? Maybe one distracts? Maybe...</p>
-                <p><em>A gamble. Success means a 'Survivor Bonus' & strengthened bonds. Failure means death for one or both.</em></p>
+                <p>You try to help your teammate while fumbling with the flint. The fire catches weakly as the wolves pounce! Maybe you fight them off? Maybe one distracts?</p>
+                <p><em>A gamble. Success means 'Survivor Bonus'. Failure means death...</em></p>
             </div>
             <p style="margin-top: 20px; font-size: 0.9em; color: var(--text-medium);">(Sabotage creates intense, memorable moments!)</p>
         </section>
 
         <!-- Slide 8: Art Style -->
         <section class="slide" id="slide-7">
-            <h2>Art Style & Immersion</h2>
+             <h2>Art Style & Immersion</h2>
             <div class="placeholder">[Placeholder: Atmospheric collage - FP view hiding, bonfire, cave, UI mockup]</div>
             <ul>
                 <li><strong>Style:</strong> Grounded, Gritty Stone Age Horror.</li>
@@ -520,7 +504,7 @@
 
         <!-- Slide 14: Team -->
         <section class="slide" id="slide-13">
-            <h2>The Team</h2>
+             <h2>The Team</h2>
              <div class="two-column">
                 <div class="column">
                     <div class="placeholder">[Placeholder: Modern photo - Lance]</div>
@@ -586,14 +570,19 @@
         if (slides[index]) {
             slides[index].classList.add('active-slide');
             slideIndicator.textContent = `${index + 1} / ${totalSlides}`;
+
+             // Scroll active slide to top if it overflows
+            slides[index].scrollTop = 0;
+
+            // Reset interaction outcomes ONLY when slide becomes active
+            resetOutcomes(slides[index]);
+             // Also reset character visibility state
+             resetCharacterDetails(slides[index]);
         }
 
         // Update button states
         prevBtn.disabled = (index === 0);
         nextBtn.disabled = (index === totalSlides - 1);
-
-        // Reset interaction outcomes when moving to a new slide
-        resetOutcomes(slides[index]);
     }
 
     function changeSlide(direction) {
@@ -604,31 +593,39 @@
         }
     }
 
+    // Function to reset (hide) outcome divs within a specific slide
     function resetOutcomes(slide) {
-        // Find all outcome divs within the *current* slide and hide them
         const outcomes = slide.querySelectorAll('.outcome');
         outcomes.forEach(outcome => outcome.style.display = 'none');
-
-        // Optional: If you want buttons to reappear when revisiting slide
-        const choiceButtons = slide.querySelectorAll('.choice-buttons');
-         choiceButtons.forEach(buttonSet => buttonSet.style.display = 'flex'); // Or 'block' etc.
     }
+
+    // Function to reset character details visibility within a specific slide
+    function resetCharacterDetails(slide) {
+        if (slide.id === 'slide-3') { // Only act on the character slide
+            const allCards = slide.querySelectorAll('.character-selectable');
+             allCards.forEach(c => {
+                c.classList.remove('selected');
+                c.classList.remove('details-visible');
+             });
+        }
+    }
+
 
     // ---- Interaction Logic ----
 
     // Function to handle showing specific outcomes within the current slide
-    function showOutcome(outcomeId) {
+    // Pass 'buttonElement' to potentially style the clicked button later if needed
+    function showOutcome(outcomeId, buttonElement) {
         const currentActiveSlide = document.querySelector('.slide.active-slide');
         if (!currentActiveSlide) return;
 
-        // Hide all outcomes within this slide first
+        // Hide all *other* outcomes within this slide first
         const outcomes = currentActiveSlide.querySelectorAll('.outcome');
-        outcomes.forEach(outcome => outcome.style.display = 'none');
-
-        // Hide the choice buttons on this slide
-        const choiceButtons = currentActiveSlide.querySelectorAll('.choice-buttons');
-        choiceButtons.forEach(buttonSet => buttonSet.style.display = 'none'); // Hide buttons after choice
-
+        outcomes.forEach(outcome => {
+            if (outcome.id !== outcomeId) {
+                outcome.style.display = 'none';
+            }
+        });
 
         // Show the specific outcome
         const targetOutcome = currentActiveSlide.querySelector('#' + outcomeId);
@@ -640,19 +637,28 @@
     // Character Selection Logic (using Event Delegation)
     if (characterSelector) {
         characterSelector.addEventListener('click', (event) => {
-            const card = event.target.closest('.character-selectable'); // Find the clicked card
-            if (!card) return; // Exit if click wasn't on a card
+            const clickedCard = event.target.closest('.character-selectable'); // Find the clicked card
+            if (!clickedCard) return; // Exit if click wasn't on a card or its child
 
-            // Remove 'selected' from all cards within this selector
             const allCards = characterSelector.querySelectorAll('.character-selectable');
-            allCards.forEach(c => c.classList.remove('selected'));
+            const wasVisible = clickedCard.classList.contains('details-visible');
 
-            // Add 'selected' to the clicked card
-            card.classList.add('selected');
+            // Hide details and remove selected state from ALL cards first
+            allCards.forEach(card => {
+                card.classList.remove('selected');
+                card.classList.remove('details-visible');
+            });
 
-            // Optional: Store the selection (e.g., for later use)
-            const selectedCharacter = card.dataset.character;
-            console.log("Selected Character:", selectedCharacter); // Log to console for demo
+            // If the clicked card's details weren't already visible, show them and select it
+            if (!wasVisible) {
+                 clickedCard.classList.add('selected');
+                 clickedCard.classList.add('details-visible');
+                 // Optional: Store the selection
+                 // const selectedCharacter = clickedCard.dataset.character;
+                 // console.log("Selected Character:", selectedCharacter);
+            }
+            // If they were visible, clicking again simply hides them (already handled by the loop above)
+
         });
     }
 
